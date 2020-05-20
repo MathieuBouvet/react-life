@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     margin: 0;
+    color: ${props => props.theme.colors.dark};
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
