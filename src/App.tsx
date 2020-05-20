@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 
 const theme = {
   headerHeight: "75px",
@@ -15,10 +15,25 @@ declare module "styled-components" {
   export interface DefaultTheme extends Theme {}
 }
 
-const App = () => (
-  <div className="app">
-    <ThemeProvider theme={theme}></ThemeProvider>
-  </div>
-);
+const Header = styled.header`
+  background-color: ${({ theme }) => theme.colors.primary};
+  height: ${({ theme }) => theme.headerHeight};
+  color: ${({ theme }) => theme.colors.light};
+  font-size: 3em;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  box-shadow: 0 -20px 20px 10px black;
+`;
+
+const App = () => {
+  return (
+    <div className="app">
+      <ThemeProvider theme={theme}>
+        <Header>React Life</Header>
+      </ThemeProvider>
+    </div>
+  );
+};
 
 export default App;
