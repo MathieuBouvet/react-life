@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 
 const theme = {
   headerHeight: "75px",
@@ -16,6 +16,17 @@ declare module "styled-components" {
   export interface DefaultTheme extends Theme {}
 }
 
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+`;
+
 const Header = styled.header`
   background-color: ${({ theme }) => theme.colors.primary};
   height: ${({ theme }) => theme.headerHeight};
@@ -31,6 +42,7 @@ const App = () => {
   return (
     <div className="app">
       <ThemeProvider theme={theme}>
+        <GlobalStyle />
         <Header>React Life</Header>
       </ThemeProvider>
     </div>
