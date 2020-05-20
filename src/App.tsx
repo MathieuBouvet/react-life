@@ -6,6 +6,7 @@ const theme = {
   colors: {
     primary: "#017927",
     light: "#fff",
+    dark: "#2A2B2A",
   },
 } as const;
 
