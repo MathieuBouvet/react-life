@@ -3,6 +3,10 @@ import { ThemeProvider } from "styled-components";
 
 const theme = {
   headerHeight: "75px",
+  colors: {
+    primary: "#017927",
+    light: "#fff",
+  },
 } as const;
 
 type Theme = typeof theme;
