@@ -1,4 +1,4 @@
-type Cell = [number, number];
+type Cell = string;
 
 export interface LifeState {
   started: boolean;

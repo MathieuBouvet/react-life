@@ -11,7 +11,7 @@ const StyledCell = styled.div<CellProps>`
 
 type CellProps = {
   alive: boolean;
-  position: [number, number];
+  position: string;
   dispatch: React.Dispatch<LifeAction>;
 };
 
