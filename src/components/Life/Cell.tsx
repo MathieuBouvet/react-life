@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { LifeAction } from "./lifeState";
 
-const StyledCell = styled.div<CellProps>`
-  background-color: ${({ theme }) => theme.colors.primaryLight};
+const StyledCell = styled.div<Pick<CellProps, "alive">>`
+  background-color: ${({ alive, theme }) =>
+    alive ? theme.colors.primary : theme.colors.primaryLight};
   &:hover {
-    background-color: ${({ theme }) => theme.colors.highlight};
+    background-color: ${({ alive, theme }) =>
+      alive ? theme.colors.primary : theme.colors.highlight};
   }
 `;
 
