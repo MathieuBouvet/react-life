@@ -15,6 +15,11 @@ type CellProps = {
   dispatch: React.Dispatch<LifeAction>;
 };
 
-const Cell = (props: CellProps) => <StyledCell {...props} />;
+const Cell = ({ alive, position, dispatch }: CellProps) => (
+  <StyledCell
+    alive={alive}
+    onClick={() => dispatch({ type: "CELL_CLICK", payload: { position } })}
+  />
+);
 
 export default Cell;
