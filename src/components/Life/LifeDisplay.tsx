@@ -37,7 +37,7 @@ const LifeDisplay = ({
             position={line + "," + column}
             alive={liveCells.has(line + "," + column)}
             dispatch={dispatch}
-          ></Cell>
+          />
         ))
       )}
     </Grid>
