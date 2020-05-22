@@ -15,7 +15,7 @@ interface Start {
   type: "START";
 }
 
-type LifeAction = Start | Iterate;
+export type LifeAction = Start | Iterate;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
