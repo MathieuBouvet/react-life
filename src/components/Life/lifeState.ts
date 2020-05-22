@@ -1,10 +1,10 @@
 type Cell = [number, number];
 
-interface LifeState {
+export interface LifeState {
   started: boolean;
   gridHeight: number;
   gridWidth: number;
-  liveCells: Cell[];
+  liveCells: Map<Cell, true>;
 }
 
 interface Iterate {
@@ -23,7 +23,7 @@ const initialLife: LifeState = {
   started: false,
   gridHeight: 25,
   gridWidth: 25,
-  liveCells: [],
+  liveCells: new Map([]),
 };
 
 const lifeReducer: LifeReducer = (prevState, action) => prevState;
