@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import Life from "./components/Life";
 
 const theme = {
   headerHeight: "75px",
@@ -48,6 +49,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Header>React Life</Header>
+        <Life />
       </ThemeProvider>
     </div>
   );
