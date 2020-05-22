@@ -4,7 +4,7 @@ import LifeDisplay from "./LifeDisplay";
 
 const LifeContainer = () => {
   const [lifeState, dispatchLife] = useReducer(lifeReducer, initialLife);
-  return <LifeDisplay {...lifeState} />;
+  return <LifeDisplay {...{ ...lifeState, dispatch: dispatchLife }} />;
 };
 
 export default LifeContainer;
