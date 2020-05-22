@@ -6,8 +6,11 @@ const theme = {
   headerHeight: "75px",
   colors: {
     primary: "#017927",
+    primaryLight: "#96e072",
+    primaryDark: "#134611",
     light: "#fff",
     dark: "#2A2B2A",
+    highlight: "#eec643",
   },
 } as const;
 
