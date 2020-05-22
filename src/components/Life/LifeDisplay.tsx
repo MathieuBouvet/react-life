@@ -1,18 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { LifeState } from "./lifeState";
+import { LifeState, LifeAction } from "./lifeState";
+import Cell from "./Cell";
 import range from "../../utils/range";
 
-type LifeProps = LifeState;
+interface LifeProps extends LifeState {
+  dispatch: React.Dispatch<LifeAction>;
+}
 
 const StyledLife = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
   height: ${({ theme }) => `calc(100vh - ${theme.headerHeight})`};
-`;
-const Cell = styled.div`
-  background-color: red;
 `;
 
 const Grid = styled.div<Pick<LifeProps, "gridHeight" | "gridWidth">>`
@@ -22,15 +22,21 @@ const Grid = styled.div<Pick<LifeProps, "gridHeight" | "gridWidth">>`
   grid-gap: 2px;
 `;
 
-const LifeDisplay = ({ gridHeight, gridWidth, liveCells }: LifeProps) => (
+const LifeDisplay = ({
+  gridHeight,
+  gridWidth,
+  liveCells,
+  dispatch,
+}: LifeProps) => (
   <StyledLife>
     <Grid {...{ gridHeight, gridWidth }}>
       {range(gridHeight).map(line =>
         range(gridWidth).map(column => (
           <Cell
-            key={line * gridHeight + column}
-            x-line={line}
-            x-column={column}
+            key={line * gridWidth + column}
+            position={[line, column]}
+            alive={liveCells.has([line, column])}
+            dispatch={dispatch}
           ></Cell>
         ))
       )}
