@@ -5,6 +5,7 @@ import { LifeAction, CellPosition } from "./lifeState";
 const StyledCell = styled.div<Pick<CellProps, "alive">>`
   background-color: ${({ alive, theme }) =>
     alive ? theme.colors.primary : theme.colors.primaryLight};
+  cursor: pointer;
   &:hover {
     background-color: ${({ alive, theme }) =>
       alive ? theme.colors.primary : theme.colors.highlight};
