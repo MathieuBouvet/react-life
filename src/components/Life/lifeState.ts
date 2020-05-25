@@ -1,10 +1,12 @@
-type Cell = string;
+import { positionToStr } from "../../utils/cellPosition";
+
+export type CellPosition = [number, number];
 
 export interface LifeState {
   started: boolean;
   gridHeight: number;
   gridWidth: number;
-  liveCells: Map<Cell, true>;
+  liveCells: Map<string, true>;
 }
 
 interface Iterate {
@@ -17,7 +19,7 @@ interface Start {
 
 interface CellClick {
   type: "CELL_CLICK";
-  payload: { position: Cell };
+  payload: { position: CellPosition };
 }
 
 export type LifeAction = Start | Iterate | CellClick;
@@ -35,11 +37,11 @@ const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "CELL_CLICK":
       const cellsCopy = new Map(prevState.liveCells);
-      const position = action.payload.position;
-      if (cellsCopy.has(position)) {
-        cellsCopy.delete(position);
+      const positionKey = positionToStr(action.payload.position);
+      if (cellsCopy.has(positionKey)) {
+        cellsCopy.delete(positionKey);
       } else {
-        cellsCopy.set(position, true);
+        cellsCopy.set(positionKey, true);
       }
       return { ...prevState, liveCells: cellsCopy };
     default:
