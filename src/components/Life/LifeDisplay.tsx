@@ -35,7 +35,7 @@ const LifeDisplay = ({
         range(gridWidth).map(column => (
           <Cell
             key={line * gridWidth + column}
-            position={line + "," + column}
+            position={[line, column]}
             alive={liveCells.has(positionToStr([line, column]))}
             dispatch={dispatch}
           />
