@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { LifeState, LifeAction } from "./lifeState";
 import Cell from "./Cell";
 import range from "../../utils/range";
+import { positionToStr } from "../../utils/cellPosition";
 
 interface LifeProps extends LifeState {
   dispatch: React.Dispatch<LifeAction>;
@@ -35,7 +36,7 @@ const LifeDisplay = ({
           <Cell
             key={line * gridWidth + column}
             position={line + "," + column}
-            alive={liveCells.has(line + "," + column)}
+            alive={liveCells.has(positionToStr([line, column]))}
             dispatch={dispatch}
           />
         ))
