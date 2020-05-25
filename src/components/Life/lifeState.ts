@@ -1,4 +1,5 @@
 import { positionToStr } from "../../utils/cellPosition";
+import { nextIteration } from "../../utils/gridManagement";
 
 export type CellPosition = [number, number];
 
@@ -44,6 +45,15 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         cellsCopy.set(positionKey, true);
       }
       return { ...prevState, livingCells: cellsCopy };
+    case "ITERATE":
+      return {
+        ...prevState,
+        livingCells: nextIteration(
+          prevState.livingCells,
+          prevState.gridHeight,
+          prevState.gridWidth
+        ),
+      };
     default:
       return prevState;
   }
