@@ -26,7 +26,7 @@ const Grid = styled.div<Pick<LifeProps, "gridHeight" | "gridWidth">>`
 const LifeDisplay = ({
   gridHeight,
   gridWidth,
-  liveCells,
+  livingCells,
   dispatch,
 }: LifeProps) => (
   <StyledLife>
@@ -36,7 +36,7 @@ const LifeDisplay = ({
           <Cell
             key={line * gridWidth + column}
             position={[line, column]}
-            alive={liveCells.has(positionToStr([line, column]))}
+            alive={livingCells.has(positionToStr([line, column]))}
             dispatch={dispatch}
           />
         ))

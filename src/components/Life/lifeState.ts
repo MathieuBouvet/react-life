@@ -6,7 +6,7 @@ export interface LifeState {
   started: boolean;
   gridHeight: number;
   gridWidth: number;
-  liveCells: Map<string, true>;
+  livingCells: Map<string, true>;
 }
 
 interface Iterate {
@@ -30,20 +30,20 @@ const initialLife: LifeState = {
   started: false,
   gridHeight: 15,
   gridWidth: 25,
-  liveCells: new Map([]),
+  livingCells: new Map([]),
 };
 
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "CELL_CLICK":
-      const cellsCopy = new Map(prevState.liveCells);
+      const cellsCopy = new Map(prevState.livingCells);
       const positionKey = positionToStr(action.payload.position);
       if (cellsCopy.has(positionKey)) {
         cellsCopy.delete(positionKey);
       } else {
         cellsCopy.set(positionKey, true);
       }
-      return { ...prevState, liveCells: cellsCopy };
+      return { ...prevState, livingCells: cellsCopy };
     default:
       return prevState;
   }
