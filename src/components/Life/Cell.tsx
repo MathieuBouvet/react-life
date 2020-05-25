@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { LifeAction } from "./lifeState";
+import { LifeAction, CellPosition } from "./lifeState";
 
 const StyledCell = styled.div<Pick<CellProps, "alive">>`
   background-color: ${({ alive, theme }) =>
@@ -13,7 +13,7 @@ const StyledCell = styled.div<Pick<CellProps, "alive">>`
 
 type CellProps = {
   alive: boolean;
-  position: string;
+  position: CellPosition;
   dispatch: React.Dispatch<LifeAction>;
 };
 
