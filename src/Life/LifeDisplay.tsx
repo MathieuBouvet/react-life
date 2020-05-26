@@ -7,16 +7,19 @@ import { positionToStr } from "../utils/cellPosition";
 
 interface LifeProps extends LifeState {
   dispatch: React.Dispatch<LifeAction>;
+  gridRef: React.Ref<HTMLDivElement>;
 }
 
 const StyledLife = styled.main`
   grid-area: life;
 `;
 
-const Grid = styled.div<Pick<LifeProps, "gridHeight" | "gridWidth">>`
+const Grid = styled.div<
+  Pick<LifeProps, "gridHeight" | "gridWidth" | "cellSize">
+>`
   display: grid;
-  grid-template: ${({ gridHeight, gridWidth }) =>
-    `repeat(${gridHeight}, 25px) / repeat(${gridWidth}, 25px)`};
+  grid-template: ${({ gridHeight, gridWidth, cellSize }) =>
+    `repeat(${gridHeight}, ${cellSize}px) / repeat(${gridWidth}, ${cellSize}px)`};
   grid-gap: 1px;
 `;
 
@@ -31,25 +34,27 @@ const CellMemo = React.memo(Cell, (prev, next) => {
 const LifeDisplay = ({
   gridHeight,
   gridWidth,
+  cellSize,
   livingCells,
   dispatch,
-}: LifeProps) => (
-  <StyledLife>
-    <Grid {...{ gridHeight, gridWidth }}>
-      {range(gridHeight).map(line =>
-        range(gridWidth).map(column => (
-          <CellMemo
-            key={line * gridWidth + column}
-            position={[line, column]}
-            alive={livingCells.has(positionToStr([line, column]))}
-            dispatch={dispatch}
-          />
-        ))
-      )}
-    </Grid>
-    <button onClick={() => dispatch({ type: "START" })}>start</button>
-    <button onClick={() => dispatch({ type: "STOP" })}>stop</button>
-  </StyledLife>
-);
+  gridRef,
+}: LifeProps) => {
+  return (
+    <StyledLife>
+      <Grid ref={gridRef} {...{ gridHeight, gridWidth, cellSize }}>
+        {range(gridHeight).map(line =>
+          range(gridWidth).map(column => (
+            <CellMemo
+              key={line * gridWidth + column}
+              position={[line, column]}
+              alive={livingCells.has(positionToStr([line, column]))}
+              dispatch={dispatch}
+            />
+          ))
+        )}
+      </Grid>
+    </StyledLife>
+  );
+};
 
 export default LifeDisplay;
