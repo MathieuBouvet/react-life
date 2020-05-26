@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useReducer, useRef, useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Life from "./Life";
 import { theme, GlobalStyle } from "./theme";
+import { lifeReducer, initialLife } from "./lifeState";
 
 const StyledApp = styled.section`
   display: grid;
@@ -26,12 +27,35 @@ const Header = styled.header`
 `;
 
 const App = () => {
+  const [lifeState, dispatchLife] = useReducer(lifeReducer, initialLife);
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const nextIterationTimer = setTimeout(() => {
+      if (lifeState.started) {
+        dispatchLife({ type: "ITERATE" });
+      }
+    }, 50);
+    return () => {
+      clearTimeout(nextIterationTimer);
+    };
+  });
+  const { gridHeight, gridWidth } = lifeState;
+  useEffect(() => {
+    if (gridRef.current != null) {
+      const widthSize =
+        (gridRef.current.clientWidth - gridWidth - 1) / gridWidth;
+      const heightSize =
+        (gridRef.current.clientHeight - gridHeight - 1) / gridHeight;
+      const size = Math.min(widthSize, heightSize);
+      dispatchLife({ type: "CELL_RESIZE", payload: { size } });
+    }
+  }, [gridHeight, gridWidth]);
   return (
     <ThemeProvider theme={theme}>
       <StyledApp>
         <GlobalStyle />
         <Header>React Life</Header>
-        <Life />
+        <Life gridRef={gridRef} dispatch={dispatchLife} {...{ ...lifeState }} />
       </StyledApp>
     </ThemeProvider>
   );

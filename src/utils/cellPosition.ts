@@ -1,4 +1,4 @@
-import { CellPosition } from "../Life/lifeState";
+import { CellPosition } from "../lifeState";
 
 function positionToStr(position: CellPosition): string {
   return `${position[0]};${position[1]}`;

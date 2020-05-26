@@ -1,5 +1,5 @@
-import { positionToStr } from "../utils/cellPosition";
-import { nextIteration } from "../utils/gridManagement";
+import { positionToStr } from "./utils/cellPosition";
+import { nextIteration } from "./utils/gridManagement";
 
 export type CellPosition = [number, number];
 

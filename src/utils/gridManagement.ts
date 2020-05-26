@@ -1,4 +1,4 @@
-import { CellPosition } from "../Life/lifeState";
+import { CellPosition } from "../lifeState";
 import range from "./range";
 import { positionToStr } from "./cellPosition";
 

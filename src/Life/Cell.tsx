@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { LifeAction, CellPosition } from "./lifeState";
+import { LifeAction, CellPosition } from "../lifeState";
 
 const StyledCell = styled.div<Pick<CellProps, "alive">>`
   background-color: ${({ alive, theme }) =>

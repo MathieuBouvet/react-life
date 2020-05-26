@@ -1,1 +1,1 @@
-export { default } from "./LifeContainer";
+export { default } from "./Life";
