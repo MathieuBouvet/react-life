@@ -43,8 +43,8 @@ const LifeDisplay = ({
   gridRef,
 }: LifeProps) => {
   return (
-    <StyledLife>
-      <Grid ref={gridRef} {...{ gridHeight, gridWidth, cellSize }}>
+    <StyledLife ref={gridRef}>
+      <Grid {...{ gridHeight, gridWidth, cellSize }}>
         {range(gridHeight).map(line =>
           range(gridWidth).map(column => (
             <CellMemo
