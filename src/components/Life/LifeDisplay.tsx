@@ -23,6 +23,14 @@ const Grid = styled.div<Pick<LifeProps, "gridHeight" | "gridWidth">>`
   grid-gap: 2px;
 `;
 
+const CellMemo = React.memo(Cell, (prev, next) => {
+  return (
+    prev.position[0] === next.position[0] &&
+    prev.position[1] === next.position[1] &&
+    prev.alive === next.alive
+  );
+});
+
 const LifeDisplay = ({
   gridHeight,
   gridWidth,
@@ -33,7 +41,7 @@ const LifeDisplay = ({
     <Grid {...{ gridHeight, gridWidth }}>
       {range(gridHeight).map(line =>
         range(gridWidth).map(column => (
-          <Cell
+          <CellMemo
             key={line * gridWidth + column}
             position={[line, column]}
             alive={livingCells.has(positionToStr([line, column]))}
