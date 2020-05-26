@@ -18,12 +18,16 @@ interface Start {
   type: "START";
 }
 
+interface Stop {
+  type: "STOP";
+}
+
 interface CellClick {
   type: "CELL_CLICK";
   payload: { position: CellPosition };
 }
 
-export type LifeAction = Start | Iterate | CellClick;
+export type LifeAction = Start | Stop | Iterate | CellClick;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
@@ -56,6 +60,8 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       };
     case "START":
       return { ...prevState, started: true };
+    case "STOP":
+      return { ...prevState, started: false };
     default:
       return prevState;
   }
