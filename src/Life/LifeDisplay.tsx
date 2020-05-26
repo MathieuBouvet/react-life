@@ -20,7 +20,7 @@ const Grid = styled.div<Pick<LifeProps, "gridHeight" | "gridWidth">>`
   display: grid;
   grid-template: ${({ gridHeight, gridWidth }) =>
     `repeat(${gridHeight}, 25px) / repeat(${gridWidth}, 25px)`};
-  grid-gap: 2px;
+  grid-gap: 1px;
 `;
 
 const CellMemo = React.memo(Cell, (prev, next) => {
