@@ -7,6 +7,7 @@ export interface LifeState {
   started: boolean;
   gridHeight: number;
   gridWidth: number;
+  cellSize: number;
   livingCells: Map<string, true>;
 }
 
@@ -27,7 +28,12 @@ interface CellClick {
   payload: { position: CellPosition };
 }
 
-export type LifeAction = Start | Stop | Iterate | CellClick;
+interface CellResize {
+  type: "CELL_RESIZE";
+  payload: { size: number };
+}
+
+export type LifeAction = Start | Stop | Iterate | CellClick | CellResize;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
@@ -35,6 +41,7 @@ const initialLife: LifeState = {
   started: false,
   gridHeight: 25,
   gridWidth: 50,
+  cellSize: 25,
   livingCells: new Map([]),
 };
 
@@ -62,6 +69,8 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       return { ...prevState, started: true };
     case "STOP":
       return { ...prevState, started: false };
+    case "CELL_RESIZE":
+      return { ...prevState, cellSize: action.payload.size };
     default:
       return prevState;
   }
