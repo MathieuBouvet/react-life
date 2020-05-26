@@ -29,8 +29,8 @@ type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
 const initialLife: LifeState = {
   started: false,
-  gridHeight: 15,
-  gridWidth: 25,
+  gridHeight: 25,
+  gridWidth: 50,
   livingCells: new Map([]),
 };
 
