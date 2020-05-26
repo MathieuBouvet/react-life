@@ -50,6 +50,8 @@ const LifeDisplay = ({
         ))
       )}
     </Grid>
+    <button onClick={() => dispatch({ type: "START" })}>start</button>
+    <button onClick={() => dispatch({ type: "STOP" })}>stop</button>
   </StyledLife>
 );
 
