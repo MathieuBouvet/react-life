@@ -12,6 +12,9 @@ interface LifeProps extends LifeState {
 
 const StyledLife = styled.main`
   grid-area: life;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Grid = styled.div<
