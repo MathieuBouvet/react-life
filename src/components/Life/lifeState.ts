@@ -54,6 +54,8 @@ const lifeReducer: LifeReducer = (prevState, action) => {
           prevState.gridWidth
         ),
       };
+    case "START":
+      return { ...prevState, started: true };
     default:
       return prevState;
   }
