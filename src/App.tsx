@@ -4,6 +4,7 @@ import Life from "./Life";
 
 const theme = {
   headerHeight: "75px",
+  toolBarWidth: "240px",
   colors: {
     primary: "#017927",
     primaryLight: "#96e072",
@@ -35,10 +36,21 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const StyledApp = styled.section`
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "life tool-bar";
+  grid-template-columns: ${({ theme }) =>
+    `calc(100vw - ${theme.toolBarWidth}) ${theme.toolBarWidth}`};
+  grid-template-rows: ${({ theme }) =>
+    `${theme.headerHeight} calc(100vh - ${theme.headerHeight})`};
+`;
+
 const Header = styled.header`
   background-color: ${({ theme }) => theme.colors.primary};
-  height: ${({ theme }) => theme.headerHeight};
   color: ${({ theme }) => theme.colors.light};
+  grid-area: header;
   font-size: 3em;
   display: flex;
   align-items: center;
@@ -48,13 +60,13 @@ const Header = styled.header`
 
 const App = () => {
   return (
-    <div className="app">
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <StyledApp>
         <GlobalStyle />
         <Header>React Life</Header>
         <Life />
-      </ThemeProvider>
-    </div>
+      </StyledApp>
+    </ThemeProvider>
   );
 };
 

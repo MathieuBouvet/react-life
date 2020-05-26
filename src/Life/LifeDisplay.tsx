@@ -10,10 +10,7 @@ interface LifeProps extends LifeState {
 }
 
 const StyledLife = styled.main`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: ${({ theme }) => `calc(100vh - ${theme.headerHeight})`};
+  grid-area: life;
 `;
 
 const Grid = styled.div<Pick<LifeProps, "gridHeight" | "gridWidth">>`
