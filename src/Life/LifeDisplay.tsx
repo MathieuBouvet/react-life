@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { LifeState, LifeAction } from "./lifeState";
 import Cell from "./Cell";
-import range from "../../utils/range";
-import { positionToStr } from "../../utils/cellPosition";
+import range from "../utils/range";
+import { positionToStr } from "../utils/cellPosition";
 
 interface LifeProps extends LifeState {
   dispatch: React.Dispatch<LifeAction>;
