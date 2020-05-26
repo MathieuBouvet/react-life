@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { LifeState, LifeAction } from "../lifeState";
 import Cell from "./Cell";
+import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
-import { positionToStr } from "../utils/cellPosition";
 
 interface LifeProps extends LifeState {
   dispatch: React.Dispatch<LifeAction>;
@@ -42,19 +42,38 @@ const LifeDisplay = ({
   dispatch,
   gridRef,
 }: LifeProps) => {
+  const theGrid = useMemo(() => {
+    return range(gridHeight).map(line =>
+      range(gridWidth).map(column => (
+        <CellMemo
+          key={"living : " + line * gridWidth + column}
+          fromTemplate={true}
+          position={[line, column]}
+          alive={false}
+          dispatch={dispatch}
+        />
+      ))
+    );
+  }, [gridHeight, gridWidth, dispatch]);
+
   return (
     <StyledLife ref={gridRef}>
       <Grid {...{ gridHeight, gridWidth, cellSize }}>
-        {range(gridHeight).map(line =>
-          range(gridWidth).map(column => (
-            <CellMemo
-              key={line * gridWidth + column}
-              position={[line, column]}
-              alive={livingCells.has(positionToStr([line, column]))}
-              dispatch={dispatch}
-            />
-          ))
-        )}
+        <>
+          {theGrid}{" "}
+          {Array.from(livingCells, ([key, _]) => {
+            const [line, column] = positionFrom(key);
+            return (
+              <Cell
+                key={line * gridWidth + column}
+                fromTemplate={false}
+                position={[line, column]}
+                alive={true}
+                dispatch={dispatch}
+              />
+            );
+          })}
+        </>
       </Grid>
     </StyledLife>
   );
