@@ -46,7 +46,7 @@ const LifeDisplay = ({
     return range(gridHeight).map(line =>
       range(gridWidth).map(column => (
         <CellMemo
-          key={"living : " + line * gridWidth + column}
+          key={"t" + (line * gridWidth + column)}
           fromTemplate={true}
           position={[line, column]}
           alive={false}
