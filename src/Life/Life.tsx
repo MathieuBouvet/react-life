@@ -64,7 +64,7 @@ const LifeDisplay = ({
           {Array.from(livingCells, ([key, _]) => {
             const [line, column] = positionFrom(key);
             return (
-              <Cell
+              <CellMemo
                 key={line * gridWidth + column}
                 fromTemplate={false}
                 position={[line, column]}
