@@ -3,12 +3,13 @@ import styled, { ThemeProvider } from "styled-components";
 import Life from "./Life";
 import { theme, GlobalStyle } from "./theme";
 import { lifeReducer, initialLife } from "./lifeState";
+import ToolBar from "./ToolBar";
 
 const StyledApp = styled.section`
   display: grid;
   grid-template-areas:
     "header header"
-    "life tool-bar";
+    "life toolbar";
   grid-template-columns: ${({ theme }) =>
     `calc(100vw - ${theme.toolBarWidth}) ${theme.toolBarWidth}`};
   grid-template-rows: ${({ theme }) =>
@@ -56,6 +57,7 @@ const App = () => {
         <GlobalStyle />
         <Header>React Life</Header>
         <Life gridRef={gridRef} dispatch={dispatchLife} {...{ ...lifeState }} />
+        <ToolBar {...{ ...lifeState }} dispatch={dispatchLife} />
       </StyledApp>
     </ThemeProvider>
   );
