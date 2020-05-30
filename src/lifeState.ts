@@ -7,7 +7,8 @@ export interface LifeState {
   started: boolean;
   gridHeight: number;
   gridWidth: number;
-  cellSize: number;
+  gridMaxWidth: number;
+  gridMaxHeight: number;
   livingCells: Map<string, true>;
 }
 
@@ -28,9 +29,9 @@ interface CellClick {
   payload: { position: CellPosition };
 }
 
-interface CellResize {
-  type: "CELL_RESIZE";
-  payload: { size: number };
+interface SetGridSpace {
+  type: "SET_GRID_SPACE";
+  payload: { maxWidth: number; maxHeight: number };
 }
 
 interface ResizeGridWidth {
@@ -52,7 +53,7 @@ export type LifeAction =
   | Stop
   | Iterate
   | CellClick
-  | CellResize
+  | SetGridSpace
   | ResizeGridHeight
   | ResizeGridWidth;
 
@@ -62,7 +63,8 @@ const initialLife: LifeState = {
   started: false,
   gridHeight: 25,
   gridWidth: 50,
-  cellSize: 25,
+  gridMaxHeight: -1,
+  gridMaxWidth: -1,
   livingCells: new Map([]),
 };
 
@@ -90,8 +92,12 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       return { ...prevState, started: true };
     case "STOP":
       return { ...prevState, started: false };
-    case "CELL_RESIZE":
-      return { ...prevState, cellSize: action.payload.size };
+    case "SET_GRID_SPACE":
+      return {
+        ...prevState,
+        gridMaxWidth: action.payload.maxWidth,
+        gridMaxHeight: action.payload.maxHeight,
+      };
     case "RESIZE_GRID_WIDTH":
       return { ...prevState, gridWidth: action.payload.width };
     case "RESIZE_GRID_HEIGHT":
