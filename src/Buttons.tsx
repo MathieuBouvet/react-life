@@ -30,6 +30,10 @@ const StyledButton = styled.button`
     transform: scale(1.075);
   }
 
+  &:active > :first-child {
+    transform: scale(1.075) translateY(3px);
+  }
+
   & * {
     display: block;
   }
