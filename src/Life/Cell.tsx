@@ -2,42 +2,35 @@ import React from "react";
 import styled from "styled-components";
 import { LifeAction, CellPosition } from "../lifeState";
 
-type StyledProps = Pick<CellProps, "alive" | "fromTemplate" | "position">;
+type StyledProps = Pick<CellProps, "alive" | "size" | "position">;
 
-const StyledCell = styled.div.attrs<StyledProps>(props => ({
-  style: {
-    gridRow: `${props.position[0] + 1} / span 1`,
-    gridColumn: `${props.position[1] + 1} / span 1`,
-  },
+const StyledCell = styled.rect.attrs<StyledProps>(props => ({
+  width: props.size,
+  height: props.size,
+  y: props.position[0] * (props.size + 1),
+  x: props.position[1] * (props.size + 1),
 }))<StyledProps>`
-  background-color: ${({ alive, theme }) =>
+  fill: ${({ alive, theme }) =>
     alive ? theme.colors.primary : theme.colors.primaryLight};
   cursor: pointer;
-  position: relative;
-  z-index: ${({ fromTemplate }) => (fromTemplate ? "0" : "10")};
   &:hover {
-    background-color: ${({ alive, theme }) =>
+    fill: ${({ alive, theme }) =>
       alive ? theme.colors.primary : theme.colors.highlight};
   }
 `;
 
 type CellProps = {
   alive: boolean;
-  fromTemplate: boolean;
+  size: number;
   position: CellPosition;
   dispatch: React.Dispatch<LifeAction>;
 };
 
-const Cell = ({
-  alive,
-  position,
-  dispatch,
-  fromTemplate = false,
-}: CellProps) => (
+const Cell = ({ alive, position, dispatch, size }: CellProps) => (
   <StyledCell
     alive={alive}
     position={position}
-    fromTemplate={fromTemplate}
+    size={size}
     onClick={() => dispatch({ type: "CELL_CLICK", payload: { position } })}
   />
 );
