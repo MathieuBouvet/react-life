@@ -59,3 +59,16 @@ const SizeInput = ({
     <FiChevronRight size="1.5em" />
   </StyledSizeInput>
 );
+
+const WidthInput = (props: SpecializedInputProps) => (
+  <SizeInput
+    {...props}
+    label="Largeur"
+    changeAction={width => ({
+      type: "RESIZE_GRID_WIDTH",
+      payload: { width },
+    })}
+  />
+);
+
+export { WidthInput };
