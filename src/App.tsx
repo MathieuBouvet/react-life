@@ -5,6 +5,20 @@ import { theme, GlobalStyle } from "./theme";
 import { lifeReducer, initialLife } from "./lifeState";
 import ToolBar from "./ToolBar";
 
+function getCellSize(
+  gridMaxWidth: number,
+  gridMaxHeight: number,
+  lineNumber: number,
+  columnNumber: number
+): number {
+  if (gridMaxHeight < 0 && gridMaxWidth < 0) {
+    return 20;
+  }
+  const fitWidth = (gridMaxWidth - lineNumber) / lineNumber;
+  const fitHeight = (gridMaxHeight - columnNumber) / columnNumber;
+  return Math.min(fitWidth, fitHeight);
+}
+
 const StyledApp = styled.section`
   display: grid;
   grid-template-areas:
@@ -30,6 +44,13 @@ const Header = styled.header`
 const App = () => {
   const [lifeState, dispatchLife] = useReducer(lifeReducer, initialLife);
   const gridRef = useRef<HTMLDivElement>(null);
+  const { gridWidth, gridHeight, gridMaxWidth, gridMaxHeight } = lifeState;
+  const cellSize = getCellSize(
+    gridMaxWidth,
+    gridMaxHeight,
+    gridWidth,
+    gridHeight
+  );
   useEffect(() => {
     const nextIterationTimer = setTimeout(() => {
       if (lifeState.started) {
@@ -40,23 +61,28 @@ const App = () => {
       clearTimeout(nextIterationTimer);
     };
   });
-  const { gridHeight, gridWidth } = lifeState;
   useEffect(() => {
     if (gridRef.current != null) {
-      const widthSize =
-        (gridRef.current.clientWidth - gridWidth - 1) / gridWidth;
-      const heightSize =
-        (gridRef.current.clientHeight - gridHeight - 1) / gridHeight;
-      const size = Math.min(widthSize, heightSize);
-      dispatchLife({ type: "CELL_RESIZE", payload: { size } });
+      dispatchLife({
+        type: "SET_GRID_SPACE",
+        payload: {
+          maxWidth: gridRef.current.clientWidth,
+          maxHeight: gridRef.current.clientHeight,
+        },
+      });
     }
-  }, [gridHeight, gridWidth]);
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <StyledApp>
         <GlobalStyle />
         <Header>React Life</Header>
-        <Life gridRef={gridRef} dispatch={dispatchLife} {...{ ...lifeState }} />
+        <Life
+          {...{ ...lifeState }}
+          gridRef={gridRef}
+          dispatch={dispatchLife}
+          cellSize={cellSize}
+        />
         <ToolBar {...{ ...lifeState }} dispatch={dispatchLife} />
       </StyledApp>
     </ThemeProvider>
