@@ -33,7 +33,28 @@ interface CellResize {
   payload: { size: number };
 }
 
-export type LifeAction = Start | Stop | Iterate | CellClick | CellResize;
+interface ResizeGridWidth {
+  type: "RESIZE_GRID_WIDTH";
+  payload: {
+    width: number;
+  };
+}
+
+interface ResizeGridHeight {
+  type: "RESIZE_GRID_HEIGHT";
+  payload: {
+    height: number;
+  };
+}
+
+export type LifeAction =
+  | Start
+  | Stop
+  | Iterate
+  | CellClick
+  | CellResize
+  | ResizeGridHeight
+  | ResizeGridWidth;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
