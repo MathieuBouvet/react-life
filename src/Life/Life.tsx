@@ -16,21 +16,18 @@ const StyledLife = styled.main`
   align-items: center;
   justify-content: center;
 `;
-
-const Grid = styled.div<
-  Pick<LifeProps, "gridHeight" | "gridWidth" | "cellSize">
->`
-  display: grid;
-  grid-template: ${({ gridHeight, gridWidth, cellSize }) =>
-    `repeat(${gridHeight}, ${cellSize}px) / repeat(${gridWidth}, ${cellSize}px)`};
-  grid-gap: 1px;
-`;
+type GridProps = Pick<LifeProps, "gridHeight" | "gridWidth" | "cellSize">;
+const Grid = styled.svg.attrs<GridProps>(props => ({
+  width: props.gridWidth * (props.cellSize + 1),
+  height: props.gridHeight * (props.cellSize + 1),
+}))``;
 
 const CellMemo = React.memo(Cell, (prev, next) => {
   return (
     prev.position[0] === next.position[0] &&
     prev.position[1] === next.position[1] &&
-    prev.alive === next.alive
+    prev.alive === next.alive &&
+    prev.size === next.size
   );
 });
 
@@ -46,15 +43,15 @@ const LifeDisplay = ({
     return range(gridHeight).map(line =>
       range(gridWidth).map(column => (
         <CellMemo
-          key={"t" + (line * gridWidth + column)}
-          fromTemplate={true}
+          key={`t[${line};${column}]`}
+          size={cellSize}
           position={[line, column]}
           alive={false}
           dispatch={dispatch}
         />
       ))
     );
-  }, [gridHeight, gridWidth, dispatch]);
+  }, [gridHeight, gridWidth, cellSize, dispatch]);
 
   return (
     <StyledLife ref={gridRef}>
@@ -65,8 +62,8 @@ const LifeDisplay = ({
             const [line, column] = positionFrom(key);
             return (
               <CellMemo
-                key={line * gridWidth + column}
-                fromTemplate={false}
+                key={`[${line};${column}]`}
+                size={cellSize}
                 position={[line, column]}
                 alive={true}
                 dispatch={dispatch}
