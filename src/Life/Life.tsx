@@ -6,6 +6,7 @@ import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
 
 interface LifeProps extends LifeState {
+  cellSize: number;
   dispatch: React.Dispatch<LifeAction>;
   gridRef: React.Ref<HTMLDivElement>;
 }
