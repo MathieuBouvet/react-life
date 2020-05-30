@@ -92,6 +92,10 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       return { ...prevState, started: false };
     case "CELL_RESIZE":
       return { ...prevState, cellSize: action.payload.size };
+    case "RESIZE_GRID_WIDTH":
+      return { ...prevState, gridWidth: action.payload.width };
+    case "RESIZE_GRID_HEIGHT":
+      return { ...prevState, gridHeight: action.payload.height };
     default:
       return prevState;
   }
