@@ -71,4 +71,15 @@ const WidthInput = (props: SpecializedInputProps) => (
   />
 );
 
-export { WidthInput };
+const HeightInput = (props: SpecializedInputProps) => (
+  <SizeInput
+    {...props}
+    label="Hauteur"
+    changeAction={height => ({
+      type: "RESIZE_GRID_HEIGHT",
+      payload: { height },
+    })}
+  />
+);
+
+export { WidthInput, HeightInput };
