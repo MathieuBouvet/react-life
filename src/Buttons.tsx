@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { LifeAction } from "./lifeState";
-import { FiPlayCircle } from "react-icons/fi";
+import { FiPlayCircle, FiPauseCircle } from "react-icons/fi";
 
 type ButtonProps = {
   action: LifeAction;
@@ -48,4 +48,13 @@ const StartButton = ({ dispatch }: SpecializedButtonProps) => (
   </Button>
 );
 
-export { StartButton };
+const PauseButton = ({ dispatch }: SpecializedButtonProps) => (
+  <StyledButton onClick={() => dispatch({ type: "STOP" })}>
+    <>
+      <FiPauseCircle size="4.5rem" />
+      pause
+    </>
+  </StyledButton>
+);
+
+export { StartButton, PauseButton };
