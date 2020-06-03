@@ -1,5 +1,5 @@
 import { positionToStr } from "./utils/cellPosition";
-import { nextIteration } from "./utils/gridManagement";
+import { nextIterationOptimized } from "./utils/gridManagement";
 
 export type CellPosition = [number, number];
 
@@ -82,11 +82,7 @@ const lifeReducer: LifeReducer = (prevState, action) => {
     case "ITERATE":
       return {
         ...prevState,
-        livingCells: nextIteration(
-          prevState.livingCells,
-          prevState.gridHeight,
-          prevState.gridWidth
-        ),
+        livingCells: nextIterationOptimized(prevState.livingCells),
       };
     case "START":
       return { ...prevState, started: true };
