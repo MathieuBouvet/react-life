@@ -1,6 +1,6 @@
 import { CellPosition } from "../lifeState";
 import range from "./range";
-import { positionToStr } from "./cellPosition";
+import { positionToStr, positionFrom } from "./cellPosition";
 
 function getNeighborsIndexes(cell: CellPosition): CellPosition[] {
   return [
@@ -52,4 +52,33 @@ function nextIteration(
   return newLiveCells;
 }
 
-export { nextIteration };
+function nextIterationOptimized(
+  livingCells: Map<string, true>
+): Map<string, true> {
+  const nextLiving = new Map<string, true>();
+  const deadCellsNeighborsCount = new Map<string, number>();
+  livingCells.forEach((_, livingCellKey) => {
+    const adjacentIndexes = getNeighborsIndexes(positionFrom(livingCellKey));
+    let livingAdjacentNumber = 0;
+    for (const adjacentCellIndex of adjacentIndexes) {
+      const adjacentCellKey = positionToStr(adjacentCellIndex);
+      if (!livingCells.has(adjacentCellKey)) {
+        const counted = deadCellsNeighborsCount.get(adjacentCellKey) ?? 0;
+        deadCellsNeighborsCount.set(adjacentCellKey, counted + 1);
+      } else {
+        livingAdjacentNumber++;
+      }
+    }
+    if (livingAdjacentNumber === 2 || livingAdjacentNumber === 3) {
+      nextLiving.set(livingCellKey, true);
+    }
+  });
+  deadCellsNeighborsCount.forEach((livingAdjacentNumber, cellKey) => {
+    if (livingAdjacentNumber === 3) {
+      nextLiving.set(cellKey, true);
+    }
+  });
+  return nextLiving;
+}
+
+export { nextIteration, nextIterationOptimized };
