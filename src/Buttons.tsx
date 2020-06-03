@@ -24,6 +24,7 @@ const StyledButton = styled.button`
   cursor: pointer;
   text-align: center;
   appearance: none;
+  outline: none;
 
   &:hover > :first-child {
     transform: scale(1.075);
