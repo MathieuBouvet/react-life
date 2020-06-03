@@ -35,6 +35,7 @@ function nextIteration(
   gridWidth: number
 ): Map<string, true> {
   const newLiveCells = new Map<string, true>();
+  console.time("generation");
   for (const line of range(gridHeight)) {
     for (const column of range(gridWidth)) {
       const currentCell: CellPosition = [line, column];
@@ -47,6 +48,7 @@ function nextIteration(
       }
     }
   }
+  console.timeEnd("generation");
   return newLiveCells;
 }
 
