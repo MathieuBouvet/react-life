@@ -17,10 +17,9 @@ function getNeighborsIndexes(cell: CellPosition): CellPosition[] {
 
 function getLivingNeighborsNumber(
   living: Map<string, true>,
-  cell: CellPosition
+  adjacentCells: CellPosition[]
 ): number {
-  const adjacentIndex: CellPosition[] = getNeighborsIndexes(cell);
-  return adjacentIndex.reduce((livingNumber, item) => {
+  return adjacentCells.reduce((livingNumber, item) => {
     const adjacentInGrid = living.get(positionToStr(item));
     if (adjacentInGrid) {
       livingNumber++;
@@ -39,7 +38,7 @@ function nextIteration(
   for (const line of range(gridHeight)) {
     for (const column of range(gridWidth)) {
       const currentCell: CellPosition = [line, column];
-      const livingNumber = getLivingNeighborsNumber(liveCells, currentCell);
+      const livingNumber = getLivingNeighborsNumber(liveCells, getNeighborsIndexes(currentCell));
       if (
         livingNumber === 3 ||
         (liveCells.has(positionToStr(currentCell)) && livingNumber === 2)
