@@ -2,11 +2,8 @@ import { CellPosition } from "../lifeState";
 import range from "./range";
 import { positionToStr } from "./cellPosition";
 
-function getLivingNeighborsNumber(
-  living: Map<string, true>,
-  cell: CellPosition
-): number {
-  const adjacentIndex: CellPosition[] = [
+function getNeighborsIndexes(cell: CellPosition): CellPosition[] {
+  return [
     [cell[0] - 1, cell[1] - 1],
     [cell[0] - 1, cell[1]],
     [cell[0] - 1, cell[1] + 1],
@@ -16,6 +13,13 @@ function getLivingNeighborsNumber(
     [cell[0] + 1, cell[1]],
     [cell[0] + 1, cell[1] + 1],
   ];
+}
+
+function getLivingNeighborsNumber(
+  living: Map<string, true>,
+  cell: CellPosition
+): number {
+  const adjacentIndex: CellPosition[] = getNeighborsIndexes(cell);
   return adjacentIndex.reduce((livingNumber, item) => {
     const adjacentInGrid = living.get(positionToStr(item));
     if (adjacentInGrid) {
