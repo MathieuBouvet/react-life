@@ -86,14 +86,12 @@ function updatedCells(
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "TOGGLE_CELL":
-      const cellsCopy = new Map(prevState.livingCells);
-      const positionKey = positionToStr(action.payload.position);
-      if (cellsCopy.has(positionKey)) {
-        cellsCopy.delete(positionKey);
-      } else {
-        cellsCopy.set(positionKey, true);
-      }
-      return { ...prevState, livingCells: cellsCopy };
+      const toggledLivingCells = updatedCells(
+        prevState.livingCells,
+        action.payload.position,
+        positionKey => !prevState.livingCells.has(positionKey)
+      );
+      return { ...prevState, livingCells: toggledLivingCells };
     case "ITERATE":
       return {
         ...prevState,
