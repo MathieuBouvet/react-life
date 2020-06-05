@@ -24,8 +24,8 @@ interface Stop {
   type: "STOP";
 }
 
-interface CellClick {
-  type: "CELL_CLICK";
+interface ToggleCell {
+  type: "TOGGLE_CELL";
   payload: { position: CellPosition };
 }
 
@@ -52,7 +52,7 @@ export type LifeAction =
   | Start
   | Stop
   | Iterate
-  | CellClick
+  | ToggleCell
   | SetGridSpace
   | ResizeGridHeight
   | ResizeGridWidth;
@@ -70,7 +70,7 @@ const initialLife: LifeState = {
 
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
-    case "CELL_CLICK":
+    case "TOGGLE_CELL":
       const cellsCopy = new Map(prevState.livingCells);
       const positionKey = positionToStr(action.payload.position);
       if (cellsCopy.has(positionKey)) {
