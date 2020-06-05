@@ -26,13 +26,22 @@ type CellProps = {
   dispatch: React.Dispatch<LifeAction>;
 };
 
-const Cell = ({ alive, position, dispatch, size }: CellProps) => (
-  <StyledCell
-    alive={alive}
-    position={position}
-    size={size}
-    onClick={() => dispatch({ type: "TOGGLE_CELL", payload: { position } })}
-  />
-);
+const Cell = ({ alive, position, dispatch, size }: CellProps) => {
+  const setCellAlive = (e: React.MouseEvent<SVGRectElement, MouseEvent>) => {
+    if (e.buttons === 1) {
+      dispatch({ type: "SET_CELL_ALIVE", payload: { position } });
+    }
+  };
+  return (
+    <StyledCell
+      alive={alive}
+      position={position}
+      size={size}
+      onClick={() => dispatch({ type: "TOGGLE_CELL", payload: { position } })}
+      onMouseEnter={setCellAlive}
+      onMouseLeave={setCellAlive}
+    />
+  );
+};
 
 export default Cell;
