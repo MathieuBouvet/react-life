@@ -68,6 +68,21 @@ const initialLife: LifeState = {
   livingCells: new Map([]),
 };
 
+function updatedCells(
+  cells: Map<string, true>,
+  at: CellPosition,
+  actionControlFunc: (key: string) => boolean
+): Map<string, true> {
+  const cellsCopy = new Map(cells);
+  const positionKey = positionToStr(at);
+  if (actionControlFunc(positionKey)) {
+    cellsCopy.set(positionKey, true);
+  } else {
+    cellsCopy.delete(positionKey);
+  }
+  return cellsCopy;
+}
+
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "TOGGLE_CELL":
