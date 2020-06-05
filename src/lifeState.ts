@@ -29,6 +29,11 @@ interface ToggleCell {
   payload: { position: CellPosition };
 }
 
+interface SetCellAlive {
+  type: "SET_CELL_ALIVE";
+  payload: { position: CellPosition };
+}
+
 interface SetGridSpace {
   type: "SET_GRID_SPACE";
   payload: { maxWidth: number; maxHeight: number };
@@ -53,6 +58,7 @@ export type LifeAction =
   | Stop
   | Iterate
   | ToggleCell
+  | SetCellAlive
   | SetGridSpace
   | ResizeGridHeight
   | ResizeGridWidth;
@@ -92,6 +98,13 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         positionKey => !prevState.livingCells.has(positionKey)
       );
       return { ...prevState, livingCells: toggledLivingCells };
+    case "SET_CELL_ALIVE":
+      const setAliveCells = updatedCells(
+        prevState.livingCells,
+        action.payload.position,
+        () => true
+      );
+      return { ...prevState, livingCells: setAliveCells };
     case "ITERATE":
       return {
         ...prevState,
