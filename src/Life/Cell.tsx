@@ -31,7 +31,7 @@ const Cell = ({ alive, position, dispatch, size }: CellProps) => (
     alive={alive}
     position={position}
     size={size}
-    onClick={() => dispatch({ type: "CELL_CLICK", payload: { position } })}
+    onClick={() => dispatch({ type: "TOGGLE_CELL", payload: { position } })}
   />
 );
 
