@@ -38,29 +38,13 @@ interface SetGridSpace {
   payload: { maxWidth: number; maxHeight: number };
 }
 
-interface ResizeGridWidth {
-  type: "RESIZE_GRID_WIDTH";
-  payload: {
-    width: number;
-  };
-}
-
-interface ResizeGridHeight {
-  type: "RESIZE_GRID_HEIGHT";
-  payload: {
-    height: number;
-  };
-}
-
 export type LifeAction =
   | Start
   | Stop
   | Iterate
   | ToggleCell
   | SetCellAlive
-  | SetGridSpace
-  | ResizeGridHeight
-  | ResizeGridWidth;
+  | SetGridSpace;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
