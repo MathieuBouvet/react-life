@@ -24,6 +24,8 @@ const StyledLife = styled.main`
 const Grid = styled(Stage).attrs<GridProps>(props => ({
   width: props.gridMaxWidth,
   height: props.gridMaxHeight,
+  scaleX: props.cellSize,
+  scaleY: props.cellSize,
 }))`
   cursor: pointer;
 `;
