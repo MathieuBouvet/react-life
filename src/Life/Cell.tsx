@@ -31,4 +31,14 @@ const Cell = ({ alive, position, dispatch, size }: CellProps) => {
   );
 };
 
+const CellMemo = React.memo(Cell, (prev, next) => {
+  return (
+    prev.position[0] === next.position[0] &&
+    prev.position[1] === next.position[1] &&
+    prev.alive === next.alive &&
+    prev.size === next.size
+  );
+});
+
 export default Cell;
+export { CellMemo };

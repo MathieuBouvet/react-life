@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import { LifeState, LifeAction } from "../lifeState";
-import Cell from "./Cell";
+import { CellMemo } from "./Cell";
 import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
 import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
@@ -25,15 +25,6 @@ const Grid = styled(Stage).attrs<GridProps>(props => ({
 }))`
   cursor: pointer;
 `;
-
-const CellMemo = React.memo(Cell, (prev, next) => {
-  return (
-    prev.position[0] === next.position[0] &&
-    prev.position[1] === next.position[1] &&
-    prev.alive === next.alive &&
-    prev.size === next.size
-  );
-});
 
 const LifeDisplay = ({
   gridHeight,
