@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { LifeState, LifeAction } from "../lifeState";
+import { GRID_SIZE, LifeState, LifeAction } from "../lifeState";
 import { CellMemo } from "./Cell";
 import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
@@ -37,15 +37,12 @@ const LifeDisplay = ({
   gridRef,
 }: LifeProps) => {
   const theGrid = useMemo(() => {
-    const cellNumberX = Math.ceil(gridMaxWidth / (cellSize + 1));
-    const cellNumberY = Math.ceil(gridMaxHeight / (cellSize + 1));
     const grid = (
       <Layer>
-        {range(cellNumberY).map(line =>
-          range(cellNumberX).map(column => (
+        {range(GRID_SIZE).map(line =>
+          range(GRID_SIZE).map(column => (
             <CellMemo
               key={`t[${line};${column}]`}
-              size={cellSize}
               position={[line, column]}
               alive={false}
               dispatch={dispatch}
@@ -54,9 +51,8 @@ const LifeDisplay = ({
         )}
       </Layer>
     );
-    console.timeEnd("grid");
     return grid;
-  }, [gridMaxHeight, gridMaxWidth, cellSize, dispatch]);
+  }, [dispatch]);
   return (
     <StyledLife ref={gridRef}>
       <Grid {...{ gridMaxWidth, gridMaxHeight, cellSize }}>
@@ -67,7 +63,6 @@ const LifeDisplay = ({
             return (
               <CellMemo
                 key={`[${line};${column}]`}
-                size={cellSize}
                 position={[line, column]}
                 alive={true}
                 dispatch={dispatch}
