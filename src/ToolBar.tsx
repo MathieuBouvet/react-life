@@ -12,7 +12,9 @@ const StyledToolBar = styled.aside`
   padding-top: 25px;
 `;
 
-type ToolBarProps = LifeState & { dispatch: React.Dispatch<LifeAction> };
+type ToolBarProps = Pick<LifeState, "started" | "gridWidth" | "gridHeight"> & {
+  dispatch: React.Dispatch<LifeAction>;
+};
 
 const ToolBar = ({
   started,
