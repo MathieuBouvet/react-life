@@ -5,6 +5,8 @@ import { CellMemo } from "./Cell";
 import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
 import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
+import Loader from "../Loader";
+import { theme } from "../theme";
 
 type LifeProps = LifeState & {
   dispatch: React.Dispatch<LifeAction>;
@@ -38,8 +40,9 @@ const LifeDisplay = ({
   dispatch,
   gridRef,
 }: LifeProps) => {
+  const firstRender = gridMaxHeight === -1 || gridMaxWidth === -1;
   const theGrid = useMemo(() => {
-    const grid = (
+    const grid = !firstRender ? (
       <Layer>
         {range(GRID_SIZE).map(line =>
           range(GRID_SIZE).map(column => (
@@ -52,27 +55,34 @@ const LifeDisplay = ({
           ))
         )}
       </Layer>
-    );
+    ) : null;
     return grid;
-  }, [dispatch]);
+  }, [firstRender, dispatch]);
   return (
     <StyledLife ref={gridRef}>
-      <Grid {...{ gridMaxWidth, gridMaxHeight, cellSize }}>
-        {theGrid}
-        <Layer>
-          {Array.from(livingCells, ([key, _]) => {
-            const [line, column] = positionFrom(key);
-            return (
-              <CellMemo
-                key={`[${line};${column}]`}
-                position={[line, column]}
-                alive={true}
-                dispatch={dispatch}
-              />
-            );
-          })}
-        </Layer>
-      </Grid>
+      {firstRender ? (
+        <div>
+          <Loader color={theme.colors.primary} />
+          pré-génération de la grille
+        </div>
+      ) : (
+        <Grid {...{ gridMaxWidth, gridMaxHeight, cellSize }}>
+          {theGrid}
+          <Layer>
+            {Array.from(livingCells, ([key, _]) => {
+              const [line, column] = positionFrom(key);
+              return (
+                <CellMemo
+                  key={`[${line};${column}]`}
+                  position={[line, column]}
+                  alive={true}
+                  dispatch={dispatch}
+                />
+              );
+            })}
+          </Layer>
+        </Grid>
+      )}
     </StyledLife>
   );
 };
