@@ -30,24 +30,21 @@ type CellProps = {
 };
 
 const Cell = ({ alive, position, dispatch, size }: CellProps) => {
-  const setCellAlive = (e: React.MouseEvent<SVGRectElement, MouseEvent>) => {
-    if (e.buttons === 1) {
-      dispatch({ type: "SET_CELL_ALIVE", payload: { position } });
-    }
-  };
   return (
     <Rect
-      // alive={alive}
-      // position={position}
-      // size={size}
       x={position[1] * (size + 1)}
       y={position[0] * (size + 1)}
       width={size}
       height={size}
       fill={alive ? theme.colors.primary : theme.colors.primaryLight}
-      onClick={() => dispatch({ type: "TOGGLE_CELL", payload: { position } })}
-      // onMouseEnter={setCellAlive}
-      // onMouseLeave={setCellAlive}
+      onMouseDown={() =>
+        dispatch({ type: "TOGGLE_CELL", payload: { position } })
+      }
+      onMouseEnter={e => {
+        if (e.evt.buttons === 1) {
+          dispatch({ type: "SET_CELL_ALIVE", payload: { position } });
+        }
+      }}
     />
   );
 };
