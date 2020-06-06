@@ -41,10 +41,18 @@ const Header = styled.header`
   box-shadow: 0 -20px 20px 10px black;
 `;
 
+const ToolbarMemo = React.memo(ToolBar);
+
 const App = () => {
   const [lifeState, dispatchLife] = useReducer(lifeReducer, initialLife);
   const gridRef = useRef<HTMLDivElement>(null);
-  const { gridWidth, gridHeight, gridMaxWidth, gridMaxHeight } = lifeState;
+  const {
+    gridWidth,
+    gridHeight,
+    gridMaxWidth,
+    gridMaxHeight,
+    started,
+  } = lifeState;
   const cellSize = getCellSize(
     gridMaxWidth,
     gridMaxHeight,
@@ -83,7 +91,10 @@ const App = () => {
           dispatch={dispatchLife}
           cellSize={cellSize}
         />
-        <ToolBar {...{ ...lifeState }} dispatch={dispatchLife} />
+        <ToolbarMemo
+          {...{ gridWidth, gridHeight, started }}
+          dispatch={dispatchLife}
+        />
       </StyledApp>
     </ThemeProvider>
   );
