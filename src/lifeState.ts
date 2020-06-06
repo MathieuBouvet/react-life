@@ -5,8 +5,7 @@ export type CellPosition = [number, number];
 
 export interface LifeState {
   started: boolean;
-  gridHeight: number;
-  gridWidth: number;
+  cellSize: number;
   gridMaxWidth: number;
   gridMaxHeight: number;
   livingCells: Map<string, true>;
@@ -67,8 +66,7 @@ type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
 const initialLife: LifeState = {
   started: false,
-  gridHeight: 25,
-  gridWidth: 50,
+  cellSize: 25,
   gridMaxHeight: -1,
   gridMaxWidth: -1,
   livingCells: new Map([]),
@@ -120,10 +118,6 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         gridMaxWidth: action.payload.maxWidth,
         gridMaxHeight: action.payload.maxHeight,
       };
-    case "RESIZE_GRID_WIDTH":
-      return { ...prevState, gridWidth: action.payload.width };
-    case "RESIZE_GRID_HEIGHT":
-      return { ...prevState, gridHeight: action.payload.height };
     default:
       return prevState;
   }
