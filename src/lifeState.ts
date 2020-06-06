@@ -1,6 +1,9 @@
 import { positionToStr } from "./utils/cellPosition";
 import { nextIterationOptimized } from "./utils/gridManagement";
 
+const BASE_CELL_SIZE = 25;
+const GRID_SIZE = 100;
+
 export type CellPosition = [number, number];
 
 export interface LifeState {
@@ -50,7 +53,7 @@ type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
 const initialLife: LifeState = {
   started: false,
-  cellSize: 25,
+  cellSize: 5,
   gridMaxHeight: -1,
   gridMaxWidth: -1,
   livingCells: new Map([]),
@@ -107,4 +110,4 @@ const lifeReducer: LifeReducer = (prevState, action) => {
   }
 };
 
-export { initialLife, lifeReducer };
+export { initialLife, lifeReducer, BASE_CELL_SIZE, GRID_SIZE };
