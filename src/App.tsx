@@ -25,6 +25,8 @@ const Header = styled.header`
   align-items: center;
   padding-left: 15px;
   box-shadow: 0 -20px 20px 10px black;
+  position: relative;
+  z-index: 10;
 `;
 
 const ToolbarMemo = React.memo(ToolBar);
