@@ -5,20 +5,6 @@ import { theme, GlobalStyle } from "./theme";
 import { lifeReducer, initialLife } from "./lifeState";
 import ToolBar from "./ToolBar";
 
-function getCellSize(
-  gridMaxWidth: number,
-  gridMaxHeight: number,
-  lineNumber: number,
-  columnNumber: number
-): number {
-  if (gridMaxHeight < 0 && gridMaxWidth < 0) {
-    return 20;
-  }
-  const fitWidth = (gridMaxWidth - lineNumber) / lineNumber;
-  const fitHeight = (gridMaxHeight - columnNumber) / columnNumber;
-  return Math.min(fitWidth, fitHeight);
-}
-
 const StyledApp = styled.section`
   display: grid;
   grid-template-areas:
@@ -47,18 +33,12 @@ const App = () => {
   const [lifeState, dispatchLife] = useReducer(lifeReducer, initialLife);
   const gridRef = useRef<HTMLDivElement>(null);
   const {
-    gridWidth,
-    gridHeight,
+    cellSize,
     gridMaxWidth,
     gridMaxHeight,
     started,
+    livingCells,
   } = lifeState;
-  const cellSize = getCellSize(
-    gridMaxWidth,
-    gridMaxHeight,
-    gridWidth,
-    gridHeight
-  );
   useEffect(() => {
     const nextIterationTimer = setTimeout(() => {
       if (lifeState.started) {
@@ -86,15 +66,17 @@ const App = () => {
         <GlobalStyle />
         <Header>React Life</Header>
         <Life
-          {...{ ...lifeState }}
-          gridRef={gridRef}
+          {...{
+            cellSize,
+            started,
+            gridMaxWidth,
+            gridMaxHeight,
+            gridRef,
+            livingCells,
+          }}
           dispatch={dispatchLife}
-          cellSize={cellSize}
         />
-        <ToolbarMemo
-          {...{ gridWidth, gridHeight, started }}
-          dispatch={dispatchLife}
-        />
+        <ToolbarMemo {...{ started }} dispatch={dispatchLife} />
       </StyledApp>
     </ThemeProvider>
   );
