@@ -6,19 +6,23 @@ import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
 import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
 
-interface LifeProps extends LifeState {
-  cellSize: number;
+type LifeProps = Pick<LifeState, "cellSize" | "livingCells" | "started"> & {
+  gridHeight: number;
+  gridWidth: number;
   dispatch: React.Dispatch<LifeAction>;
   gridRef: React.Ref<HTMLDivElement>;
-}
+};
+
+type GridProps = Pick<LifeProps, "gridHeight" | "gridWidth" | "cellSize">;
 
 const StyledLife = styled.main`
   grid-area: life;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 `;
-type GridProps = Pick<LifeProps, "gridHeight" | "gridWidth" | "cellSize">;
+
 const Grid = styled(Stage).attrs<GridProps>(props => ({
   width: props.gridWidth * (props.cellSize + 1),
   height: props.gridHeight * (props.cellSize + 1),
