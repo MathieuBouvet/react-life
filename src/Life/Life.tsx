@@ -19,10 +19,12 @@ const StyledLife = styled.main`
   justify-content: center;
 `;
 type GridProps = Pick<LifeProps, "gridHeight" | "gridWidth" | "cellSize">;
-const Grid = styled.svg.attrs<GridProps>(props => ({
+const Grid = styled(Stage).attrs<GridProps>(props => ({
   width: props.gridWidth * (props.cellSize + 1),
   height: props.gridHeight * (props.cellSize + 1),
-}))``;
+}))`
+  cursor: pointer;
+`;
 
 const CellMemo = React.memo(Cell, (prev, next) => {
   return (
@@ -32,17 +34,6 @@ const CellMemo = React.memo(Cell, (prev, next) => {
     prev.size === next.size
   );
 });
-
-function getGridDimensions(
-  cellNumberX: number,
-  cellNumberY: number,
-  cellSize: number
-): { width: number; height: number } {
-  return {
-    width: cellNumberX * (cellSize + 1),
-    height: cellNumberY * (cellSize + 1),
-  };
-}
 
 const LifeDisplay = ({
   gridHeight,
@@ -72,10 +63,9 @@ const LifeDisplay = ({
     console.timeEnd("grid");
     return grid;
   }, [gridHeight, gridWidth, cellSize, dispatch]);
-  const { width, height } = getGridDimensions(gridWidth, gridHeight, cellSize);
   return (
     <StyledLife ref={gridRef}>
-      <Stage width={width} height={height}>
+      <Grid {...{ gridWidth, gridHeight, cellSize }}>
         {theGrid}
         <Layer>
           {Array.from(livingCells, ([key, _]) => {
@@ -91,7 +81,7 @@ const LifeDisplay = ({
             );
           })}
         </Layer>
-      </Stage>
+      </Grid>
     </StyledLife>
   );
 };
