@@ -6,14 +6,12 @@ import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
 import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
 
-type LifeProps = Pick<LifeState, "cellSize" | "livingCells" | "started"> & {
-  gridHeight: number;
-  gridWidth: number;
+type LifeProps = LifeState & {
   dispatch: React.Dispatch<LifeAction>;
   gridRef: React.Ref<HTMLDivElement>;
 };
 
-type GridProps = Pick<LifeProps, "gridHeight" | "gridWidth" | "cellSize">;
+type GridProps = Pick<LifeProps, "gridMaxWidth" | "gridMaxHeight" | "cellSize">;
 
 const StyledLife = styled.main`
   grid-area: life;
@@ -24,26 +22,27 @@ const StyledLife = styled.main`
 `;
 
 const Grid = styled(Stage).attrs<GridProps>(props => ({
-  width: props.gridWidth * (props.cellSize + 1),
-  height: props.gridHeight * (props.cellSize + 1),
+  width: props.gridMaxWidth,
+  height: props.gridMaxHeight,
 }))`
   cursor: pointer;
 `;
 
 const LifeDisplay = ({
-  gridHeight,
-  gridWidth,
+  gridMaxWidth,
+  gridMaxHeight,
   cellSize,
   livingCells,
   dispatch,
   gridRef,
 }: LifeProps) => {
   const theGrid = useMemo(() => {
-    console.time("grid");
+    const cellNumberX = Math.ceil(gridMaxWidth / (cellSize + 1));
+    const cellNumberY = Math.ceil(gridMaxHeight / (cellSize + 1));
     const grid = (
       <Layer>
-        {range(gridHeight).map(line =>
-          range(gridWidth).map(column => (
+        {range(cellNumberY).map(line =>
+          range(cellNumberX).map(column => (
             <CellMemo
               key={`t[${line};${column}]`}
               size={cellSize}
@@ -57,10 +56,10 @@ const LifeDisplay = ({
     );
     console.timeEnd("grid");
     return grid;
-  }, [gridHeight, gridWidth, cellSize, dispatch]);
+  }, [gridMaxHeight, gridMaxWidth, cellSize, dispatch]);
   return (
     <StyledLife ref={gridRef}>
-      <Grid {...{ gridWidth, gridHeight, cellSize }}>
+      <Grid {...{ gridMaxWidth, gridMaxHeight, cellSize }}>
         {theGrid}
         <Layer>
           {Array.from(livingCells, ([key, _]) => {
