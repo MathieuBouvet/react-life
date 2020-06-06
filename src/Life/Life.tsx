@@ -4,6 +4,7 @@ import { LifeState, LifeAction } from "../lifeState";
 import Cell from "./Cell";
 import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
+import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
 
 interface LifeProps extends LifeState {
   cellSize: number;
@@ -32,6 +33,17 @@ const CellMemo = React.memo(Cell, (prev, next) => {
   );
 });
 
+function getGridDimensions(
+  cellNumberX: number,
+  cellNumberY: number,
+  cellSize: number
+): { width: number; height: number } {
+  return {
+    width: cellNumberX * (cellSize + 1),
+    height: cellNumberY * (cellSize + 1),
+  };
+}
+
 const LifeDisplay = ({
   gridHeight,
   gridWidth,
@@ -41,24 +53,31 @@ const LifeDisplay = ({
   gridRef,
 }: LifeProps) => {
   const theGrid = useMemo(() => {
-    return range(gridHeight).map(line =>
-      range(gridWidth).map(column => (
-        <CellMemo
-          key={`t[${line};${column}]`}
-          size={cellSize}
-          position={[line, column]}
-          alive={false}
-          dispatch={dispatch}
-        />
-      ))
+    console.time("grid");
+    const grid = (
+      <Layer>
+        {range(gridHeight).map(line =>
+          range(gridWidth).map(column => (
+            <CellMemo
+              key={`t[${line};${column}]`}
+              size={cellSize}
+              position={[line, column]}
+              alive={false}
+              dispatch={dispatch}
+            />
+          ))
+        )}
+      </Layer>
     );
+    console.timeEnd("grid");
+    return grid;
   }, [gridHeight, gridWidth, cellSize, dispatch]);
-
+  const { width, height } = getGridDimensions(gridWidth, gridHeight, cellSize);
   return (
     <StyledLife ref={gridRef}>
-      <Grid {...{ gridHeight, gridWidth, cellSize }}>
-        <>
-          {theGrid}{" "}
+      <Stage width={width} height={height}>
+        {theGrid}
+        <Layer>
           {Array.from(livingCells, ([key, _]) => {
             const [line, column] = positionFrom(key);
             return (
@@ -71,8 +90,8 @@ const LifeDisplay = ({
               />
             );
           })}
-        </>
-      </Grid>
+        </Layer>
+      </Stage>
     </StyledLife>
   );
 };
