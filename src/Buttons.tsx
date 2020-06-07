@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { LifeAction } from "./lifeState";
-import { FiPlayCircle, FiPauseCircle } from "react-icons/fi";
+import { FiPlayCircle, FiPauseCircle, FiTrash2 } from "react-icons/fi";
 import { theme } from "./theme";
 
 type ButtonProps = {
@@ -37,6 +37,7 @@ const StyledButton = styled.button`
 
   & * {
     display: block;
+    margin: auto;
   }
 `;
 
@@ -47,7 +48,7 @@ const Button = ({ action, dispatch, children }: ButtonProps) => (
 const StartButton = ({ dispatch }: SpecializedButtonProps) => (
   <Button dispatch={dispatch} action={{ type: "START" }}>
     <>
-      <FiPlayCircle size="4.5rem" stroke={theme.colors.dark} />
+      <FiPlayCircle size="3em" stroke={theme.colors.dark} />
       start
     </>
   </Button>
@@ -56,10 +57,19 @@ const StartButton = ({ dispatch }: SpecializedButtonProps) => (
 const PauseButton = ({ dispatch }: SpecializedButtonProps) => (
   <StyledButton onClick={() => dispatch({ type: "STOP" })}>
     <>
-      <FiPauseCircle size="4.5rem" stroke={theme.colors.dark} />
+      <FiPauseCircle size="3em" stroke={theme.colors.dark} />
       pause
     </>
   </StyledButton>
 );
 
-export { StartButton, PauseButton };
+const ClearButton = ({ dispatch }: SpecializedButtonProps) => (
+  <StyledButton onClick={() => dispatch({ type: "CLEAR_GRID" })}>
+    <>
+      <FiTrash2 size="3em" stroke={theme.colors.dark} />
+      tout effacer
+    </>
+  </StyledButton>
+);
+
+export { StartButton, PauseButton, ClearButton };
