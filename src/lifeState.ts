@@ -41,13 +41,18 @@ interface SetGridSpace {
   payload: { maxWidth: number; maxHeight: number };
 }
 
+interface ClearGrid {
+  type: "CLEAR_GRID";
+}
+
 export type LifeAction =
   | Start
   | Stop
   | Iterate
   | ToggleCell
   | SetCellAlive
-  | SetGridSpace;
+  | SetGridSpace
+  | ClearGrid;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
@@ -104,6 +109,12 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         ...prevState,
         gridMaxWidth: action.payload.maxWidth,
         gridMaxHeight: action.payload.maxHeight,
+      };
+    case "CLEAR_GRID":
+      return {
+        ...prevState,
+        started: false,
+        livingCells: new Map<string, true>(),
       };
     default:
       return prevState;
