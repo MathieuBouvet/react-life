@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { LifeState, LifeAction } from "./lifeState";
-import { StartButton, PauseButton } from "./Buttons";
+import { StartButton, PauseButton, ClearButton } from "./Buttons";
 
 const StyledToolBar = styled.aside`
   grid-area: toolbar;
@@ -22,6 +22,7 @@ const ToolBar = ({ started, dispatch }: ToolBarProps) => (
     ) : (
       <StartButton dispatch={dispatch} />
     )}
+    <ClearButton dispatch={dispatch} />
   </StyledToolBar>
 );
 
