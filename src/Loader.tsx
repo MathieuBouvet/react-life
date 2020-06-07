@@ -29,6 +29,7 @@ const Bar = styled.div<BarProps>`
   animation: ${growAndShrink} 1000ms infinite ease-in-out;
   border-radius: 3px;
   animation-delay: ${props => props.delay + "s"};
+  animation-fill-mode: backwards;
 `;
 
 type LoaderProps = {
