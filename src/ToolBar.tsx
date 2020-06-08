@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { LifeState, LifeAction } from "./lifeState";
 import { StartButton, PauseButton, ClearButton } from "./ui/Buttons";
+import ZoomLevel from "./ui/ZoomLevel";
 
 const StyledToolBar = styled.aside`
   grid-area: toolbar;
@@ -12,11 +13,11 @@ const StyledToolBar = styled.aside`
   background-color: ${props => props.theme.colors.primaryDark};
 `;
 
-type ToolBarProps = Pick<LifeState, "started"> & {
+type ToolBarProps = Pick<LifeState, "started" | "cellSize"> & {
   dispatch: React.Dispatch<LifeAction>;
 };
 
-const ToolBar = ({ started, dispatch }: ToolBarProps) => (
+const ToolBar = ({ started, cellSize, dispatch }: ToolBarProps) => (
   <StyledToolBar>
     {started ? (
       <PauseButton dispatch={dispatch} />
@@ -24,6 +25,7 @@ const ToolBar = ({ started, dispatch }: ToolBarProps) => (
       <StartButton dispatch={dispatch} />
     )}
     <ClearButton dispatch={dispatch} />
+    <ZoomLevel value={cellSize} dispatch={dispatch} />
   </StyledToolBar>
 );
 
