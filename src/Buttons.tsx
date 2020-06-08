@@ -13,7 +13,9 @@ export type SpecializedButtonProps = {
   dispatch: React.Dispatch<LifeAction>;
 };
 
-const StyledButton = styled.button`
+const Button = styled.button.attrs<ButtonProps>(props => ({
+  onClick: () => props.dispatch(props.action),
+}))<ButtonProps>`
   display: block;
   border: none;
   background-color: inherit;
@@ -35,18 +37,14 @@ const StyledButton = styled.button`
     transform: scale(1.075) translateY(3px);
   }
 
-  & * {
+  * {
     display: block;
     margin: auto;
   }
 `;
 
-const Button = ({ action, dispatch, children }: ButtonProps) => (
-  <StyledButton onClick={() => dispatch(action)}>{children}</StyledButton>
-);
-
-const StartButton = ({ dispatch }: SpecializedButtonProps) => (
-  <Button dispatch={dispatch} action={{ type: "START" }}>
+const StartButton = (props: SpecializedButtonProps) => (
+  <Button {...props} action={{ type: "START" }}>
     <>
       <FiPlayCircle size="3em" stroke={theme.colors.dark} />
       start
@@ -54,22 +52,22 @@ const StartButton = ({ dispatch }: SpecializedButtonProps) => (
   </Button>
 );
 
-const PauseButton = ({ dispatch }: SpecializedButtonProps) => (
-  <StyledButton onClick={() => dispatch({ type: "STOP" })}>
+const PauseButton = (props: SpecializedButtonProps) => (
+  <Button {...props} action={{ type: "STOP" }}>
     <>
       <FiPauseCircle size="3em" stroke={theme.colors.dark} />
       pause
     </>
-  </StyledButton>
+  </Button>
 );
 
-const ClearButton = ({ dispatch }: SpecializedButtonProps) => (
-  <StyledButton onClick={() => dispatch({ type: "CLEAR_GRID" })}>
+const ClearButton = (props: SpecializedButtonProps) => (
+  <Button {...props} action={{ type: "CLEAR_GRID" }}>
     <>
       <FiTrash2 size="3em" stroke={theme.colors.dark} />
       tout effacer
     </>
-  </StyledButton>
+  </Button>
 );
 
 export { StartButton, PauseButton, ClearButton };
