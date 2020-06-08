@@ -45,6 +45,11 @@ interface ClearGrid {
   type: "CLEAR_GRID";
 }
 
+interface SetZoomLevel {
+  type: "SET_ZOOM_LEVEL";
+  payload: { zoomLevel: number };
+}
+
 export type LifeAction =
   | Start
   | Stop
@@ -52,7 +57,8 @@ export type LifeAction =
   | ToggleCell
   | SetCellAlive
   | SetGridSpace
-  | ClearGrid;
+  | ClearGrid
+  | SetZoomLevel;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
@@ -115,6 +121,11 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         ...prevState,
         started: false,
         livingCells: new Map<string, true>(),
+      };
+    case "SET_ZOOM_LEVEL":
+      return {
+        ...prevState,
+        cellSize: action.payload.zoomLevel / 100,
       };
     default:
       return prevState;
