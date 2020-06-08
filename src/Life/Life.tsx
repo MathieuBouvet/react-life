@@ -5,7 +5,7 @@ import { CellMemo } from "./Cell";
 import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
 import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
-import Loader from "../Loader";
+import Loader from "../ui/Loader";
 import { theme } from "../theme";
 
 type LifeProps = LifeState & {

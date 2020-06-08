@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import range from "./utils/range";
+import range from "../utils/range";
 
 const growAndShrink = keyframes`
   0%, 80%, 100% {

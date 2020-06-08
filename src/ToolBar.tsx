@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { LifeState, LifeAction } from "./lifeState";
-import { StartButton, PauseButton, ClearButton } from "./Buttons";
+import { StartButton, PauseButton, ClearButton } from "./ui/Buttons";
 
 const StyledToolBar = styled.aside`
   grid-area: toolbar;
