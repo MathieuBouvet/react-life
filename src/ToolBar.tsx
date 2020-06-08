@@ -9,6 +9,7 @@ const StyledToolBar = styled.aside`
   flex-flow: column nowrap;
   align-items: center;
   padding-top: 25px;
+  background-color: ${props => props.theme.colors.primaryDark};
 `;
 
 type ToolBarProps = Pick<LifeState, "started"> & {

@@ -19,6 +19,7 @@ const Button = styled.button.attrs<ButtonProps>(props => ({
   display: block;
   border: none;
   background-color: inherit;
+  color: ${props => props.theme.colors.light};
   padding: 0;
   margin: 0;
   text-decoration: none;
@@ -45,6 +46,7 @@ const Button = styled.button.attrs<ButtonProps>(props => ({
 const StartButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "START" }}>
     <>
+      <FaPlayCircle size="3em" fill={theme.colors.light} />
       start
     </>
   </Button>
@@ -53,6 +55,7 @@ const StartButton = (props: SpecializedButtonProps) => (
 const PauseButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "STOP" }}>
     <>
+      <FaPauseCircle size="3em" fill={theme.colors.light} />
       pause
     </>
   </Button>
@@ -61,6 +64,7 @@ const PauseButton = (props: SpecializedButtonProps) => (
 const ClearButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "CLEAR_GRID" }}>
     <>
+      <FaSkullCrossbones size="3em" fill={theme.colors.light} />
       tout effacer
     </>
   </Button>
