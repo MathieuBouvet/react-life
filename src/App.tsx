@@ -78,7 +78,7 @@ const App = () => {
           }}
           dispatch={dispatchLife}
         />
-        <ToolbarMemo {...{ started }} dispatch={dispatchLife} />
+        <ToolbarMemo {...{ started, cellSize }} dispatch={dispatchLife} />
       </StyledApp>
     </ThemeProvider>
   );
