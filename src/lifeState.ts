@@ -123,9 +123,16 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         livingCells: new Map<string, true>(),
       };
     case "SET_ZOOM_LEVEL":
+      let zoomLevel = action.payload.zoomLevel;
+      if (zoomLevel < 0) {
+        zoomLevel = 5;
+      }
+      if (zoomLevel > 500) {
+        zoomLevel = 500;
+      }
       return {
         ...prevState,
-        cellSize: action.payload.zoomLevel / 100,
+        cellSize: zoomLevel / 100,
       };
     default:
       return prevState;
