@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { LifeAction } from "./lifeState";
-import { FiPlayCircle, FiPauseCircle, FiTrash2 } from "react-icons/fi";
+import { FaPlayCircle, FaPauseCircle, FaSkullCrossbones } from "react-icons/fa";
 import { theme } from "./theme";
 
 type ButtonProps = {
@@ -28,15 +28,15 @@ const Button = styled.button.attrs<ButtonProps>(props => ({
   appearance: none;
   outline: none;
 
-  &:hover > :first-child {
+  &:hover > * {
     transform: scale(1.075);
   }
 
-  &:active > :first-child {
-    transform: scale(1.075) translateY(3px);
+  &:active > * {
+    transform: scale(1.075) translateY(2px);
   }
 
-  * {
+  & > * {
     display: block;
     margin: auto;
   }
@@ -45,7 +45,7 @@ const Button = styled.button.attrs<ButtonProps>(props => ({
 const StartButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "START" }}>
     <>
-      <FiPlayCircle size="3em" stroke={theme.colors.dark} />
+      <FaPlayCircle size="3em" fill={theme.colors.dark} />
       start
     </>
   </Button>
@@ -54,7 +54,7 @@ const StartButton = (props: SpecializedButtonProps) => (
 const PauseButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "STOP" }}>
     <>
-      <FiPauseCircle size="3em" stroke={theme.colors.dark} />
+      <FaPauseCircle size="3em" fill={theme.colors.dark} />
       pause
     </>
   </Button>
@@ -63,7 +63,7 @@ const PauseButton = (props: SpecializedButtonProps) => (
 const ClearButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "CLEAR_GRID" }}>
     <>
-      <FiTrash2 size="3em" stroke={theme.colors.dark} />
+      <FaSkullCrossbones size="3em" fill={theme.colors.dark} />
       tout effacer
     </>
   </Button>
