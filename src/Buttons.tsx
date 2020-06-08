@@ -23,7 +23,6 @@ const Button = styled.button.attrs<ButtonProps>(props => ({
   margin: 0;
   text-decoration: none;
   font-family: inherit;
-  font-size: 1rem;
   cursor: pointer;
   text-align: center;
   appearance: none;
