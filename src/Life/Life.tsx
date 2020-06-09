@@ -63,7 +63,7 @@ const LifeDisplay = ({
       {firstRender ? (
         <div>
           <Loader color={theme.colors.primary} />
-          pré-génération de la grille
+          préparation de la grille
         </div>
       ) : (
         <Grid {...{ gridMaxWidth, gridMaxHeight, cellSize }}>
