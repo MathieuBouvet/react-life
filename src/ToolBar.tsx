@@ -11,6 +11,7 @@ const StyledToolBar = styled.aside`
   align-items: center;
   padding-top: 25px;
   background-color: ${props => props.theme.colors.primaryDark};
+  color: ${props => props.theme.colors.light};
 `;
 
 type ToolBarProps = Pick<LifeState, "started" | "cellSize"> & {
