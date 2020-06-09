@@ -35,14 +35,24 @@ const StyledZoomLevel = styled.div`
   border: 1px solid gray;
   border-radius: 2px;
   height: 30px;
+  background-color: ${props => props.theme.colors.light};
 `;
 
 const ZoomIcon = styled(TiZoomOutline).attrs(props => ({
   size: "1.5em",
 }))`
-  background-color: white;
   color: ${props => props.theme.colors.dark};
+  background-color: inherit;
   height: 100%;
+`;
+
+const PercentIcon = styled(FaPercent).attrs(props => ({
+  size: "0.75em",
+}))`
+  color: ${props => props.theme.colors.dark};
+  background-color: inherit;
+  height: 100%;
+  margin-right: 7px;
 `;
 
 const ZoomLevel = (props: ZoomLevelProps) => (
