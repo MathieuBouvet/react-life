@@ -59,7 +59,16 @@ const LifeDisplay = ({
     return grid;
   }, [firstRender, dispatch]);
   return (
-    <StyledLife ref={gridRef}>
+    <StyledLife
+      ref={gridRef}
+      onWheel={e => {
+        const step = e.deltaY > 0 ? -5 : 5;
+        dispatch({
+          type: "SET_ZOOM_LEVEL",
+          payload: { zoomLevel: Math.round(cellSize * 100) + step },
+        });
+      }}
+    >
       {firstRender ? (
         <div>
           <Loader color={theme.colors.primary} />
