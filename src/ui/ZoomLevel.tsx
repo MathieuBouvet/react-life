@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { LifeAction } from "../lifeState";
 import { TiZoomOutline } from "react-icons/ti";
+import { FaPercent } from "react-icons/fa";
 
 type ZoomLevelProps = {
   value: number;
@@ -48,6 +49,7 @@ const ZoomLevel = (props: ZoomLevelProps) => (
   <StyledZoomLevel>
     <ZoomIcon />
     <ZoomLevelInput {...props} />
+    <PercentIcon />
   </StyledZoomLevel>
 );
 
