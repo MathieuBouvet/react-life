@@ -2,7 +2,7 @@ import { positionToStr } from "./utils/cellPosition";
 import { nextIterationOptimized } from "./utils/gridManagement";
 
 const BASE_CELL_SIZE = 25;
-const GRID_SIZE = 100;
+const GRID_SIZE = 300;
 
 export type CellPosition = [number, number];
 
