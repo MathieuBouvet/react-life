@@ -90,8 +90,6 @@ const LifeDisplay = ({
                 <CellMemo
                   key={`[${line};${column}]`}
                   position={[line, column]}
-                  alive={true}
-                  dispatch={dispatch}
                 />
               );
             })}
