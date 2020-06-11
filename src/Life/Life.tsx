@@ -22,6 +22,7 @@ const StyledLife = styled.main`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background-color: ${props => props.theme.colors.primaryLight};
 `;
 
 const Grid = styled(Stage).attrs<GridProps>(props => ({

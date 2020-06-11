@@ -14,7 +14,7 @@ const VerticalLine = ({ offset }: LineProps) => (
     y={0}
     width={1}
     height={GRID_SIZE * (BASE_CELL_SIZE + 1)}
-    fill={theme.colors.primaryLight}
+    fill={theme.colors.light}
   />
 );
 
@@ -24,7 +24,7 @@ const HorizontalLine = ({ offset }: LineProps) => (
     y={offset}
     width={GRID_SIZE * (BASE_CELL_SIZE + 1)}
     height={1}
-    fill={theme.colors.primaryLight}
+    fill={theme.colors.light}
   />
 );
 
