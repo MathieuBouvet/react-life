@@ -46,10 +46,10 @@ const LifeDisplay = ({
     const grid = !firstRender ? (
       <Layer>
         {range(GRID_SIZE).map(line => (
-          <>
+          <React.Fragment key={`lines-${line}`}>
             <VerticalLine offset={(line + 1) * BASE_CELL_SIZE + line} />
             <HorizontalLine offset={(line + 1) * BASE_CELL_SIZE + line} />
-          </>
+          </React.Fragment>
         ))}
       </Layer>
     ) : null;
