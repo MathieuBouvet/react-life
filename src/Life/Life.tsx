@@ -47,8 +47,8 @@ const LifeDisplay = ({
       <Layer>
         {range(GRID_SIZE).map(line => (
           <>
-            <VerticalLine offset={line * BASE_CELL_SIZE} />
-            <HorizontalLine offset={line * BASE_CELL_SIZE} />
+            <VerticalLine offset={(line + 1) * BASE_CELL_SIZE + line} />
+            <HorizontalLine offset={(line + 1) * BASE_CELL_SIZE + line} />
           </>
         ))}
       </Layer>
