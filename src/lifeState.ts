@@ -28,11 +28,6 @@ interface Stop {
 
 interface ToggleCell {
   type: "TOGGLE_CELL";
-  payload: { position: CellPosition };
-}
-
-interface SetCellAlive {
-  type: "SET_CELL_ALIVE";
   payload: { coordinates: [number, number] };
 }
 
@@ -55,7 +50,6 @@ export type LifeAction =
   | Stop
   | Iterate
   | ToggleCell
-  | SetCellAlive
   | SetGridSpace
   | ClearGrid
   | SetZoomLevel;
@@ -97,13 +91,6 @@ function cellPositionFromPxCoordinates(
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "TOGGLE_CELL":
-      const toggledLivingCells = updatedCells(
-        prevState.livingCells,
-        action.payload.position,
-        positionKey => !prevState.livingCells.has(positionKey)
-      );
-      return { ...prevState, livingCells: toggledLivingCells };
-    case "SET_CELL_ALIVE":
       const setAliveCells = updatedCells(
         prevState.livingCells,
         cellPositionFromPxCoordinates(
