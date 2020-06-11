@@ -87,10 +87,10 @@ function updatedCells(
 
 function cellPositionFromPxCoordinates(
   [x, y]: [number, number],
-  currentCellSize: number
+  scaleRatio: number
 ): CellPosition {
-  const column = Math.floor(x / (currentCellSize + 1));
-  const line = Math.floor(y / (currentCellSize + 1));
+  const column = Math.floor(x / ((BASE_CELL_SIZE + 1) * scaleRatio));
+  const line = Math.floor(y / ((BASE_CELL_SIZE + 1) * scaleRatio));
   return [line, column];
 }
 
@@ -108,9 +108,9 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         prevState.livingCells,
         cellPositionFromPxCoordinates(
           action.payload.coordinates,
-          BASE_CELL_SIZE * prevState.cellSize
+          prevState.cellSize
         ),
-        () => true
+        positionKey => !prevState.livingCells.has(positionKey)
       );
       return { ...prevState, livingCells: setAliveCells };
     case "ITERATE":
