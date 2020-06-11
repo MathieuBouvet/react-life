@@ -1,12 +1,13 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { GRID_SIZE, LifeState, LifeAction } from "../lifeState";
+import { GRID_SIZE, BASE_CELL_SIZE, LifeState, LifeAction } from "../lifeState";
 import { CellMemo } from "./Cell";
 import { positionFrom } from "../utils/cellPosition";
 import range from "../utils/range";
 import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
 import Loader from "../ui/Loader";
 import { theme } from "../theme";
+import { VerticalLine, HorizontalLine } from "./Line";
 
 type LifeProps = LifeState & {
   dispatch: React.Dispatch<LifeAction>;
@@ -44,20 +45,16 @@ const LifeDisplay = ({
   const theGrid = useMemo(() => {
     const grid = !firstRender ? (
       <Layer>
-        {range(GRID_SIZE).map(line =>
-          range(GRID_SIZE).map(column => (
-            <CellMemo
-              key={`t[${line};${column}]`}
-              position={[line, column]}
-              alive={false}
-              dispatch={dispatch}
-            />
-          ))
-        )}
+        {range(GRID_SIZE).map(line => (
+          <>
+            <VerticalLine offset={line * BASE_CELL_SIZE} />
+            <HorizontalLine offset={line * BASE_CELL_SIZE} />
+          </>
+        ))}
       </Layer>
     ) : null;
     return grid;
-  }, [firstRender, dispatch]);
+  }, [firstRender]);
   return (
     <StyledLife
       ref={gridRef}
