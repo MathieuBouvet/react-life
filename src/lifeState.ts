@@ -33,7 +33,7 @@ interface ToggleCell {
 
 interface SetCellAlive {
   type: "SET_CELL_ALIVE";
-  payload: { position: CellPosition };
+  payload: { coordinates: [number, number] };
 }
 
 interface SetGridSpace {
@@ -85,6 +85,15 @@ function updatedCells(
   return cellsCopy;
 }
 
+function cellPositionFromPxCoordinates(
+  [x, y]: [number, number],
+  currentCellSize: number
+): CellPosition {
+  const column = Math.floor(x / (currentCellSize + 1));
+  const line = Math.floor(y / (currentCellSize + 1));
+  return [line, column];
+}
+
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "TOGGLE_CELL":
@@ -97,7 +106,10 @@ const lifeReducer: LifeReducer = (prevState, action) => {
     case "SET_CELL_ALIVE":
       const setAliveCells = updatedCells(
         prevState.livingCells,
-        action.payload.position,
+        cellPositionFromPxCoordinates(
+          action.payload.coordinates,
+          BASE_CELL_SIZE * prevState.cellSize
+        ),
         () => true
       );
       return { ...prevState, livingCells: setAliveCells };
