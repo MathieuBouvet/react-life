@@ -68,7 +68,7 @@ const LifeDisplay = ({
       onClick={e => {
         const offset = e.currentTarget.getClientRects()[0];
         dispatch({
-          type: "SET_CELL_ALIVE",
+          type: "TOGGLE_CELL",
           payload: {
             coordinates: [e.clientX - offset.left, e.clientY - offset.top],
           },
