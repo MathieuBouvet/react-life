@@ -65,6 +65,15 @@ const LifeDisplay = ({
           payload: { zoomLevel: Math.round(cellSize * 100) + step },
         });
       }}
+      onClick={e => {
+        const offset = e.currentTarget.getClientRects()[0];
+        dispatch({
+          type: "SET_CELL_ALIVE",
+          payload: {
+            coordinates: [e.clientX - offset.left, e.clientY - offset.top],
+          },
+        });
+      }}
     >
       {firstRender ? (
         <div>
