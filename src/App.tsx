@@ -35,7 +35,7 @@ const App = () => {
   const [lifeState, dispatchLife] = useReducer(lifeReducer, initialLife);
   const gridRef = useRef<HTMLDivElement>(null);
   const {
-    cellSize,
+    scale,
     gridMaxWidth,
     gridMaxHeight,
     started,
@@ -69,7 +69,7 @@ const App = () => {
         <Header>React Life</Header>
         <Life
           {...{
-            cellSize,
+            scale,
             started,
             gridMaxWidth,
             gridMaxHeight,
@@ -78,7 +78,7 @@ const App = () => {
           }}
           dispatch={dispatchLife}
         />
-        <ToolbarMemo {...{ started, cellSize }} dispatch={dispatchLife} />
+        <ToolbarMemo {...{ started, scale }} dispatch={dispatchLife} />
       </StyledApp>
     </ThemeProvider>
   );

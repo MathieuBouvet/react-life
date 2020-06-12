@@ -8,7 +8,7 @@ export type CellPosition = [number, number];
 
 export interface LifeState {
   started: boolean;
-  cellSize: number;
+  scale: number;
   gridMaxWidth: number;
   gridMaxHeight: number;
   livingCells: Map<string, true>;
@@ -58,7 +58,7 @@ type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
 const initialLife: LifeState = {
   started: false,
-  cellSize: 1,
+  scale: 1,
   gridMaxHeight: -1,
   gridMaxWidth: -1,
   livingCells: new Map([]),
@@ -95,7 +95,7 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         prevState.livingCells,
         cellPositionFromPxCoordinates(
           action.payload.coordinates,
-          prevState.cellSize
+          prevState.scale
         ),
         positionKey => !prevState.livingCells.has(positionKey)
       );
@@ -131,7 +131,7 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       }
       return {
         ...prevState,
-        cellSize: zoomLevel / 100,
+        scale: zoomLevel / 100,
       };
     default:
       return prevState;

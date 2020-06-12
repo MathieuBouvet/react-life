@@ -14,7 +14,7 @@ type LifeProps = LifeState & {
   gridRef: React.Ref<HTMLDivElement>;
 };
 
-type GridProps = Pick<LifeProps, "gridMaxWidth" | "gridMaxHeight" | "cellSize">;
+type GridProps = Pick<LifeProps, "gridMaxWidth" | "gridMaxHeight" | "scale">;
 
 const StyledLife = styled.main`
   grid-area: life;
@@ -28,8 +28,8 @@ const StyledLife = styled.main`
 const Grid = styled(Stage).attrs<GridProps>(props => ({
   width: props.gridMaxWidth,
   height: props.gridMaxHeight,
-  scaleX: props.cellSize,
-  scaleY: props.cellSize,
+  scaleX: props.scale,
+  scaleY: props.scale,
 }))`
   cursor: pointer;
 `;
@@ -37,7 +37,7 @@ const Grid = styled(Stage).attrs<GridProps>(props => ({
 const LifeDisplay = ({
   gridMaxWidth,
   gridMaxHeight,
-  cellSize,
+  scale,
   livingCells,
   dispatch,
   gridRef,
@@ -63,7 +63,7 @@ const LifeDisplay = ({
         const step = e.deltaY > 0 ? -5 : 5;
         dispatch({
           type: "SET_ZOOM_LEVEL",
-          payload: { zoomLevel: Math.round(cellSize * 100) + step },
+          payload: { zoomLevel: Math.round(scale * 100) + step },
         });
       }}
       onClick={e => {
@@ -82,7 +82,7 @@ const LifeDisplay = ({
           préparation de la grille
         </div>
       ) : (
-        <Grid {...{ gridMaxWidth, gridMaxHeight, cellSize }}>
+        <Grid {...{ gridMaxWidth, gridMaxHeight, scale }}>
           {theGrid}
           <Layer>
             {Array.from(livingCells, ([key, _]) => {

@@ -14,11 +14,11 @@ const StyledToolBar = styled.aside`
   color: ${props => props.theme.colors.light};
 `;
 
-type ToolBarProps = Pick<LifeState, "started" | "cellSize"> & {
+type ToolBarProps = Pick<LifeState, "started" | "scale"> & {
   dispatch: React.Dispatch<LifeAction>;
 };
 
-const ToolBar = ({ started, cellSize, dispatch }: ToolBarProps) => (
+const ToolBar = ({ started, scale, dispatch }: ToolBarProps) => (
   <StyledToolBar>
     {started ? (
       <PauseButton dispatch={dispatch} />
@@ -26,7 +26,7 @@ const ToolBar = ({ started, cellSize, dispatch }: ToolBarProps) => (
       <StartButton dispatch={dispatch} />
     )}
     <ClearButton dispatch={dispatch} />
-    <ZoomLevel value={cellSize} dispatch={dispatch} />
+    <ZoomLevel value={scale} dispatch={dispatch} />
   </StyledToolBar>
 );
 
