@@ -29,12 +29,12 @@ const StyledLife = styled.main`
 `;
 
 const Grid = styled(Stage).attrs<GridProps>(props => ({
-  width: props.gridMaxWidth,
-  height: props.gridMaxHeight,
-  scaleX: props.scale,
-  scaleY: props.scale,
-  x: props.gridOffsetX,
-  y: props.gridOffsetY,
+  width: props.$gridMaxWidth,
+  height: props.$gridMaxHeight,
+  scaleX: props.$scale,
+  scaleY: props.$scale,
+  x: props.$gridOffsetX,
+  y: props.$gridOffsetY,
 }))`
   cursor: pointer;
 `;
@@ -90,7 +90,13 @@ const LifeDisplay = ({
         </div>
       ) : (
         <Grid
-          {...{ gridMaxWidth, gridMaxHeight, scale, gridOffsetX, gridOffsetY }}
+          {...{
+            $gridMaxWidth: gridMaxWidth,
+            $gridMaxHeight: gridMaxHeight,
+            $scale: scale,
+            $gridOffsetX: gridOffsetX,
+            $gridOffsetY: gridOffsetY,
+          }}
         >
           {theGrid}
           <Layer>
