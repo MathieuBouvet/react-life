@@ -12,6 +12,8 @@ export interface LifeState {
   gridMaxWidth: number;
   gridMaxHeight: number;
   livingCells: Map<string, true>;
+  gridOffsetX: number;
+  gridOffsetY: number;
 }
 
 interface Iterate {
@@ -62,6 +64,8 @@ const initialLife: LifeState = {
   gridMaxHeight: -1,
   gridMaxWidth: -1,
   livingCells: new Map([]),
+  gridOffsetX: -GRID_SIZE / 2,
+  gridOffsetY: -GRID_SIZE / 2,
 };
 
 function updatedCells(
@@ -81,10 +85,14 @@ function updatedCells(
 
 function cellPositionFromPxCoordinates(
   [x, y]: [number, number],
-  scaleRatio: number
+  scaleRatio: number,
+  offsetX: number,
+  offsetY: number
 ): CellPosition {
-  const column = Math.floor(x / ((BASE_CELL_SIZE + 1) * scaleRatio));
-  const line = Math.floor(y / ((BASE_CELL_SIZE + 1) * scaleRatio));
+  const column = Math.floor(
+    (x - offsetY) / ((BASE_CELL_SIZE + 1) * scaleRatio)
+  );
+  const line = Math.floor((y - offsetX) / ((BASE_CELL_SIZE + 1) * scaleRatio));
   return [line, column];
 }
 
@@ -95,7 +103,9 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         prevState.livingCells,
         cellPositionFromPxCoordinates(
           action.payload.coordinates,
-          prevState.scale
+          prevState.scale,
+          prevState.gridOffsetX,
+          prevState.gridOffsetY
         ),
         positionKey => !prevState.livingCells.has(positionKey)
       );

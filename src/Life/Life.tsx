@@ -14,7 +14,10 @@ type LifeProps = LifeState & {
   gridRef: React.Ref<HTMLDivElement>;
 };
 
-type GridProps = Pick<LifeProps, "gridMaxWidth" | "gridMaxHeight" | "scale">;
+type GridProps = Pick<
+  LifeProps,
+  "gridMaxWidth" | "gridMaxHeight" | "scale" | "gridOffsetX" | "gridOffsetY"
+>;
 
 const StyledLife = styled.main`
   grid-area: life;
@@ -30,6 +33,8 @@ const Grid = styled(Stage).attrs<GridProps>(props => ({
   height: props.gridMaxHeight,
   scaleX: props.scale,
   scaleY: props.scale,
+  x: props.gridOffsetX,
+  y: props.gridOffsetY,
 }))`
   cursor: pointer;
 `;
@@ -37,6 +42,8 @@ const Grid = styled(Stage).attrs<GridProps>(props => ({
 const LifeDisplay = ({
   gridMaxWidth,
   gridMaxHeight,
+  gridOffsetX,
+  gridOffsetY,
   scale,
   livingCells,
   dispatch,
@@ -82,7 +89,9 @@ const LifeDisplay = ({
           préparation de la grille
         </div>
       ) : (
-        <Grid {...{ gridMaxWidth, gridMaxHeight, scale }}>
+        <Grid
+          {...{ gridMaxWidth, gridMaxHeight, scale, gridOffsetX, gridOffsetY }}
+        >
           {theGrid}
           <Layer>
             {Array.from(livingCells, ([key, _]) => {
