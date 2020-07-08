@@ -73,7 +73,7 @@ const LifeDisplay = ({
           payload: { zoomLevel: Math.round(scale * 100) + step },
         });
       }}
-      onClick={e => {
+      onMouseDown={e => {
         const offset = e.currentTarget.getClientRects()[0];
         dispatch({
           type: "TOGGLE_CELL",
@@ -81,6 +81,17 @@ const LifeDisplay = ({
             coordinates: [e.clientX - offset.left, e.clientY - offset.top],
           },
         });
+      }}
+      onMouseMove={e => {
+        if (e.buttons === 1) {
+          const offset = e.currentTarget.getClientRects()[0];
+          dispatch({
+            type: "SET_ALIVE",
+            payload: {
+              coordinates: [e.clientX - offset.left, e.clientY - offset.top],
+            },
+          });
+        }
       }}
     >
       {firstRender ? (
