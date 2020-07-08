@@ -33,6 +33,11 @@ interface ToggleCell {
   payload: { coordinates: [number, number] };
 }
 
+interface SetAlive {
+  type: "SET_ALIVE";
+  payload: { coordinates: [number, number] };
+}
+
 interface SetGridSpace {
   type: "SET_GRID_SPACE";
   payload: { maxWidth: number; maxHeight: number };
@@ -52,6 +57,7 @@ export type LifeAction =
   | Stop
   | Iterate
   | ToggleCell
+  | SetAlive
   | SetGridSpace
   | ClearGrid
   | SetZoomLevel;
@@ -98,7 +104,7 @@ function cellPositionFromPxCoordinates(
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "TOGGLE_CELL":
-      const setAliveCells = updatedCells(
+      const aliveCellsFromToggle = updatedCells(
         prevState.livingCells,
         cellPositionFromPxCoordinates(
           action.payload.coordinates,
@@ -107,6 +113,18 @@ const lifeReducer: LifeReducer = (prevState, action) => {
           prevState.cellOffsetY
         ),
         positionKey => !prevState.livingCells.has(positionKey)
+      );
+      return { ...prevState, livingCells: aliveCellsFromToggle };
+    case "SET_ALIVE":
+      const setAliveCells = updatedCells(
+        prevState.livingCells,
+        cellPositionFromPxCoordinates(
+          action.payload.coordinates,
+          prevState.scale,
+          prevState.cellOffsetX,
+          prevState.cellOffsetY
+        ),
+        () => true
       );
       return { ...prevState, livingCells: setAliveCells };
     case "ITERATE":
