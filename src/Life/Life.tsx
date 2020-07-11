@@ -66,7 +66,7 @@ const LifeDisplay = ({
           });
         }
       },
-      35
+      10
     ),
     [dispatch]
   );
