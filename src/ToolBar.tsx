@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { LifeState, LifeAction } from "./lifeState";
 import { StartButton, PauseButton, ClearButton } from "./ui/Buttons";
 import ZoomLevel from "./ui/ZoomLevel";
+import DirectionPad from "./ui/DirectionPad";
 
 const StyledToolBar = styled.aside`
   grid-area: toolbar;
@@ -10,6 +11,7 @@ const StyledToolBar = styled.aside`
   flex-flow: column nowrap;
   align-items: center;
   padding-top: 25px;
+  padding-bottom: 25px;
   background-color: ${props => props.theme.colors.primaryDark};
   color: ${props => props.theme.colors.light};
 `;
@@ -27,6 +29,7 @@ const ToolBar = ({ started, scale, dispatch }: ToolBarProps) => (
     )}
     <ClearButton dispatch={dispatch} />
     <ZoomLevel value={scale} dispatch={dispatch} />
+    <DirectionPad dispatch={dispatch} />
   </StyledToolBar>
 );
 
