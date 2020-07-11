@@ -52,6 +52,13 @@ interface SetZoomLevel {
   payload: { zoomLevel: number };
 }
 
+interface MoveCells {
+  type: "MOVE_CELLS";
+  payload: {
+    direction: "UP" | "DOWN" | "LEFT" | "RIGHT";
+  };
+}
+
 export type LifeAction =
   | Start
   | Stop
@@ -60,7 +67,8 @@ export type LifeAction =
   | SetAlive
   | SetGridSpace
   | ClearGrid
-  | SetZoomLevel;
+  | SetZoomLevel
+  | MoveCells;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
