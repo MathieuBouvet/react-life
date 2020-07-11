@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { GRID_SIZE, BASE_CELL_SIZE, LifeState, LifeAction } from "../lifeState";
 import { CellMemo } from "./Cell";
@@ -8,6 +8,7 @@ import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
 import Loader from "../ui/Loader";
 import { theme } from "../theme";
 import { VerticalLine, HorizontalLine } from "./Line";
+import { throttle } from "lodash";
 
 type LifeProps = LifeState & {
   dispatch: React.Dispatch<LifeAction>;
@@ -47,6 +48,40 @@ const LifeDisplay = ({
   dispatch,
   gridRef,
 }: LifeProps) => {
+  const handleMouseMoveThrottled = useCallback(
+    throttle(
+      (
+        buttons: number,
+        clientRects: DOMRectList,
+        clientX: number,
+        clientY: number
+      ): void => {
+        if (buttons === 1) {
+          const offset = clientRects[0];
+          dispatch({
+            type: "SET_ALIVE",
+            payload: {
+              coordinates: [clientX - offset.left, clientY - offset.top],
+            },
+          });
+        }
+      },
+      35
+    ),
+    [dispatch]
+  );
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
+      handleMouseMoveThrottled(
+        e.buttons,
+        e.currentTarget.getClientRects(),
+        e.clientX,
+        e.clientY
+      );
+    },
+    [handleMouseMoveThrottled]
+  );
+
   const firstRender = gridMaxHeight === -1 || gridMaxWidth === -1;
   const theGrid = useMemo(() => {
     const grid = !firstRender ? (
@@ -80,17 +115,7 @@ const LifeDisplay = ({
           },
         });
       }}
-      onMouseMove={e => {
-        if (e.buttons === 1) {
-          const offset = e.currentTarget.getClientRects()[0];
-          dispatch({
-            type: "SET_ALIVE",
-            payload: {
-              coordinates: [e.clientX - offset.left, e.clientY - offset.top],
-            },
-          });
-        }
-      }}
+      onMouseMove={handleMouseMove}
     >
       {firstRender ? (
         <div>
