@@ -110,6 +110,19 @@ function cellPositionFromPxCoordinates(
   return [line, column];
 }
 
+function getCellMovement(direction: MoveDirection): [number, number] {
+  switch (direction) {
+    case "UP":
+      return [0, 1];
+    case "DOWN":
+      return [0, -1];
+    case "RIGHT":
+      return [-1, 0];
+    case "LEFT":
+      return [1, 0];
+  }
+}
+
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "TOGGLE_CELL":
@@ -168,6 +181,13 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       return {
         ...prevState,
         scale: zoomLevel / 100,
+      };
+    case "MOVE_CELLS":
+      const movement = getCellMovement(action.payload.direction);
+      return {
+        ...prevState,
+        cellOffsetX: prevState.cellOffsetX + movement[0],
+        cellOffsetY: prevState.cellOffsetY + movement[1],
       };
     default:
       return prevState;
