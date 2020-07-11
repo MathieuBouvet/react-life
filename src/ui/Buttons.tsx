@@ -1,7 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { LifeAction } from "../lifeState";
-import { FaPlayCircle, FaPauseCircle, FaSkullCrossbones } from "react-icons/fa";
+import {
+  FaPlayCircle,
+  FaPauseCircle,
+  FaSkullCrossbones,
+  FaArrowAltCircleUp,
+  FaArrowAltCircleDown,
+  FaArrowAltCircleRight,
+  FaArrowAltCircleLeft,
+} from "react-icons/fa";
+import { IconType } from "react-icons";
 import { theme } from "../theme";
 
 type ButtonProps = {
@@ -12,6 +21,25 @@ type ButtonProps = {
 export type SpecializedButtonProps = {
   dispatch: React.Dispatch<LifeAction>;
 };
+
+type Direction = "UP" | "DOWN" | "LEFT" | "RIGHT";
+
+type ArrowButtonProps = SpecializedButtonProps & {
+  direction: Direction;
+};
+
+function getArrowIcon(direction: Direction): IconType {
+  switch (direction) {
+    case "UP":
+      return FaArrowAltCircleUp;
+    case "DOWN":
+      return FaArrowAltCircleDown;
+    case "LEFT":
+      return FaArrowAltCircleLeft;
+    case "RIGHT":
+      return FaArrowAltCircleRight;
+  }
+}
 
 const Button = styled.button.attrs<ButtonProps>(props => ({
   onClick: () => props.dispatch(props.action),
@@ -70,4 +98,13 @@ const ClearButton = (props: SpecializedButtonProps) => (
   </Button>
 );
 
-export { StartButton, PauseButton, ClearButton };
+const ArrowButton = ({ direction, ...props }: ArrowButtonProps) => {
+  const ArrowIcon = getArrowIcon(direction);
+  return (
+    <Button {...props} action={{ type: "MOVE_CELLS", payload: { direction } }}>
+      <ArrowIcon size="3em" fill={theme.colors.light} />
+    </Button>
+  );
+};
+
+export { StartButton, PauseButton, ClearButton, ArrowButton };
