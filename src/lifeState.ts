@@ -5,6 +5,7 @@ const BASE_CELL_SIZE = 25;
 const GRID_SIZE = 500;
 
 export type CellPosition = [number, number];
+type MoveDirection = "UP" | "DOWN" | "LEFT" | "RIGHT";
 
 export interface LifeState {
   started: boolean;
@@ -55,7 +56,7 @@ interface SetZoomLevel {
 interface MoveCells {
   type: "MOVE_CELLS";
   payload: {
-    direction: "UP" | "DOWN" | "LEFT" | "RIGHT";
+    direction: MoveDirection;
   };
 }
 
