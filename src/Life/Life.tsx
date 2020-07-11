@@ -33,8 +33,6 @@ const Grid = styled(Stage).attrs<GridProps>(props => ({
   height: props.$gridMaxHeight,
   scaleX: props.$scale,
   scaleY: props.$scale,
-  x: props.$cellOffsetX * (BASE_CELL_SIZE + 1) * props.$scale,
-  y: props.$cellOffsetY * (BASE_CELL_SIZE + 1) * props.$scale,
 }))`
   cursor: pointer;
 `;
@@ -110,7 +108,10 @@ const LifeDisplay = ({
           }}
         >
           {theGrid}
-          <Layer>
+          <Layer
+            x={cellOffsetX * (BASE_CELL_SIZE + 1)}
+            y={cellOffsetY * (BASE_CELL_SIZE + 1)}
+          >
             {Array.from(livingCells, ([key, _]) => {
               const [line, column] = positionFrom(key);
               return (
