@@ -70,8 +70,8 @@ const initialLife: LifeState = {
   gridMaxHeight: -1,
   gridMaxWidth: -1,
   livingCells: new Map([]),
-  cellOffsetX: -GRID_SIZE / 2,
-  cellOffsetY: -GRID_SIZE / 2,
+  cellOffsetX: 0,
+  cellOffsetY: 0,
 };
 
 function updatedCells(
