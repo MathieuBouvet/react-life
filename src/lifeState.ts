@@ -96,8 +96,8 @@ function cellPositionFromPxCoordinates(
   offsetY: number
 ): CellPosition {
   const cellSize = (BASE_CELL_SIZE + 1) * scaleRatio;
-  const column = Math.floor((x - offsetY * cellSize) / cellSize);
-  const line = Math.floor((y - offsetX * cellSize) / cellSize);
+  const column = Math.floor((x - offsetX * cellSize) / cellSize);
+  const line = Math.floor((y - offsetY * cellSize) / cellSize);
   return [line, column];
 }
 
