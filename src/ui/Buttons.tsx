@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { LifeAction } from "../lifeState";
+import { LifeAction, MoveDirection as Direction } from "../lifeState";
 import {
   FaPlayCircle,
   FaPauseCircle,
@@ -22,8 +22,6 @@ type ButtonProps = {
 export type SpecializedButtonProps = {
   dispatch: React.Dispatch<LifeAction>;
 };
-
-type Direction = "UP" | "DOWN" | "LEFT" | "RIGHT";
 
 type ArrowButtonProps = SpecializedButtonProps & {
   direction: Direction;
