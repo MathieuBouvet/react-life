@@ -15,6 +15,7 @@ import { theme } from "../theme";
 
 type ButtonProps = {
   action: LifeAction;
+  repeatableAction?: boolean;
   children: JSX.Element;
 } & SpecializedButtonProps;
 
@@ -41,9 +42,22 @@ function getArrowIcon(direction: Direction): IconType {
   }
 }
 
-const Button = styled.button.attrs<ButtonProps>(props => ({
-  onClick: () => props.dispatch(props.action),
-}))<ButtonProps>`
+const Button = styled.button.attrs<ButtonProps>(
+  ({ repeatableAction = false, ...props }) => {
+    if (!repeatableAction) {
+      return { onClick: () => props.dispatch(props.action) };
+    }
+    let repeat: number;
+    return {
+      onMouseDown: () => {
+        props.dispatch(props.action);
+        repeat = setInterval(() => props.dispatch(props.action), 100);
+      },
+      onMouseUp: () => clearInterval(repeat),
+      onMouseLeave: () => clearInterval(repeat),
+    };
+  }
+)<ButtonProps>`
   display: block;
   border: none;
   background-color: inherit;
@@ -101,7 +115,11 @@ const ClearButton = (props: SpecializedButtonProps) => (
 const ArrowButton = ({ direction, ...props }: ArrowButtonProps) => {
   const ArrowIcon = getArrowIcon(direction);
   return (
-    <Button {...props} action={{ type: "MOVE_CELLS", payload: { direction } }}>
+    <Button
+      {...props}
+      action={{ type: "MOVE_CELLS", payload: { direction } }}
+      repeatableAction={true}
+    >
       <ArrowIcon size="3em" fill={theme.colors.light} />
     </Button>
   );
