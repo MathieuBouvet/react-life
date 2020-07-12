@@ -2,8 +2,18 @@ import React, { useReducer, useRef, useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Life from "./Life";
 import { theme, GlobalStyle } from "./theme";
-import { lifeReducer, initialLife } from "./lifeState";
+import { lifeReducer, initialLife, MoveDirection } from "./lifeState";
 import ToolBar from "./ToolBar";
+
+function getArrowDirection(key: string): MoveDirection {
+  const mappings: { [key: string]: MoveDirection } = {
+    ArrowUp: "UP",
+    ArrowLeft: "LEFT",
+    ArrowDown: "DOWN",
+    ArrowRight: "RIGHT",
+  };
+  return mappings[key];
+}
 
 const StyledApp = styled.section`
   display: grid;
@@ -64,6 +74,22 @@ const App = () => {
       });
     }
   }, []);
+  useEffect(() => {
+    function handleArrowKeys(e: KeyboardEvent): void {
+      console.log("moved");
+      const direction = getArrowDirection(e.code);
+      if (direction) {
+        dispatchLife({
+          type: "MOVE_CELLS",
+          payload: {
+            direction,
+          },
+        });
+      }
+    }
+    document.addEventListener("keydown", handleArrowKeys);
+    return () => document.removeEventListener("keydown", handleArrowKeys);
+  });
   return (
     <ThemeProvider theme={theme}>
       <StyledApp>
