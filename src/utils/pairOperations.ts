@@ -1,4 +1,4 @@
-type Pair<T> = [T, T];
+export type Pair<T> = [T, T];
 
 function pairOperation<T>(
   operation: (x: T, y: T) => T
