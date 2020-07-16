@@ -1,5 +1,6 @@
 import { positionToStr } from "./utils/cellPosition";
 import { nextIterationOptimized } from "./utils/gridManagement";
+import { Pair, addPair } from "./utils/pairOperations";
 
 const BASE_CELL_SIZE = 25;
 const GRID_SIZE = 500;
@@ -13,8 +14,7 @@ export interface LifeState {
   gridMaxWidth: number;
   gridMaxHeight: number;
   livingCells: Map<string, true>;
-  cellOffsetX: number;
-  cellOffsetY: number;
+  gridOffset: Pair<number>;
 }
 
 interface Iterate {
@@ -79,8 +79,7 @@ const initialLife: LifeState = {
   gridMaxHeight: -1,
   gridMaxWidth: -1,
   livingCells: new Map([]),
-  cellOffsetX: 0,
-  cellOffsetY: 0,
+  gridOffset: [0, 0],
 };
 
 function updatedCells(
@@ -99,10 +98,9 @@ function updatedCells(
 }
 
 function cellPositionFromPxCoordinates(
-  [x, y]: [number, number],
+  [x, y]: Pair<number>,
   scaleRatio: number,
-  offsetX: number,
-  offsetY: number
+  [offsetX, offsetY]: Pair<number>
 ): CellPosition {
   const cellSize = (BASE_CELL_SIZE + 1) * scaleRatio;
   const column = Math.floor((x - offsetX * cellSize) / cellSize);
@@ -131,8 +129,7 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         cellPositionFromPxCoordinates(
           action.payload.coordinates,
           prevState.scale,
-          prevState.cellOffsetX,
-          prevState.cellOffsetY
+          prevState.gridOffset
         ),
         positionKey => !prevState.livingCells.has(positionKey)
       );
@@ -143,8 +140,7 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         cellPositionFromPxCoordinates(
           action.payload.coordinates,
           prevState.scale,
-          prevState.cellOffsetX,
-          prevState.cellOffsetY
+          prevState.gridOffset
         ),
         () => true
       );
@@ -186,8 +182,7 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       const movement = getCellMovement(action.payload.direction);
       return {
         ...prevState,
-        cellOffsetX: prevState.cellOffsetX + movement[0],
-        cellOffsetY: prevState.cellOffsetY + movement[1],
+        gridOffset: addPair(prevState.gridOffset, movement),
       };
     default:
       return prevState;

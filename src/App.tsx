@@ -48,8 +48,7 @@ const App = () => {
     scale,
     gridMaxWidth,
     gridMaxHeight,
-    cellOffsetX,
-    cellOffsetY,
+    gridOffset,
     started,
     livingCells,
   } = lifeState;
@@ -101,8 +100,7 @@ const App = () => {
             started,
             gridMaxWidth,
             gridMaxHeight,
-            cellOffsetX,
-            cellOffsetY,
+            gridOffset,
             gridRef,
             livingCells,
           }}

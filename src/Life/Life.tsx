@@ -17,7 +17,7 @@ type LifeProps = LifeState & {
 
 type GridProps = Pick<
   LifeProps,
-  "gridMaxWidth" | "gridMaxHeight" | "scale" | "cellOffsetX" | "cellOffsetY"
+  "gridMaxWidth" | "gridMaxHeight" | "scale" | "gridOffset"
 >;
 
 const StyledLife = styled.main`
@@ -41,8 +41,7 @@ const Grid = styled(Stage).attrs<GridProps>(props => ({
 const LifeDisplay = ({
   gridMaxWidth,
   gridMaxHeight,
-  cellOffsetX,
-  cellOffsetY,
+  gridOffset,
   scale,
   livingCells,
   dispatch,
@@ -128,14 +127,13 @@ const LifeDisplay = ({
             $gridMaxWidth: gridMaxWidth,
             $gridMaxHeight: gridMaxHeight,
             $scale: scale,
-            $cellOffsetX: cellOffsetX,
-            $cellOffsetY: cellOffsetY,
+            $gridOffset: gridOffset,
           }}
         >
           {theGrid}
           <Layer
-            x={cellOffsetX * (BASE_CELL_SIZE + 1)}
-            y={cellOffsetY * (BASE_CELL_SIZE + 1)}
+            x={gridOffset[0] * (BASE_CELL_SIZE + 1)}
+            y={gridOffset[1] * (BASE_CELL_SIZE + 1)}
           >
             {Array.from(livingCells, ([key, _]) => {
               const [line, column] = positionFrom(key);
