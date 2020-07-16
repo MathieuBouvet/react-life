@@ -1,8 +1,8 @@
-import { CellPosition } from "../lifeState";
+import { Pair } from "../utils/pairOperations";
 import range from "./range";
 import { positionToStr, positionFrom } from "./cellPosition";
 
-function getNeighborsIndexes(cell: CellPosition): CellPosition[] {
+function getNeighborsIndexes(cell: Pair<number>): Pair<number>[] {
   return [
     [cell[0] - 1, cell[1] - 1],
     [cell[0] - 1, cell[1]],
@@ -17,7 +17,7 @@ function getNeighborsIndexes(cell: CellPosition): CellPosition[] {
 
 function getLivingNeighborsNumber(
   living: Map<string, true>,
-  adjacentCells: CellPosition[]
+  adjacentCells: Pair<number>[]
 ): number {
   return adjacentCells.reduce((livingNumber, item) => {
     const adjacentInGrid = living.get(positionToStr(item));
@@ -36,7 +36,7 @@ function nextIteration(
   const newLiveCells = new Map<string, true>();
   for (const line of range(gridHeight)) {
     for (const column of range(gridWidth)) {
-      const currentCell: CellPosition = [line, column];
+      const currentCell: Pair<number> = [line, column];
       const livingNumber = getLivingNeighborsNumber(
         liveCells,
         getNeighborsIndexes(currentCell)

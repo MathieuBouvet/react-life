@@ -5,7 +5,6 @@ import { Pair, addPair } from "./utils/pairOperations";
 const BASE_CELL_SIZE = 25;
 const GRID_SIZE = 500;
 
-export type CellPosition = [number, number];
 export type MoveDirection = "UP" | "DOWN" | "LEFT" | "RIGHT";
 
 export interface LifeState {
@@ -84,7 +83,7 @@ const initialLife: LifeState = {
 
 function updatedCells(
   cells: Map<string, true>,
-  at: CellPosition,
+  at: Pair<number>,
   actionControlFunc: (key: string) => boolean
 ): Map<string, true> {
   const cellsCopy = new Map(cells);
@@ -101,7 +100,7 @@ function cellPositionFromPxCoordinates(
   [x, y]: Pair<number>,
   scaleRatio: number,
   [offsetX, offsetY]: Pair<number>
-): CellPosition {
+): Pair<number> {
   const cellSize = (BASE_CELL_SIZE + 1) * scaleRatio;
   const column = Math.floor((x - offsetX * cellSize) / cellSize);
   const line = Math.floor((y - offsetY * cellSize) / cellSize);

@@ -1,11 +1,12 @@
 import React from "react";
-import { BASE_CELL_SIZE, CellPosition } from "../lifeState";
+import { BASE_CELL_SIZE } from "../lifeState";
 import { Rect } from "react-konva/lib/ReactKonvaCore";
 import "konva/lib/shapes/Rect";
 import { theme } from "../theme";
+import { Pair } from "../utils/pairOperations";
 
 type CellProps = {
-  position: CellPosition;
+  position: Pair<number>;
 };
 
 const Cell = ({ position }: CellProps) => {
