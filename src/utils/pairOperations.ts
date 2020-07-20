@@ -16,8 +16,13 @@ function pairOperation<T>(
   };
 }
 
+function unaryOperation<T>(operation: (x: T) => T): (p: Pair<T>) => Pair<T> {
+  return p => [operation(p[0]), operation(p[1])];
+}
+
 const addPair = pairOperation<number>((x, y) => x + y);
 const substractPair = pairOperation<number>((x, y) => x - y);
 const dividePair = pairOperation<number>((x, y) => x / y);
+const ceilPair = unaryOperation<number>(Math.ceil);
 
-export { addPair, substractPair, dividePair };
+export { addPair, substractPair, dividePair, ceilPair };

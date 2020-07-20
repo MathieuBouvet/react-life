@@ -1,4 +1,4 @@
-import { addPair, substractPair, dividePair } from "./pairOperations";
+import { addPair, substractPair, dividePair, ceilPair } from "./pairOperations";
 
 describe("Pair addition", () => {
   test.each<[[number, number], [number, number] | number, [number, number]]>([
@@ -84,6 +84,24 @@ describe("Pair Substraction", () => {
       [[42, 42], 0, [Infinity, Infinity]],
     ])("%j - %j = %j", (p1, p2, result) => {
       expect(dividePair(p1, p2)).toStrictEqual(result);
+    });
+  });
+  describe("Ceil pair", () => {
+    test.each<[[number, number], [number, number]]>([
+      [
+        [5, 6],
+        [5, 6],
+      ],
+      [
+        [0.33, 51.6987],
+        [1, 52],
+      ],
+      [
+        [51.000001, -63.9],
+        [52, -63],
+      ],
+    ])("%j - %j = %j", (p1, result) => {
+      expect(ceilPair(p1)).toStrictEqual(result);
     });
   });
 });
