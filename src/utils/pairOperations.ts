@@ -18,5 +18,6 @@ function pairOperation<T>(
 
 const addPair = pairOperation<number>((x, y) => x + y);
 const substractPair = pairOperation<number>((x, y) => x - y);
+const dividePair = pairOperation<number>((x, y) => x / y);
 
-export { addPair, substractPair };
+export { addPair, substractPair, dividePair };
