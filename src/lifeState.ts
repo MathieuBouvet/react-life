@@ -167,8 +167,8 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       };
     case "SET_ZOOM_LEVEL":
       let zoomLevel = action.payload.zoomLevel;
-      if (zoomLevel < 0) {
-        zoomLevel = 5;
+      if (zoomLevel <= 0) {
+        zoomLevel = 1;
       }
       if (zoomLevel > 500) {
         zoomLevel = 500;
