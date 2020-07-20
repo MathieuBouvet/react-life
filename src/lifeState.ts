@@ -1,6 +1,6 @@
 import { positionToStr } from "./utils/cellPosition";
 import { nextIterationOptimized } from "./utils/gridManagement";
-import { Pair, addPair } from "./utils/pairOperations";
+import { Pair, addPair, substractPair } from "./utils/pairOperations";
 
 const BASE_CELL_SIZE = 25;
 const GRID_SIZE = 500;
@@ -49,7 +49,7 @@ interface ClearGrid {
 
 interface SetZoomLevel {
   type: "SET_ZOOM_LEVEL";
-  payload: { zoomLevel: number };
+  payload: { zoomLevel: number; origin?: number };
 }
 
 interface MoveCells {
@@ -173,9 +173,23 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       if (zoomLevel > 500) {
         zoomLevel = 500;
       }
+      const previousCenter = cellPositionFromPxCoordinates(
+        [prevState.gridMaxHeight / 2, prevState.gridMaxWidth / 2],
+        prevState.scale,
+        prevState.gridOffset
+      );
+      const nextCenter = cellPositionFromPxCoordinates(
+        [prevState.gridMaxHeight / 2, prevState.gridMaxWidth / 2],
+        zoomLevel / 100,
+        prevState.gridOffset
+      );
       return {
         ...prevState,
         scale: zoomLevel / 100,
+        gridOffset: addPair(
+          prevState.gridOffset,
+          substractPair(nextCenter, previousCenter)
+        ),
       };
     case "MOVE_CELLS":
       const movement = getCellMovement(action.payload.direction);
