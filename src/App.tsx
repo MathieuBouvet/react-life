@@ -81,7 +81,6 @@ const App = () => {
   });
   useEffect(() => {
     function handleArrowKeys(e: KeyboardEvent): void {
-      console.log("moved");
       const direction = getArrowDirection(e.code);
       if (direction) {
         dispatchLife({
