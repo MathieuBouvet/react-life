@@ -130,7 +130,7 @@ const LifeDisplay = ({
             $gridOffset: gridOffset,
           }}
         >
-          {theGrid}
+          {scale > 0.15 && theGrid}
           <Layer
             x={gridOffset[0] * (BASE_CELL_SIZE + 1)}
             y={gridOffset[1] * (BASE_CELL_SIZE + 1)}
