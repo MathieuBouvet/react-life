@@ -52,6 +52,18 @@ const App = () => {
     started,
     livingCells,
   } = lifeState;
+
+  function setGridSpace() {
+    if (gridRef.current != null) {
+      dispatchLife({
+        type: "SET_GRID_SPACE",
+        payload: {
+          maxWidth: gridRef.current.clientWidth,
+          maxHeight: gridRef.current.clientHeight,
+        },
+      });
+    }
+  }
   useEffect(() => {
     const nextIterationTimer = setTimeout(() => {
       if (lifeState.started) {
@@ -62,17 +74,11 @@ const App = () => {
       clearTimeout(nextIterationTimer);
     };
   });
+  useEffect(setGridSpace, []);
   useEffect(() => {
-    if (gridRef.current != null) {
-      dispatchLife({
-        type: "SET_GRID_SPACE",
-        payload: {
-          maxWidth: gridRef.current.clientWidth,
-          maxHeight: gridRef.current.clientHeight,
-        },
-      });
-    }
-  }, []);
+    window.addEventListener("resize", setGridSpace);
+    return () => window.removeEventListener("resize", setGridSpace);
+  });
   useEffect(() => {
     function handleArrowKeys(e: KeyboardEvent): void {
       console.log("moved");
