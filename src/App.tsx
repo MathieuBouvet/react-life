@@ -2,7 +2,12 @@ import React, { useReducer, useRef, useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Life from "./Life";
 import { theme, GlobalStyle } from "./theme";
-import { lifeReducer, initialLife, MoveDirection } from "./lifeState";
+import {
+  lifeReducer,
+  initialLife,
+  MoveDirection,
+  speedMappings,
+} from "./lifeState";
 import ToolBar from "./ToolBar";
 
 function getArrowDirection(key: string): MoveDirection {
@@ -51,6 +56,7 @@ const App = () => {
     gridOffset,
     started,
     livingCells,
+    speed,
   } = lifeState;
 
   function setGridSpace() {
@@ -69,7 +75,7 @@ const App = () => {
       if (lifeState.started) {
         dispatchLife({ type: "ITERATE" });
       }
-    }, 50);
+    }, speedMappings[speed]);
     return () => {
       clearTimeout(nextIterationTimer);
     };
@@ -108,6 +114,7 @@ const App = () => {
             gridOffset,
             gridRef,
             livingCells,
+            speed,
           }}
           dispatch={dispatchLife}
         />
