@@ -9,7 +9,9 @@ type Speed = {
 
 type SpeedButtonProps = {
   active?: boolean;
+  speedKey: SpeedKey;
   children: string;
+  dispatch: React.Dispatch<LifeAction>;
 };
 
 type SpeedSelectorProps = {
@@ -47,10 +49,26 @@ const StyledActiveBorder = styled.div`
   left: 0;
 `;
 
-const SpeedButton = (props: SpeedButtonProps) => (
+const SpeedButton = ({
+  active,
+  speedKey,
+  dispatch,
+  children,
+}: SpeedButtonProps) => (
   <div style={{ position: "relative" }}>
-    <StyledSpeedButton>{props.children}</StyledSpeedButton>
-    {props.active && <StyledActiveBorder />}
+    <StyledSpeedButton
+      onClick={() =>
+        dispatch({
+          type: "SET_SPEED",
+          payload: {
+            speed: speedKey,
+          },
+        })
+      }
+    >
+      {children}
+    </StyledSpeedButton>
+    {active && <StyledActiveBorder />}
   </div>
 );
 
@@ -69,10 +87,17 @@ const speeds: Speed[] = [
   },
 ];
 
-const SpeedSelector = ({ selected }: SpeedSelectorProps) => (
+const SpeedSelector = ({ selected, dispatch }: SpeedSelectorProps) => (
   <StyledSpeedSelector>
     {speeds.map(speed => (
-      <SpeedButton active={selected === speed.key}>{speed.value}</SpeedButton>
+      <SpeedButton
+        key={speed.key}
+        active={selected === speed.key}
+        speedKey={speed.key}
+        dispatch={dispatch}
+      >
+        {speed.value}
+      </SpeedButton>
     ))}
   </StyledSpeedSelector>
 );
