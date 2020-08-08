@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { LifeAction } from "../lifeState";
+import { LifeAction, SpeedKey } from "../lifeState";
+
+type Speed = {
+  key: SpeedKey;
+  value: string;
+};
 
 type SpeedButtonProps = {
   active?: boolean;
@@ -8,7 +13,7 @@ type SpeedButtonProps = {
 };
 
 type SpeedSelectorProps = {
-  selected: string;
+  selected: SpeedKey;
   dispatch: React.Dispatch<LifeAction>;
 };
 
@@ -49,12 +54,25 @@ const SpeedButton = (props: SpeedButtonProps) => (
   </div>
 );
 
-const speeds = ["fast", "normal", "slow"];
+const speeds: Speed[] = [
+  {
+    key: "FAST",
+    value: "rapide",
+  },
+  {
+    key: "NORMAL",
+    value: "normal",
+  },
+  {
+    key: "SLOW",
+    value: "lente",
+  },
+];
 
 const SpeedSelector = ({ selected }: SpeedSelectorProps) => (
   <StyledSpeedSelector>
     {speeds.map(speed => (
-      <SpeedButton active={selected === speed}>{speed}</SpeedButton>
+      <SpeedButton active={selected === speed.key}>{speed.value}</SpeedButton>
     ))}
   </StyledSpeedSelector>
 );
