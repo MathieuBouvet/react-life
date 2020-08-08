@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { LifeAction, SpeedKey } from "../lifeState";
+import { useFlip, FlipProvider } from "react-easy-flip";
 
 type Speed = {
   key: SpeedKey;
@@ -68,7 +69,7 @@ const SpeedButton = ({
     >
       {children}
     </StyledSpeedButton>
-    {active && <StyledActiveBorder />}
+    {active && <StyledActiveBorder data-flip-id="active-border" />}
   </div>
 );
 
@@ -87,19 +88,24 @@ const speeds: Speed[] = [
   },
 ];
 
-const SpeedSelector = ({ selected, dispatch }: SpeedSelectorProps) => (
-  <StyledSpeedSelector>
-    {speeds.map(speed => (
-      <SpeedButton
-        key={speed.key}
-        active={selected === speed.key}
-        speedKey={speed.key}
-        dispatch={dispatch}
-      >
-        {speed.value}
-      </SpeedButton>
-    ))}
-  </StyledSpeedSelector>
-);
+const SpeedSelector = ({ selected, dispatch }: SpeedSelectorProps) => {
+  useFlip("speed-selector");
+  return (
+    <FlipProvider>
+      <StyledSpeedSelector data-flip-root-id="speed-selector">
+        {speeds.map(speed => (
+          <SpeedButton
+            key={speed.key}
+            active={selected === speed.key}
+            speedKey={speed.key}
+            dispatch={dispatch}
+          >
+            {speed.value}
+          </SpeedButton>
+        ))}
+      </StyledSpeedSelector>
+    </FlipProvider>
+  );
+};
 
 export default SpeedSelector;
