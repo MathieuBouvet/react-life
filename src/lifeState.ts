@@ -7,6 +7,18 @@ const GRID_SIZE = 500;
 
 export type MoveDirection = "UP" | "DOWN" | "LEFT" | "RIGHT";
 
+export type SpeedKey = "FAST" | "NORMAL" | "SLOW";
+
+type SpeedMap = {
+  [key in SpeedKey]: number;
+};
+
+const speedMappings: SpeedMap = {
+  FAST: 20,
+  NORMAL: 50,
+  SLOW: 75,
+};
+
 export interface LifeState {
   started: boolean;
   scale: number;
@@ -14,6 +26,7 @@ export interface LifeState {
   gridMaxHeight: number;
   livingCells: Map<string, true>;
   gridOffset: Pair<number>;
+  speed: SpeedKey;
 }
 
 interface Iterate {
@@ -59,6 +72,13 @@ interface MoveCells {
   };
 }
 
+interface SetSpeed {
+  type: "SET_SPEED";
+  payload: {
+    speed: SpeedKey;
+  };
+}
+
 export type LifeAction =
   | Start
   | Stop
@@ -68,7 +88,8 @@ export type LifeAction =
   | SetGridSpace
   | ClearGrid
   | SetZoomLevel
-  | MoveCells;
+  | MoveCells
+  | SetSpeed;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
@@ -79,6 +100,7 @@ const initialLife: LifeState = {
   gridMaxWidth: -1,
   livingCells: new Map([]),
   gridOffset: [0, 0],
+  speed: "NORMAL",
 };
 
 function updatedCells(
@@ -197,6 +219,13 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         ...prevState,
         gridOffset: addPair(prevState.gridOffset, movement),
       };
+
+    case "SET_SPEED":
+      return {
+        ...prevState,
+        speed: action.payload.speed,
+      };
+
     default:
       return prevState;
   }
