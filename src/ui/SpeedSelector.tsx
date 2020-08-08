@@ -22,7 +22,8 @@ type SpeedSelectorProps = {
 
 const StyledSpeedButton = styled.button`
   display: block;
-  border: none;
+  border: 1px solid ${props => props.theme.colors.primary};
+  border-radius: 5px;
   background-color: inherit;
   color: ${props => props.theme.colors.light};
   padding: 5px;
@@ -33,6 +34,7 @@ const StyledSpeedButton = styled.button`
   text-align: center;
   appearance: none;
   outline: none;
+  width: 55px;
 `;
 
 const StyledSpeedSelector = styled.div`
@@ -56,7 +58,7 @@ const SpeedButton = ({
   dispatch,
   children,
 }: SpeedButtonProps) => (
-  <div style={{ position: "relative" }}>
+  <div style={{ position: "relative", margin: "5px" }}>
     <StyledSpeedButton
       onClick={() =>
         dispatch({
