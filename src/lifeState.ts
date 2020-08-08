@@ -13,7 +13,7 @@ type SpeedMap = {
   [key in SpeedKey]: number;
 };
 
-const speedMappings: SpeedMap = {
+export const speedMappings: SpeedMap = {
   FAST: 20,
   NORMAL: 50,
   SLOW: 75,
