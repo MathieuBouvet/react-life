@@ -84,7 +84,7 @@ const speeds: Speed[] = [
   },
   {
     key: "SLOW",
-    value: "lente",
+    value: "lent",
   },
 ];
 
