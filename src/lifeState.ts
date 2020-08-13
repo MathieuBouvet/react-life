@@ -243,6 +243,9 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       };
     }
     case "CLEAR_GRID": {
+      if (prevState.editionStack[prevState.editionStackPosition].size === 0) {
+        return prevState;
+      }
       let newStack, newStackPosition;
       if (prevState.started) {
         newStack = [
