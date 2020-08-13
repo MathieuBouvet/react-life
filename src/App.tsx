@@ -57,6 +57,8 @@ const App = () => {
     started,
     livingCells,
     speed,
+    editionStack,
+    editionStackPosition,
   } = lifeState;
 
   function setGridSpace() {
@@ -100,6 +102,9 @@ const App = () => {
     document.addEventListener("keydown", handleArrowKeys);
     return () => document.removeEventListener("keydown", handleArrowKeys);
   });
+  const cellsToDisplay = started
+    ? livingCells
+    : editionStack[editionStackPosition];
   return (
     <ThemeProvider theme={theme}>
       <StyledApp>
@@ -113,9 +118,9 @@ const App = () => {
             gridMaxHeight,
             gridOffset,
             gridRef,
-            livingCells,
             speed,
           }}
+          livingCells={cellsToDisplay}
           dispatch={dispatchLife}
         />
         <ToolbarMemo {...{ started, scale, speed }} dispatch={dispatchLife} />
