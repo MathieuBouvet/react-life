@@ -218,6 +218,10 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         ...prevState,
         started: true,
         livingCells: new Map(currentEdition),
+        editionStack: prevState.editionStack.slice(
+          0,
+          prevState.editionStackPosition + 1
+        ),
       };
     }
     case "STOP": {
@@ -243,6 +247,12 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         ...prevState,
         started: false,
         livingCells: new Map<string, true>(),
+        editionStack: [
+          ...prevState.editionStack,
+          new Map(prevState.livingCells),
+          new Map(),
+        ],
+        editionStackPosition: prevState.editionStackPosition + 2,
       };
     }
     case "SET_ZOOM_LEVEL": {
