@@ -9,6 +9,8 @@ import {
   FaArrowAltCircleDown,
   FaArrowAltCircleRight,
   FaArrowAltCircleLeft,
+  FaUndoAlt,
+  FaRedoAlt,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { theme } from "../theme";
@@ -123,4 +125,29 @@ const ArrowButton = ({ direction, ...props }: ArrowButtonProps) => {
   );
 };
 
-export { StartButton, PauseButton, ClearButton, ArrowButton };
+const UndoButton = (props: SpecializedButtonProps) => (
+  <Button {...props} action={{ type: "UNDO" }}>
+    <>
+      <FaUndoAlt size="3em" fill={theme.colors.light} />
+      Annuler
+    </>
+  </Button>
+);
+
+const RedoButton = (props: SpecializedButtonProps) => (
+  <Button {...props} action={{ type: "REDO" }}>
+    <>
+      <FaRedoAlt size="3em" fill={theme.colors.light} />
+      Rétablir
+    </>
+  </Button>
+);
+
+export {
+  StartButton,
+  PauseButton,
+  ClearButton,
+  ArrowButton,
+  UndoButton,
+  RedoButton,
+};
