@@ -221,7 +221,15 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       };
     }
     case "STOP": {
-      return { ...prevState, started: false };
+      return {
+        ...prevState,
+        started: false,
+        editionStack: [
+          ...prevState.editionStack,
+          new Map(prevState.livingCells),
+        ],
+        editionStackPosition: prevState.editionStackPosition + 1,
+      };
     }
     case "SET_GRID_SPACE": {
       return {
