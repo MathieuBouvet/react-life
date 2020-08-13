@@ -81,6 +81,14 @@ interface SetSpeed {
   };
 }
 
+interface Undo {
+  type: "UNDO";
+}
+
+interface Redo {
+  type: "REDO";
+}
+
 export type LifeAction =
   | Start
   | Stop
@@ -91,7 +99,9 @@ export type LifeAction =
   | ClearGrid
   | SetZoomLevel
   | MoveCells
-  | SetSpeed;
+  | SetSpeed
+  | Undo
+  | Redo;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
