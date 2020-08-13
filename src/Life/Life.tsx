@@ -10,7 +10,10 @@ import { theme } from "../theme";
 import { VerticalLine, HorizontalLine } from "./Line";
 import { throttle } from "lodash";
 
-type LifeProps = LifeState & {
+type LifeProps = Pick<
+  LifeState,
+  "gridMaxWidth" | "gridMaxHeight" | "gridOffset" | "scale" | "livingCells"
+> & {
   dispatch: React.Dispatch<LifeAction>;
   gridRef: React.Ref<HTMLDivElement>;
 };
