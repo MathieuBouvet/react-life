@@ -158,7 +158,7 @@ function getCellMovement(direction: MoveDirection): [number, number] {
 
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
-    case "TOGGLE_CELL":
+    case "TOGGLE_CELL": {
       const aliveCellsFromToggle = updatedCells(
         prevState.livingCells,
         cellPositionFromPxCoordinates(
@@ -169,7 +169,8 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         positionKey => !prevState.livingCells.has(positionKey)
       );
       return { ...prevState, livingCells: aliveCellsFromToggle };
-    case "SET_ALIVE":
+    }
+    case "SET_ALIVE": {
       const setAliveCells = updatedCells(
         prevState.livingCells,
         cellPositionFromPxCoordinates(
@@ -180,28 +181,34 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         () => true
       );
       return { ...prevState, livingCells: setAliveCells };
-    case "ITERATE":
+    }
+    case "ITERATE": {
       return {
         ...prevState,
         livingCells: nextIterationOptimized(prevState.livingCells),
       };
-    case "START":
+    }
+    case "START": {
       return { ...prevState, started: true };
-    case "STOP":
+    }
+    case "STOP": {
       return { ...prevState, started: false };
-    case "SET_GRID_SPACE":
+    }
+    case "SET_GRID_SPACE": {
       return {
         ...prevState,
         gridMaxWidth: action.payload.maxWidth,
         gridMaxHeight: action.payload.maxHeight,
       };
-    case "CLEAR_GRID":
+    }
+    case "CLEAR_GRID": {
       return {
         ...prevState,
         started: false,
         livingCells: new Map<string, true>(),
       };
-    case "SET_ZOOM_LEVEL":
+    }
+    case "SET_ZOOM_LEVEL": {
       let zoomLevel = action.payload.zoomLevel;
       if (zoomLevel <= 0) {
         zoomLevel = 1;
@@ -227,20 +234,21 @@ const lifeReducer: LifeReducer = (prevState, action) => {
           substractPair(nextCenter, previousCenter)
         ),
       };
-    case "MOVE_CELLS":
+    }
+    case "MOVE_CELLS": {
       const movement = getCellMovement(action.payload.direction);
       return {
         ...prevState,
         gridOffset: addPair(prevState.gridOffset, movement),
       };
-
-    case "SET_SPEED":
+    }
+    case "SET_SPEED": {
       return {
         ...prevState,
         speed: action.payload.speed,
       };
-
-    case "UNDO":
+    }
+    case "UNDO": {
       if (prevState.editionStackPosition === 0) {
         return prevState;
       }
@@ -248,8 +256,8 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         ...prevState,
         editionStackPosition: prevState.editionStackPosition - 1,
       };
-
-    case "REDO":
+    }
+    case "REDO": {
       const { editionStackPosition, editionStack } = prevState;
       if (editionStackPosition === editionStack.length - 1) {
         return prevState;
@@ -258,9 +266,10 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         ...prevState,
         editionStackPosition: editionStackPosition + 1,
       };
-
-    default:
+    }
+    default: {
       return prevState;
+    }
   }
 };
 
