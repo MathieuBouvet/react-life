@@ -98,7 +98,7 @@ const initialLife: LifeState = {
   scale: 1,
   gridMaxHeight: -1,
   gridMaxWidth: -1,
-  livingCells: new Map([]),
+  livingCells: new Map(),
   gridOffset: [0, 0],
   speed: "NORMAL",
 };
