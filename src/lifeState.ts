@@ -296,7 +296,7 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       };
     }
     case "UNDO": {
-      if (prevState.editionStackPosition === 0) {
+      if (prevState.editionStackPosition === 0 || prevState.started) {
         return prevState;
       }
       return {
@@ -306,7 +306,10 @@ const lifeReducer: LifeReducer = (prevState, action) => {
     }
     case "REDO": {
       const { editionStackPosition, editionStack } = prevState;
-      if (editionStackPosition === editionStack.length - 1) {
+      if (
+        editionStackPosition === editionStack.length - 1 ||
+        prevState.started
+      ) {
         return prevState;
       }
       return {
