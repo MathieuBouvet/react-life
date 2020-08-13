@@ -243,16 +243,24 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       };
     }
     case "CLEAR_GRID": {
+      let newStack, newStackPosition;
+      if (prevState.started) {
+        newStack = [
+          ...prevState.editionStack,
+          new Map(prevState.livingCells),
+          new Map(),
+        ];
+        newStackPosition = prevState.editionStackPosition + 2;
+      } else {
+        newStack = [...prevState.editionStack, new Map()];
+        newStackPosition = prevState.editionStackPosition + 1;
+      }
       return {
         ...prevState,
         started: false,
         livingCells: new Map<string, true>(),
-        editionStack: [
-          ...prevState.editionStack,
-          new Map(prevState.livingCells),
-          new Map(),
-        ],
-        editionStackPosition: prevState.editionStackPosition + 2,
+        editionStack: newStack,
+        editionStackPosition: newStackPosition,
       };
     }
     case "SET_ZOOM_LEVEL": {
