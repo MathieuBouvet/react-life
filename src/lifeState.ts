@@ -240,6 +240,25 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         speed: action.payload.speed,
       };
 
+    case "UNDO":
+      if (prevState.editionStackPosition === 0) {
+        return prevState;
+      }
+      return {
+        ...prevState,
+        editionStackPosition: prevState.editionStackPosition - 1,
+      };
+
+    case "REDO":
+      const { editionStackPosition, editionStack } = prevState;
+      if (editionStackPosition === editionStack.length - 1) {
+        return prevState;
+      }
+      return {
+        ...prevState,
+        editionStackPosition: editionStackPosition + 1,
+      };
+
     default:
       return prevState;
   }
