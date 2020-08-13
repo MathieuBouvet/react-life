@@ -25,6 +25,8 @@ export interface LifeState {
   gridMaxWidth: number;
   gridMaxHeight: number;
   livingCells: Map<string, true>;
+  editionStack: Map<string, true>[];
+  editionStackPosition: number;
   gridOffset: Pair<number>;
   speed: SpeedKey;
 }
@@ -99,6 +101,8 @@ const initialLife: LifeState = {
   gridMaxHeight: -1,
   gridMaxWidth: -1,
   livingCells: new Map(),
+  editionStack: [new Map()],
+  editionStackPosition: 0,
   gridOffset: [0, 0],
   speed: "NORMAL",
 };
