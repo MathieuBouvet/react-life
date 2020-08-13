@@ -1,7 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { LifeState, LifeAction } from "./lifeState";
-import { StartButton, PauseButton, ClearButton } from "./ui/Buttons";
+import {
+  StartButton,
+  PauseButton,
+  ClearButton,
+  RedoButton,
+  UndoButton,
+} from "./ui/Buttons";
 import ZoomLevel from "./ui/ZoomLevel";
 import DirectionPad from "./ui/DirectionPad";
 import SpeedSelector from "./ui/SpeedSelector";
@@ -15,6 +21,12 @@ const StyledToolBar = styled.aside`
   padding-bottom: 25px;
   background-color: ${props => props.theme.colors.primaryDark};
   color: ${props => props.theme.colors.light};
+`;
+
+const ButtonGroup = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 type ToolBarProps = Pick<LifeState, "started" | "scale" | "speed"> & {
@@ -31,6 +43,12 @@ const ToolBar = ({ started, scale, dispatch, speed }: ToolBarProps) => (
     <ClearButton dispatch={dispatch} />
     <ZoomLevel value={scale} dispatch={dispatch} />
     <SpeedSelector selected={speed} dispatch={dispatch} />
+    <ButtonGroup>
+      <>
+        <UndoButton dispatch={dispatch} />
+        <RedoButton dispatch={dispatch} />
+      </>
+    </ButtonGroup>
     <DirectionPad dispatch={dispatch} />
   </StyledToolBar>
 );
