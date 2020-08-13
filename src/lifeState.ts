@@ -212,7 +212,13 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       };
     }
     case "START": {
-      return { ...prevState, started: true };
+      const currentEdition =
+        prevState.editionStack[prevState.editionStackPosition];
+      return {
+        ...prevState,
+        started: true,
+        livingCells: new Map(currentEdition),
+      };
     }
     case "STOP": {
       return { ...prevState, started: false };
