@@ -246,13 +246,22 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       let newStack, newStackPosition;
       if (prevState.started) {
         newStack = [
-          ...prevState.editionStack,
+          ...prevState.editionStack.slice(
+            0,
+            prevState.editionStackPosition + 1
+          ),
           new Map(prevState.livingCells),
           new Map(),
         ];
         newStackPosition = prevState.editionStackPosition + 2;
       } else {
-        newStack = [...prevState.editionStack, new Map()];
+        newStack = [
+          ...prevState.editionStack.slice(
+            0,
+            prevState.editionStackPosition + 1
+          ),
+          new Map(),
+        ];
         newStackPosition = prevState.editionStackPosition + 1;
       }
       return {
