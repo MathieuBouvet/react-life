@@ -101,7 +101,7 @@ const LifeDisplay = ({
       },
       10
     ),
-    [dispatch]
+    [dispatch, scale, gridOffset]
   );
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
