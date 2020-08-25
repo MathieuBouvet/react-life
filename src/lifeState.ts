@@ -19,6 +19,13 @@ export const speedMappings: SpeedMap = {
   SLOW: 75,
 };
 
+type HandleCellAction = (
+  prevState: LifeState,
+  coordinates: Pair<number>,
+  newStackEntry?: boolean,
+  forcedCellStatus?: "alive" | "dead"
+) => LifeState;
+
 export interface LifeState {
   started: boolean;
   scale: number;
@@ -50,7 +57,7 @@ interface ToggleCell {
 
 interface SetAlive {
   type: "SET_ALIVE";
-  payload: { coordinates: [number, number] };
+  payload: { coordinates: [number, number]; newMove: boolean };
 }
 
 interface SetGridSpace {
@@ -156,16 +163,17 @@ function getCellMovement(direction: MoveDirection): [number, number] {
   }
 }
 
-function addToEditionStack(
-  prevState: LifeState,
-  coordinates: Pair<number>,
-  forcedCellLife?: boolean
-): LifeState {
+const addToEditionStack: HandleCellAction = (
+  prevState,
+  coordinates,
+  newStackEntry = true,
+  forcedCellLife?
+): LifeState => {
   const { editionStack, editionStackPosition } = prevState;
   const currentEdition = editionStack[editionStackPosition];
   const controlCellLife: (key: string) => boolean =
     forcedCellLife !== undefined
-      ? () => forcedCellLife
+      ? () => forcedCellLife === "alive"
       : positionKey => !currentEdition.has(positionKey);
   const newLivingCellsWhenPaused = updatedCells(
     currentEdition,
@@ -176,25 +184,27 @@ function addToEditionStack(
     ),
     controlCellLife
   );
+  const stackOffset = newStackEntry ? 1 : 0;
   const newEditionStack = [
-    ...editionStack.slice(0, editionStackPosition + 1),
+    ...editionStack.slice(0, editionStackPosition + stackOffset),
     newLivingCellsWhenPaused,
   ];
   return {
     ...prevState,
     editionStack: newEditionStack,
-    editionStackPosition: editionStackPosition + 1,
+    editionStackPosition: editionStackPosition + stackOffset,
   };
-}
+};
 
-function addToLivingCellsDirectly(
-  prevState: LifeState,
-  coordinates: Pair<number>,
-  forcedCellLife?: boolean
-): LifeState {
+const addToLivingCellsDirectly: HandleCellAction = (
+  prevState,
+  coordinates,
+  _?,
+  forcedCellLife?
+): LifeState => {
   const controlCellLife: (key: string) => boolean =
     forcedCellLife !== undefined
-      ? () => forcedCellLife
+      ? () => forcedCellLife === "alive"
       : positionKey => !prevState.livingCells.has(positionKey);
   const newLivingCellsWhenStarted = updatedCells(
     prevState.livingCells,
@@ -206,7 +216,7 @@ function addToLivingCellsDirectly(
     controlCellLife
   );
   return { ...prevState, livingCells: newLivingCellsWhenStarted };
-}
+};
 
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
@@ -220,7 +230,12 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       const handleAction = prevState.started
         ? addToLivingCellsDirectly
         : addToEditionStack;
-      return handleAction(prevState, action.payload.coordinates, true);
+      return handleAction(
+        prevState,
+        action.payload.coordinates,
+        action.payload.newMove,
+        "alive"
+      );
     }
     case "ITERATE": {
       return {
