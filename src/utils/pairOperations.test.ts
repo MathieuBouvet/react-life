@@ -1,4 +1,10 @@
-import { addPair, substractPair, dividePair, ceilPair } from "./pairOperations";
+import {
+  addPair,
+  substractPair,
+  dividePair,
+  ceilPair,
+  arePairsEqual,
+} from "./pairOperations";
 
 describe("Pair addition", () => {
   test.each<[[number, number], [number, number] | number, [number, number]]>([
@@ -79,28 +85,36 @@ describe("Ceil pair", () => {
     expect(ceilPair(p1)).toStrictEqual(result);
   });
 });
-  describe("Pair division", () => {
-    test.each<[[number, number], [number, number] | number, [number, number]]>([
-      [
-        [5, 6],
-        [1, 1],
-        [5, 6],
-      ],
-      [
-        [0, 0],
-        [4, 5],
-        [0, 0],
-      ],
-      [
-        [51, 63],
-        [102, 3],
-        [0.5, 21],
-      ],
-      [[0, 0], 1, [0, 0]],
-      [[5, -5], 5, [1, -1]],
-      [[12, -24], 6, [2, -4]],
-      [[42, 42], 0, [Infinity, Infinity]],
+describe("Pair division", () => {
+  test.each<[[number, number], [number, number] | number, [number, number]]>([
+    [
+      [5, 6],
+      [1, 1],
+      [5, 6],
+    ],
+    [
+      [0, 0],
+      [4, 5],
+      [0, 0],
+    ],
+    [
+      [51, 63],
+      [102, 3],
+      [0.5, 21],
+    ],
+    [[0, 0], 1, [0, 0]],
+    [[5, -5], 5, [1, -1]],
+    [[12, -24], 6, [2, -4]],
+    [[42, 42], 0, [Infinity, Infinity]],
   ])("%j ÷ %j = %j", (p1, p2, result) => {
-      expect(dividePair(p1, p2)).toStrictEqual(result);
-    });
+    expect(dividePair(p1, p2)).toStrictEqual(result);
   });
+});
+describe("Pair comparison", () => {
+  test.each<[[number, number], [number, number], boolean]>([
+    [[5, 6], [5, 6], true],
+    [[5, 6], [6, 5], false],
+  ])("%j === %j : should be %s", (p1, p2, expected) => {
+    expect(arePairsEqual(p1, p2)).toBe(expected);
+  });
+});
