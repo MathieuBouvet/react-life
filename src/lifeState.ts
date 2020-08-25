@@ -343,4 +343,10 @@ const lifeReducer: LifeReducer = (prevState, action) => {
   }
 };
 
-export { initialLife, lifeReducer, BASE_CELL_SIZE, GRID_SIZE };
+export {
+  initialLife,
+  lifeReducer,
+  BASE_CELL_SIZE,
+  GRID_SIZE,
+  cellPositionFromPxCoordinates,
+};
