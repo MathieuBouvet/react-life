@@ -57,7 +57,7 @@ const LifeDisplay = ({
   dispatch,
   gridRef,
 }: LifeProps) => {
-  const lastCellPressed = useRef<Pair<number> | null>(null);
+  const possiblyClickedCell = useRef<Pair<number> | null>(null);
   const handleMouseMoveThrottled = useCallback(
     throttle(
       (
@@ -72,21 +72,14 @@ const LifeDisplay = ({
             clientX - offset.left,
             clientY - offset.top,
           ];
-          const nextCellPressed = cellPositionFromPxCoordinates(
+          const movedOnCell = cellPositionFromPxCoordinates(
             coordinates,
             scale,
             gridOffset
           );
-          if (lastCellPressed.current === null) {
-            dispatch({
-              type: "SET_ALIVE",
-              payload: {
-                coordinates,
-                newMove: true,
-              },
-            });
-          } else if (
-            arePairsDifferent(lastCellPressed.current, nextCellPressed)
+          if (
+            possiblyClickedCell.current !== null &&
+            arePairsDifferent(possiblyClickedCell.current, movedOnCell)
           ) {
             dispatch({
               type: "SET_ALIVE",
@@ -96,7 +89,6 @@ const LifeDisplay = ({
               },
             });
           }
-          lastCellPressed.current = nextCellPressed;
         }
       },
       10
@@ -139,17 +131,22 @@ const LifeDisplay = ({
           payload: { zoomLevel: Math.round(scale * 100) + step },
         });
       }}
-      onMouseUp={e => {
-        if (lastCellPressed.current === null) {
-          const offset = e.currentTarget.getClientRects()[0];
-          dispatch({
-            type: "TOGGLE_CELL",
-            payload: {
-              coordinates: [e.clientX - offset.left, e.clientY - offset.top],
-            },
-          });
-        }
-        lastCellPressed.current = null;
+      onMouseDown={e => {
+        const offset = e.currentTarget.getClientRects()[0];
+        possiblyClickedCell.current = cellPositionFromPxCoordinates(
+          [e.clientX - offset.left, e.clientY - offset.top],
+          scale,
+          gridOffset
+        );
+        dispatch({
+          type: "TOGGLE_CELL",
+          payload: {
+            coordinates: [e.clientX - offset.left, e.clientY - offset.top],
+          },
+        });
+      }}
+      onMouseUp={() => {
+        possiblyClickedCell.current = null;
       }}
       onMouseMove={handleMouseMove}
     >
