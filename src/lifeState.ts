@@ -156,54 +156,71 @@ function getCellMovement(direction: MoveDirection): [number, number] {
   }
 }
 
+function addToEditionStack(
+  prevState: LifeState,
+  coordinates: Pair<number>,
+  forcedCellLife?: boolean
+): LifeState {
+  const { editionStack, editionStackPosition } = prevState;
+  const currentEdition = editionStack[editionStackPosition];
+  const controlCellLife: (key: string) => boolean =
+    forcedCellLife !== undefined
+      ? () => forcedCellLife
+      : positionKey => !currentEdition.has(positionKey);
+  const newLivingCellsWhenPaused = updatedCells(
+    currentEdition,
+    cellPositionFromPxCoordinates(
+      coordinates,
+      prevState.scale,
+      prevState.gridOffset
+    ),
+    controlCellLife
+  );
+  const newEditionStack = [
+    ...editionStack.slice(0, editionStackPosition + 1),
+    newLivingCellsWhenPaused,
+  ];
+  return {
+    ...prevState,
+    editionStack: newEditionStack,
+    editionStackPosition: editionStackPosition + 1,
+  };
+}
+
+function addToLivingCellsDirectly(
+  prevState: LifeState,
+  coordinates: Pair<number>,
+  forcedCellLife?: boolean
+): LifeState {
+  const controlCellLife: (key: string) => boolean =
+    forcedCellLife !== undefined
+      ? () => forcedCellLife
+      : positionKey => !prevState.livingCells.has(positionKey);
+  const newLivingCellsWhenStarted = updatedCells(
+    prevState.livingCells,
+    cellPositionFromPxCoordinates(
+      coordinates,
+      prevState.scale,
+      prevState.gridOffset
+    ),
+    controlCellLife
+  );
+  return { ...prevState, livingCells: newLivingCellsWhenStarted };
+}
+
 const lifeReducer: LifeReducer = (prevState, action) => {
   switch (action.type) {
     case "TOGGLE_CELL": {
-      if (prevState.started) {
-        const newLivingCellsWhenStarted = updatedCells(
-          prevState.livingCells,
-          cellPositionFromPxCoordinates(
-            action.payload.coordinates,
-            prevState.scale,
-            prevState.gridOffset
-          ),
-          positionKey => !prevState.livingCells.has(positionKey)
-        );
-        return { ...prevState, livingCells: newLivingCellsWhenStarted };
-      } else {
-        const { editionStack, editionStackPosition } = prevState;
-        const currentEdition = editionStack[editionStackPosition];
-        const newLivingCellsWhenPaused = updatedCells(
-          currentEdition,
-          cellPositionFromPxCoordinates(
-            action.payload.coordinates,
-            prevState.scale,
-            prevState.gridOffset
-          ),
-          positionKey => !currentEdition.has(positionKey)
-        );
-        const newEditionStack = [
-          ...editionStack.slice(0, editionStackPosition + 1),
-          newLivingCellsWhenPaused,
-        ];
-        return {
-          ...prevState,
-          editionStack: newEditionStack,
-          editionStackPosition: editionStackPosition + 1,
-        };
-      }
+      const handleAction = prevState.started
+        ? addToLivingCellsDirectly
+        : addToEditionStack;
+      return handleAction(prevState, action.payload.coordinates);
     }
     case "SET_ALIVE": {
-      const setAliveCells = updatedCells(
-        prevState.livingCells,
-        cellPositionFromPxCoordinates(
-          action.payload.coordinates,
-          prevState.scale,
-          prevState.gridOffset
-        ),
-        () => true
-      );
-      return { ...prevState, livingCells: setAliveCells };
+      const handleAction = prevState.started
+        ? addToLivingCellsDirectly
+        : addToEditionStack;
+      return handleAction(prevState, action.payload.coordinates, true);
     }
     case "ITERATE": {
       return {
