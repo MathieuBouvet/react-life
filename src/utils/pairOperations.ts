@@ -28,6 +28,9 @@ const ceilPair = unaryOperation<number>(Math.ceil);
 function arePairsEqual(p1: Pair<any>, p2: Pair<any>): boolean {
   return p1[0] === p2[0] && p1[1] === p2[1];
 }
+function arePairsDifferent(p1: Pair<any>, p2: Pair<any>): boolean {
+  return !arePairsEqual(p1, p2);
+}
 
 export {
   addPair,
@@ -35,4 +38,5 @@ export {
   dividePair,
   ceilPair,
   arePairsEqual,
+  arePairsDifferent,
 };
