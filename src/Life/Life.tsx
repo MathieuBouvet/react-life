@@ -1,8 +1,15 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useRef } from "react";
 import styled from "styled-components";
-import { GRID_SIZE, BASE_CELL_SIZE, LifeState, LifeAction } from "../lifeState";
+import {
+  GRID_SIZE,
+  BASE_CELL_SIZE,
+  LifeState,
+  LifeAction,
+  cellPositionFromPxCoordinates,
+} from "../lifeState";
 import { CellMemo } from "./Cell";
 import { positionFrom } from "../utils/cellPosition";
+import { Pair, arePairsDifferent } from "../utils/pairOperations";
 import range from "../utils/range";
 import { Stage, Layer } from "react-konva/lib/ReactKonvaCore";
 import Loader from "../ui/Loader";
@@ -50,6 +57,7 @@ const LifeDisplay = ({
   dispatch,
   gridRef,
 }: LifeProps) => {
+  const lastCellPressed = useRef<Pair<number> | null>(null);
   const handleMouseMoveThrottled = useCallback(
     throttle(
       (
@@ -60,12 +68,35 @@ const LifeDisplay = ({
       ): void => {
         if (buttons === 1) {
           const offset = clientRects[0];
-          dispatch({
-            type: "SET_ALIVE",
-            payload: {
-              coordinates: [clientX - offset.left, clientY - offset.top],
-            },
-          });
+          const coordinates: Pair<number> = [
+            clientX - offset.left,
+            clientY - offset.top,
+          ];
+          const nextCellPressed = cellPositionFromPxCoordinates(
+            coordinates,
+            scale,
+            gridOffset
+          );
+          if (lastCellPressed.current === null) {
+            dispatch({
+              type: "SET_ALIVE",
+              payload: {
+                coordinates,
+                newMove: true,
+              },
+            });
+          } else if (
+            arePairsDifferent(lastCellPressed.current, nextCellPressed)
+          ) {
+            dispatch({
+              type: "SET_ALIVE",
+              payload: {
+                coordinates,
+                newMove: false,
+              },
+            });
+          }
+          lastCellPressed.current = nextCellPressed;
         }
       },
       10
@@ -108,14 +139,17 @@ const LifeDisplay = ({
           payload: { zoomLevel: Math.round(scale * 100) + step },
         });
       }}
-      onMouseDown={e => {
-        const offset = e.currentTarget.getClientRects()[0];
-        dispatch({
-          type: "TOGGLE_CELL",
-          payload: {
-            coordinates: [e.clientX - offset.left, e.clientY - offset.top],
-          },
-        });
+      onMouseUp={e => {
+        if (lastCellPressed.current === null) {
+          const offset = e.currentTarget.getClientRects()[0];
+          dispatch({
+            type: "TOGGLE_CELL",
+            payload: {
+              coordinates: [e.clientX - offset.left, e.clientY - offset.top],
+            },
+          });
+        }
+        lastCellPressed.current = null;
       }}
       onMouseMove={handleMouseMove}
     >
