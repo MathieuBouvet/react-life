@@ -4,6 +4,7 @@ import {
   dividePair,
   ceilPair,
   arePairsEqual,
+  arePairsDifferent,
 } from "./pairOperations";
 
 describe("Pair addition", () => {
@@ -116,5 +117,11 @@ describe("Pair comparison", () => {
     [[5, 6], [6, 5], false],
   ])("%j === %j : should be %s", (p1, p2, expected) => {
     expect(arePairsEqual(p1, p2)).toBe(expected);
+  });
+  test.each<[[number, number], [number, number], boolean]>([
+    [[5, 6], [5, 6], false],
+    [[5, 6], [6, 5], true],
+  ])("%j !== %j : should be %s", (p1, p2, expected) => {
+    expect(arePairsDifferent(p1, p2)).toBe(expected);
   });
 });
