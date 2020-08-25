@@ -60,7 +60,25 @@ describe("Pair Substraction", () => {
   ])("%j - %j = %j", (p1, p2, result) => {
     expect(substractPair(p1, p2)).toStrictEqual(result);
   });
-
+});
+describe("Ceil pair", () => {
+  test.each<[[number, number], [number, number]]>([
+    [
+      [5, 6],
+      [5, 6],
+    ],
+    [
+      [0.33, 51.6987],
+      [1, 52],
+    ],
+    [
+      [51.000001, -63.9],
+      [52, -63],
+    ],
+  ])("ceil(%j) = %j", (p1, result) => {
+    expect(ceilPair(p1)).toStrictEqual(result);
+  });
+});
   describe("Pair division", () => {
     test.each<[[number, number], [number, number] | number, [number, number]]>([
       [
@@ -82,26 +100,7 @@ describe("Pair Substraction", () => {
       [[5, -5], 5, [1, -1]],
       [[12, -24], 6, [2, -4]],
       [[42, 42], 0, [Infinity, Infinity]],
-    ])("%j - %j = %j", (p1, p2, result) => {
+  ])("%j ÷ %j = %j", (p1, p2, result) => {
       expect(dividePair(p1, p2)).toStrictEqual(result);
     });
   });
-  describe("Ceil pair", () => {
-    test.each<[[number, number], [number, number]]>([
-      [
-        [5, 6],
-        [5, 6],
-      ],
-      [
-        [0.33, 51.6987],
-        [1, 52],
-      ],
-      [
-        [51.000001, -63.9],
-        [52, -63],
-      ],
-    ])("%j - %j = %j", (p1, result) => {
-      expect(ceilPair(p1)).toStrictEqual(result);
-    });
-  });
-});
