@@ -25,4 +25,14 @@ const substractPair = pairOperation<number>((x, y) => x - y);
 const dividePair = pairOperation<number>((x, y) => x / y);
 const ceilPair = unaryOperation<number>(Math.ceil);
 
-export { addPair, substractPair, dividePair, ceilPair };
+function arePairsEqual(p1: Pair<any>, p2: Pair<any>): boolean {
+  return p1[0] === p2[0] && p1[1] === p2[1];
+}
+
+export {
+  addPair,
+  substractPair,
+  dividePair,
+  ceilPair,
+  arePairsEqual,
+};
