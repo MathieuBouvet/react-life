@@ -71,7 +71,7 @@ interface ClearGrid {
 
 interface SetZoomLevel {
   type: "SET_ZOOM_LEVEL";
-  payload: { zoomLevel: number; origin?: number };
+  payload: { zoomLevel: number; origin?: Pair<number> };
 }
 
 interface MoveCells {
@@ -315,13 +315,17 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       if (zoomLevel > 500) {
         zoomLevel = 500;
       }
-      const previousCenter = cellPositionFromPxCoordinates(
-        [prevState.gridMaxHeight / 2, prevState.gridMaxWidth / 2],
+      const zoomOrigin = action.payload.origin ?? [
+        prevState.gridMaxHeight / 2,
+        prevState.gridMaxWidth / 2,
+      ];
+      const cellPositionBeforeZoom = cellPositionFromPxCoordinates(
+        zoomOrigin,
         prevState.scale,
         prevState.gridOffset
       );
-      const nextCenter = cellPositionFromPxCoordinates(
-        [prevState.gridMaxHeight / 2, prevState.gridMaxWidth / 2],
+      const cellPositionAfterZoom = cellPositionFromPxCoordinates(
+        zoomOrigin,
         zoomLevel / 100,
         prevState.gridOffset
       );
@@ -330,7 +334,7 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         scale: zoomLevel / 100,
         gridOffset: addPair(
           prevState.gridOffset,
-          substractPair(nextCenter, previousCenter)
+          substractPair(cellPositionAfterZoom, cellPositionBeforeZoom)
         ),
       };
     }
