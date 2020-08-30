@@ -125,10 +125,14 @@ const LifeDisplay = ({
     <StyledLife
       ref={gridRef}
       onWheel={e => {
+        const offset = e.currentTarget.getClientRects()[0];
         const step = e.deltaY > 0 ? -5 : 5;
         dispatch({
           type: "SET_ZOOM_LEVEL",
-          payload: { zoomLevel: Math.round(scale * 100) + step },
+          payload: {
+            zoomLevel: Math.round(scale * 100) + step,
+            origin: [e.clientX - offset.left, e.clientY - offset.top],
+          },
         });
       }}
       onMouseDown={e => {
