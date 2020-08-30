@@ -316,8 +316,8 @@ const lifeReducer: LifeReducer = (prevState, action) => {
         zoomLevel = 500;
       }
       const zoomOrigin = action.payload.origin ?? [
-        prevState.gridMaxHeight / 2,
         prevState.gridMaxWidth / 2,
+        prevState.gridMaxHeight / 2,
       ];
       const cellPositionBeforeZoom = cellPositionFromPxCoordinates(
         zoomOrigin,
