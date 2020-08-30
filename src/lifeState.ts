@@ -142,7 +142,7 @@ function updatedCells(
 function cellPositionFromPxCoordinates(
   [x, y]: Pair<number>,
   scaleRatio: number,
-  [offsetX, offsetY]: Pair<number>
+  [offsetY, offsetX]: Pair<number>
 ): Pair<number> {
   const cellSize = (BASE_CELL_SIZE + 1) * scaleRatio;
   const column = Math.floor((x - offsetX * cellSize) / cellSize);
@@ -153,13 +153,13 @@ function cellPositionFromPxCoordinates(
 function getCellMovement(direction: MoveDirection): [number, number] {
   switch (direction) {
     case "UP":
-      return [0, 1];
-    case "DOWN":
-      return [0, -1];
-    case "RIGHT":
-      return [-1, 0];
-    case "LEFT":
       return [1, 0];
+    case "DOWN":
+      return [-1, 0];
+    case "RIGHT":
+      return [0, -1];
+    case "LEFT":
+      return [0, 1];
   }
 }
 

@@ -166,8 +166,8 @@ const LifeDisplay = ({
         >
           {scale > 0.15 && theGrid}
           <Layer
-            x={gridOffset[0] * (BASE_CELL_SIZE + 1)}
-            y={gridOffset[1] * (BASE_CELL_SIZE + 1)}
+            x={gridOffset[1] * (BASE_CELL_SIZE + 1)}
+            y={gridOffset[0] * (BASE_CELL_SIZE + 1)}
           >
             {Array.from(livingCells, ([key, _]) => {
               const [line, column] = positionFrom(key);
