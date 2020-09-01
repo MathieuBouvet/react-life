@@ -10,7 +10,7 @@ import {
 } from "./ui/Buttons";
 import ZoomLevel from "./ui/ZoomLevel";
 import DirectionPad from "./ui/DirectionPad";
-import SpeedSelector from "./ui/SpeedSelector";
+import { Selector } from "./ui/Selector";
 
 const StyledToolBar = styled.aside`
   grid-area: toolbar;
@@ -42,7 +42,25 @@ const ToolBar = ({ started, scale, dispatch, speed }: ToolBarProps) => (
     )}
     <ClearButton dispatch={dispatch} />
     <ZoomLevel value={scale} dispatch={dispatch} />
-    <SpeedSelector selected={speed} dispatch={dispatch} />
+    <Selector selected={speed} flipRootId="speed" dispatch={dispatch}>
+      {[
+        {
+          value: "FAST",
+          displayText: "rapide",
+          action: { type: "SET_SPEED", payload: { speed: "FAST" } },
+        },
+        {
+          value: "NORMAL",
+          displayText: "normal",
+          action: { type: "SET_SPEED", payload: { speed: "NORMAL" } },
+        },
+        {
+          value: "SLOW",
+          displayText: "lent",
+          action: { type: "SET_SPEED", payload: { speed: "SLOW" } },
+        },
+      ]}
+    </Selector>
     <ButtonGroup>
       <>
         <UndoButton dispatch={dispatch} />
