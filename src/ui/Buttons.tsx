@@ -13,6 +13,7 @@ import {
   FaRedoAlt,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
+import { CgPlayTrackNextO } from "react-icons/cg";
 
 type ButtonProps = {
   action: LifeAction;
@@ -158,6 +159,15 @@ const RedoButton = (props: SpecializedButtonProps) => (
   </Button>
 );
 
+const NextGenButton = (props: SpecializedButtonProps) => (
+  <Button {...props} action={{ type: "NEXT_STEP" }}>
+    <>
+      <CgPlayTrackNextO size="3em" />
+      suivant
+    </>
+  </Button>
+);
+
 export {
   StartButton,
   PauseButton,
@@ -165,4 +175,5 @@ export {
   ArrowButton,
   UndoButton,
   RedoButton,
+  NextGenButton,
 };
