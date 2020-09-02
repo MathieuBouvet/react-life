@@ -96,6 +96,10 @@ interface Redo {
   type: "REDO";
 }
 
+interface NextStep {
+  type: "NEXT_STEP";
+}
+
 export type LifeAction =
   | Start
   | Stop
@@ -108,7 +112,8 @@ export type LifeAction =
   | MoveCells
   | SetSpeed
   | Undo
-  | Redo;
+  | Redo
+  | NextStep;
 
 type LifeReducer = (prevState: LifeState, action: LifeAction) => LifeState;
 
@@ -370,6 +375,23 @@ const lifeReducer: LifeReducer = (prevState, action) => {
       }
       return {
         ...prevState,
+        editionStackPosition: editionStackPosition + 1,
+      };
+    }
+    case "NEXT_STEP": {
+      const { started, editionStack, editionStackPosition } = prevState;
+      const currentEdition = editionStack[editionStackPosition];
+
+      if (started || currentEdition.size === 0) {
+        return prevState;
+      }
+      const nextGeneration = nextIterationOptimized(currentEdition);
+      return {
+        ...prevState,
+        editionStack: [
+          ...editionStack.slice(0, editionStackPosition + 1),
+          nextGeneration,
+        ],
         editionStackPosition: editionStackPosition + 1,
       };
     }
