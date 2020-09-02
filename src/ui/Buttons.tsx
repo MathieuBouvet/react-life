@@ -13,7 +13,6 @@ import {
   FaRedoAlt,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
-import { theme } from "../theme";
 
 type ButtonProps = {
   action: LifeAction;
@@ -22,6 +21,7 @@ type ButtonProps = {
 } & SpecializedButtonProps;
 
 export type SpecializedButtonProps = {
+  disabled?: boolean;
   dispatch: React.Dispatch<LifeAction>;
 };
 
@@ -42,7 +42,32 @@ function getArrowIcon(direction: Direction): IconType {
   }
 }
 
-const Button = styled.button.attrs<ButtonProps>(
+const BaseButton = styled.button`
+  display: block;
+  border: none;
+  background-color: inherit;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  font-family: inherit;
+  text-align: center;
+  appearance: none;
+  outline: none;
+
+  & > * {
+    display: block;
+    margin: auto;
+  }
+`;
+
+const DisabledButton = styled(BaseButton).attrs<ButtonProps>({
+  disabled: true,
+})<ButtonProps>`
+  cursor: not-allowed;
+  color: ${props => props.theme.colors.grayedOut};
+`;
+
+const ActiveButton = styled(BaseButton).attrs<ButtonProps>(
   ({ repeatableAction = false, ...props }) => {
     if (!repeatableAction) {
       return { onClick: () => props.dispatch(props.action) };
@@ -58,18 +83,8 @@ const Button = styled.button.attrs<ButtonProps>(
     };
   }
 )<ButtonProps>`
-  display: block;
-  border: none;
-  background-color: inherit;
   color: ${props => props.theme.colors.light};
-  padding: 0;
-  margin: 0;
-  text-decoration: none;
-  font-family: inherit;
   cursor: pointer;
-  text-align: center;
-  appearance: none;
-  outline: none;
 
   &:hover > * {
     transform: scale(1.075);
@@ -78,17 +93,17 @@ const Button = styled.button.attrs<ButtonProps>(
   &:active > * {
     transform: scale(1.075) translateY(2px);
   }
-
-  & > * {
-    display: block;
-    margin: auto;
-  }
 `;
+
+const Button = (props: ButtonProps) => {
+  const StatusButton = props.disabled ? DisabledButton : ActiveButton;
+  return <StatusButton {...props}>{props.children}</StatusButton>;
+};
 
 const StartButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "START" }}>
     <>
-      <FaPlayCircle size="3em" fill={theme.colors.light} />
+      <FaPlayCircle size="3em" />
       start
     </>
   </Button>
@@ -97,7 +112,7 @@ const StartButton = (props: SpecializedButtonProps) => (
 const PauseButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "STOP" }}>
     <>
-      <FaPauseCircle size="3em" fill={theme.colors.light} />
+      <FaPauseCircle size="3em" />
       pause
     </>
   </Button>
@@ -106,7 +121,7 @@ const PauseButton = (props: SpecializedButtonProps) => (
 const ClearButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "CLEAR_GRID" }}>
     <>
-      <FaSkullCrossbones size="3em" fill={theme.colors.light} />
+      <FaSkullCrossbones size="3em" />
       tout effacer
     </>
   </Button>
@@ -120,7 +135,7 @@ const ArrowButton = ({ direction, ...props }: ArrowButtonProps) => {
       action={{ type: "MOVE_CELLS", payload: { direction } }}
       repeatableAction={true}
     >
-      <ArrowIcon size="3em" fill={theme.colors.light} />
+      <ArrowIcon size="3em" />
     </Button>
   );
 };
@@ -128,7 +143,7 @@ const ArrowButton = ({ direction, ...props }: ArrowButtonProps) => {
 const UndoButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "UNDO" }}>
     <>
-      <FaUndoAlt size="3em" fill={theme.colors.light} />
+      <FaUndoAlt size="3em" />
       Annuler
     </>
   </Button>
@@ -137,7 +152,7 @@ const UndoButton = (props: SpecializedButtonProps) => (
 const RedoButton = (props: SpecializedButtonProps) => (
   <Button {...props} action={{ type: "REDO" }}>
     <>
-      <FaRedoAlt size="3em" fill={theme.colors.light} />
+      <FaRedoAlt size="3em" />
       Rétablir
     </>
   </Button>
