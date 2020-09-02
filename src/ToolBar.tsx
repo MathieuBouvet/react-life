@@ -7,6 +7,7 @@ import {
   ClearButton,
   RedoButton,
   UndoButton,
+  NextGenButton,
 } from "./ui/Buttons";
 import ZoomLevel from "./ui/ZoomLevel";
 import DirectionPad from "./ui/DirectionPad";
@@ -35,11 +36,14 @@ type ToolBarProps = Pick<LifeState, "started" | "scale" | "speed"> & {
 
 const ToolBar = ({ started, scale, dispatch, speed }: ToolBarProps) => (
   <StyledToolBar>
-    {started ? (
-      <PauseButton dispatch={dispatch} />
-    ) : (
-      <StartButton dispatch={dispatch} />
-    )}
+    <ButtonGroup>
+      {started ? (
+        <PauseButton dispatch={dispatch} />
+      ) : (
+        <StartButton dispatch={dispatch} />
+      )}
+      <NextGenButton dispatch={dispatch} />
+    </ButtonGroup>
     <ClearButton dispatch={dispatch} />
     <ZoomLevel value={scale} dispatch={dispatch} />
     <Selector selected={speed} flipRootId="speed" dispatch={dispatch}>
@@ -62,10 +66,8 @@ const ToolBar = ({ started, scale, dispatch, speed }: ToolBarProps) => (
       ]}
     </Selector>
     <ButtonGroup>
-      <>
-        <UndoButton dispatch={dispatch} />
-        <RedoButton dispatch={dispatch} />
-      </>
+      <UndoButton dispatch={dispatch} />
+      <RedoButton dispatch={dispatch} />
     </ButtonGroup>
     <DirectionPad dispatch={dispatch} />
   </StyledToolBar>
