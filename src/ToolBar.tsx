@@ -12,6 +12,7 @@ import {
 import ZoomLevel from "./ui/ZoomLevel";
 import DirectionPad from "./ui/DirectionPad";
 import { Selector } from "./ui/Selector";
+import getButtonDisabilities from "./utils/getButtonDisabilities";
 
 const StyledToolBar = styled.aside`
   grid-area: toolbar;
@@ -34,43 +35,53 @@ type ToolBarProps = Pick<LifeState, "started" | "scale" | "speed"> & {
   dispatch: React.Dispatch<LifeAction>;
 };
 
-const ToolBar = ({ started, scale, dispatch, speed }: ToolBarProps) => (
-  <StyledToolBar>
-    <ButtonGroup>
-      {started ? (
-        <PauseButton dispatch={dispatch} />
-      ) : (
-        <StartButton dispatch={dispatch} />
-      )}
-      <NextGenButton dispatch={dispatch} />
-    </ButtonGroup>
-    <ClearButton dispatch={dispatch} />
-    <ZoomLevel value={scale} dispatch={dispatch} />
-    <Selector selected={speed} flipRootId="speed" dispatch={dispatch}>
-      {[
-        {
-          value: "FAST",
-          displayText: "rapide",
-          action: { type: "SET_SPEED", payload: { speed: "FAST" } },
-        },
-        {
-          value: "NORMAL",
-          displayText: "normal",
-          action: { type: "SET_SPEED", payload: { speed: "NORMAL" } },
-        },
-        {
-          value: "SLOW",
-          displayText: "lent",
-          action: { type: "SET_SPEED", payload: { speed: "SLOW" } },
-        },
-      ]}
-    </Selector>
-    <ButtonGroup>
-      <UndoButton dispatch={dispatch} />
-      <RedoButton dispatch={dispatch} />
-    </ButtonGroup>
-    <DirectionPad dispatch={dispatch} />
-  </StyledToolBar>
-);
+const ToolBar = ({ started, scale, dispatch, speed }: ToolBarProps) => {
+  const {
+    startDisabled,
+    pauseDisabled,
+    clearGridDisabled,
+    nextGenDisabled,
+    redoDisabled,
+    undoDisabled,
+  } = getButtonDisabilities(started, 0, 0, 0);
+  return (
+    <StyledToolBar>
+      <ButtonGroup>
+        {started ? (
+          <PauseButton dispatch={dispatch} disabled={pauseDisabled} />
+        ) : (
+          <StartButton dispatch={dispatch} disabled={startDisabled} />
+        )}
+        <NextGenButton dispatch={dispatch} disabled={nextGenDisabled} />
+      </ButtonGroup>
+      <ClearButton dispatch={dispatch} disabled={clearGridDisabled} />
+      <ZoomLevel value={scale} dispatch={dispatch} />
+      <Selector selected={speed} flipRootId="speed" dispatch={dispatch}>
+        {[
+          {
+            value: "FAST",
+            displayText: "rapide",
+            action: { type: "SET_SPEED", payload: { speed: "FAST" } },
+          },
+          {
+            value: "NORMAL",
+            displayText: "normal",
+            action: { type: "SET_SPEED", payload: { speed: "NORMAL" } },
+          },
+          {
+            value: "SLOW",
+            displayText: "lent",
+            action: { type: "SET_SPEED", payload: { speed: "SLOW" } },
+          },
+        ]}
+      </Selector>
+      <ButtonGroup>
+        <UndoButton dispatch={dispatch} disabled={undoDisabled} />
+        <RedoButton dispatch={dispatch} disabled={redoDisabled} />
+      </ButtonGroup>
+      <DirectionPad dispatch={dispatch} />
+    </StyledToolBar>
+  );
+};
 
 export default ToolBar;
