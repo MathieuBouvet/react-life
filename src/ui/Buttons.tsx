@@ -142,7 +142,7 @@ const ArrowButton = ({ direction, ...props }: ArrowButtonProps) => {
 };
 
 const UndoButton = (props: SpecializedButtonProps) => (
-  <Button {...props} action={{ type: "UNDO" }} repeatableAction={true}>
+  <Button {...props} action={{ type: "UNDO" }}>
     <>
       <FaUndoAlt size="3em" />
       Annuler
@@ -151,7 +151,7 @@ const UndoButton = (props: SpecializedButtonProps) => (
 );
 
 const RedoButton = (props: SpecializedButtonProps) => (
-  <Button {...props} action={{ type: "REDO" }} repeatableAction={true}>
+  <Button {...props} action={{ type: "REDO" }}>
     <>
       <FaRedoAlt size="3em" />
       Rétablir
@@ -160,7 +160,7 @@ const RedoButton = (props: SpecializedButtonProps) => (
 );
 
 const NextGenButton = (props: SpecializedButtonProps) => (
-  <Button {...props} action={{ type: "NEXT_STEP" }} repeatableAction={true}>
+  <Button {...props} action={{ type: "NEXT_STEP" }}>
     <>
       <CgPlayTrackNextO size="3em" />
       suivant
