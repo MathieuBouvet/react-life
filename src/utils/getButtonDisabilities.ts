@@ -14,11 +14,12 @@ export default function getButtonDisabilities(
   currentEditionSize: number
 ): ButtonDisabilities {
   return {
-    startDisabled: false,
-    pauseDisabled: false,
-    clearGridDisabled: false,
-    undoDisabled: false,
-    redoDisabled: false,
-    nextGenDisabled: false,
+    startDisabled: simulationStarted,
+    pauseDisabled: !simulationStarted,
+    clearGridDisabled: currentEditionSize === 0,
+    undoDisabled: simulationStarted || editionStackPosition === 0,
+    redoDisabled:
+      simulationStarted || editionStackPosition >= editionStackLength - 1,
+    nextGenDisabled: simulationStarted,
   };
 }
