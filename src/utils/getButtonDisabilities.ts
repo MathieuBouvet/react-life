@@ -20,6 +20,6 @@ export default function getButtonDisabilities(
     undoDisabled: simulationStarted || editionStackPosition === 0,
     redoDisabled:
       simulationStarted || editionStackPosition >= editionStackLength - 1,
-    nextGenDisabled: simulationStarted,
+    nextGenDisabled: simulationStarted || currentEditionSize === 0,
   };
 }
