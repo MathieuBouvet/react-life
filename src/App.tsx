@@ -123,7 +123,17 @@ const App = () => {
           livingCells={cellsToDisplay}
           dispatch={dispatchLife}
         />
-        <ToolbarMemo {...{ started, scale, speed }} dispatch={dispatchLife} />
+        <ToolbarMemo
+          {...{
+            started,
+            scale,
+            speed,
+            editionStackPosition,
+            editionStackLength: editionStack.length,
+            currentEditionSize: editionStack[editionStackPosition].size,
+          }}
+          dispatch={dispatchLife}
+        />
       </StyledApp>
     </ThemeProvider>
   );

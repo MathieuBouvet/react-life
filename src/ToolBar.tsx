@@ -32,10 +32,21 @@ const ButtonGroup = styled.div`
 `;
 
 type ToolBarProps = Pick<LifeState, "started" | "scale" | "speed"> & {
+  editionStackPosition: number;
+  editionStackLength: number;
+  currentEditionSize: number;
   dispatch: React.Dispatch<LifeAction>;
 };
 
-const ToolBar = ({ started, scale, dispatch, speed }: ToolBarProps) => {
+const ToolBar = ({
+  started,
+  scale,
+  dispatch,
+  speed,
+  editionStackPosition,
+  editionStackLength,
+  currentEditionSize,
+}: ToolBarProps) => {
   const {
     startDisabled,
     pauseDisabled,
@@ -43,7 +54,12 @@ const ToolBar = ({ started, scale, dispatch, speed }: ToolBarProps) => {
     nextGenDisabled,
     redoDisabled,
     undoDisabled,
-  } = getButtonDisabilities(started, 0, 0, 0);
+  } = getButtonDisabilities(
+    started,
+    editionStackPosition,
+    editionStackLength,
+    currentEditionSize
+  );
   return (
     <StyledToolBar>
       <ButtonGroup>
