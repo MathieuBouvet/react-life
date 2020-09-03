@@ -59,7 +59,7 @@ test.each<[string, ButtonDisabilitiesParameters, ButtonDisabilities]>([
       startDisabled: false,
       pauseDisabled: true,
       clearGridDisabled: true,
-      nextGenDisabled: false,
+      nextGenDisabled: true,
       redoDisabled: true,
       undoDisabled: true,
     },
