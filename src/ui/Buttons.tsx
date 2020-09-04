@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { LifeAction, MoveDirection as Direction } from "../lifeState";
 import {
@@ -24,6 +24,11 @@ type ButtonProps = {
 export type SpecializedButtonProps = {
   disabled?: boolean;
   dispatch: React.Dispatch<LifeAction>;
+};
+
+type StyledButtonProps = ButtonProps & {
+  repeat: () => void;
+  cancel: () => void;
 };
 
 type ArrowButtonProps = SpecializedButtonProps & {
@@ -61,29 +66,28 @@ const BaseButton = styled.button`
   }
 `;
 
-const DisabledButton = styled(BaseButton).attrs<ButtonProps>({
+const DisabledButton = styled(BaseButton).attrs<StyledButtonProps>({
   disabled: true,
-})<ButtonProps>`
+})<StyledButtonProps>`
   cursor: not-allowed;
   color: ${props => props.theme.colors.grayedOut};
 `;
 
-const ActiveButton = styled(BaseButton).attrs<ButtonProps>(
+const ActiveButton = styled(BaseButton).attrs<StyledButtonProps>(
   ({ repeatableAction = false, ...props }) => {
     if (!repeatableAction) {
       return { onClick: () => props.dispatch(props.action) };
     }
-    let repeat: number;
     return {
       onMouseDown: () => {
         props.dispatch(props.action);
-        repeat = setInterval(() => props.dispatch(props.action), 100);
+        props.repeat();
       },
-      onMouseUp: () => clearInterval(repeat),
-      onMouseLeave: () => clearInterval(repeat),
+      onMouseUp: props.cancel,
+      onMouseLeave: props.cancel,
     };
   }
-)<ButtonProps>`
+)<StyledButtonProps>`
   color: ${props => props.theme.colors.light};
   cursor: pointer;
 
@@ -97,8 +101,28 @@ const ActiveButton = styled(BaseButton).attrs<ButtonProps>(
 `;
 
 const Button = (props: ButtonProps) => {
-  const StatusButton = props.disabled ? DisabledButton : ActiveButton;
-  return <StatusButton {...props}>{props.children}</StatusButton>;
+  const StatusedButton = props.disabled ? DisabledButton : ActiveButton;
+  const timerRef: React.MutableRefObject<number | null> = useRef(null);
+  useEffect(() => {
+    if (timerRef.current !== null && props.disabled) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  });
+  const repeatAction = () => {
+    timerRef.current = setInterval(() => props.dispatch(props.action), 150);
+  };
+  const cancelAction = () => {
+    if (timerRef.current !== null) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+  return (
+    <StatusedButton {...props} repeat={repeatAction} cancel={cancelAction}>
+      {props.children}
+    </StatusedButton>
+  );
 };
 
 const StartButton = (props: SpecializedButtonProps) => (
@@ -142,7 +166,7 @@ const ArrowButton = ({ direction, ...props }: ArrowButtonProps) => {
 };
 
 const UndoButton = (props: SpecializedButtonProps) => (
-  <Button {...props} action={{ type: "UNDO" }}>
+  <Button {...props} action={{ type: "UNDO" }} repeatableAction={true}>
     <>
       <FaUndoAlt size="3em" />
       Annuler
@@ -151,7 +175,7 @@ const UndoButton = (props: SpecializedButtonProps) => (
 );
 
 const RedoButton = (props: SpecializedButtonProps) => (
-  <Button {...props} action={{ type: "REDO" }}>
+  <Button {...props} action={{ type: "REDO" }} repeatableAction={true}>
     <>
       <FaRedoAlt size="3em" />
       Rétablir
@@ -160,7 +184,7 @@ const RedoButton = (props: SpecializedButtonProps) => (
 );
 
 const NextGenButton = (props: SpecializedButtonProps) => (
-  <Button {...props} action={{ type: "NEXT_STEP" }}>
+  <Button {...props} action={{ type: "NEXT_STEP" }} repeatableAction={true}>
     <>
       <CgPlayTrackNextO size="3em" />
       suivant
