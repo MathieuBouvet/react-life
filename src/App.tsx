@@ -10,6 +10,7 @@ import {
 } from "./lifeState";
 import ToolBar from "./ToolBar";
 import InfoPage from "./InfoPage";
+import { ShowInfoButton } from "./ui/Buttons";
 
 function getArrowDirection(key: string): MoveDirection {
   const mappings: { [key: string]: MoveDirection } = {
@@ -39,7 +40,9 @@ const Header = styled.header`
   font-size: 3em;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-left: 15px;
+  padding-right: 15px;
   box-shadow: 0 -20px 20px 10px black;
   position: relative;
   z-index: 10;
@@ -113,9 +116,10 @@ const App = () => {
         <GlobalStyle />
         <Header>
           React Life{" "}
-          <button onClick={() => setShowInfoPage(!showInfoPage)}>
-            show info
-          </button>
+          <ShowInfoButton
+            active={showInfoPage}
+            clickHandler={() => setShowInfoPage(!showInfoPage)}
+          />
         </Header>
         <Life
           {...{
