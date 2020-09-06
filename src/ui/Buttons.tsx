@@ -12,8 +12,10 @@ import {
   FaUndoAlt,
   FaRedoAlt,
 } from "react-icons/fa";
+import { FiHelpCircle } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { CgPlayTrackNextO } from "react-icons/cg";
+import { IoIosHelpCircle } from "react-icons/io";
 
 type ButtonProps = {
   action: LifeAction;
@@ -192,6 +194,33 @@ const NextGenButton = (props: SpecializedButtonProps) => (
   </Button>
 );
 
+type ShowInfoButtonProps = { active: boolean; clickHandler: () => any };
+
+const StyledShowInfoButton = styled(BaseButton)`
+  color: ${props => props.theme.colors.light};
+  cursor: pointer;
+
+  &:hover > * {
+    transform: scale(1.075);
+  }
+
+  &:active > * {
+    transform: scale(1.075) translateY(2px);
+  }
+`;
+
+const ShowInfoButton = (props: ShowInfoButtonProps) => {
+  const ShowInfoIcon = props.active ? IoIosHelpCircle : FiHelpCircle;
+  return (
+    <StyledShowInfoButton onClick={props.clickHandler}>
+      <>
+        <ShowInfoIcon size="3em" />
+        Aide
+      </>
+    </StyledShowInfoButton>
+  );
+};
+
 export {
   StartButton,
   PauseButton,
@@ -200,4 +229,5 @@ export {
   UndoButton,
   RedoButton,
   NextGenButton,
+  ShowInfoButton,
 };
