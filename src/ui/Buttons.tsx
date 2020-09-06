@@ -57,6 +57,7 @@ const BaseButton = styled.button`
   margin: 0;
   text-decoration: none;
   font-family: inherit;
+  font-size: 15px;
   text-align: center;
   appearance: none;
   outline: none;
