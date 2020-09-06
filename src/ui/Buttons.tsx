@@ -12,10 +12,9 @@ import {
   FaUndoAlt,
   FaRedoAlt,
 } from "react-icons/fa";
-import { FiHelpCircle } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { CgPlayTrackNextO } from "react-icons/cg";
-import { IoIosHelpCircle } from "react-icons/io";
+import { IoIosHelpCircle, IoIosHelpCircleOutline } from "react-icons/io";
 
 type ButtonProps = {
   action: LifeAction;
@@ -210,7 +209,7 @@ const StyledShowInfoButton = styled(BaseButton)`
 `;
 
 const ShowInfoButton = (props: ShowInfoButtonProps) => {
-  const ShowInfoIcon = props.active ? IoIosHelpCircle : FiHelpCircle;
+  const ShowInfoIcon = props.active ? IoIosHelpCircle : IoIosHelpCircleOutline;
   return (
     <StyledShowInfoButton onClick={props.clickHandler}>
       <>
