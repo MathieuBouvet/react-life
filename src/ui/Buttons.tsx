@@ -212,10 +212,7 @@ const ShowInfoButton = (props: ShowInfoButtonProps) => {
   const ShowInfoIcon = props.active ? IoIosHelpCircle : IoIosHelpCircleOutline;
   return (
     <StyledShowInfoButton onClick={props.clickHandler}>
-      <>
-        <ShowInfoIcon size="3em" />
-        Aide
-      </>
+      <ShowInfoIcon size="3.5em" />
     </StyledShowInfoButton>
   );
 };
