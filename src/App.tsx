@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useEffect } from "react";
+import React, { useReducer, useRef, useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Life from "./Life";
 import { theme, GlobalStyle } from "./theme";
@@ -9,6 +9,7 @@ import {
   speedMappings,
 } from "./lifeState";
 import ToolBar from "./ToolBar";
+import InfoPage from "./InfoPage";
 
 function getArrowDirection(key: string): MoveDirection {
   const mappings: { [key: string]: MoveDirection } = {
@@ -60,6 +61,7 @@ const App = () => {
     editionStack,
     editionStackPosition,
   } = lifeState;
+  const [showInfoPage, setShowInfoPage] = useState(false);
 
   function setGridSpace() {
     if (gridRef.current != null) {
@@ -109,7 +111,12 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <StyledApp>
         <GlobalStyle />
-        <Header>React Life</Header>
+        <Header>
+          React Life{" "}
+          <button onClick={() => setShowInfoPage(!showInfoPage)}>
+            show info
+          </button>
+        </Header>
         <Life
           {...{
             scale,
@@ -134,6 +141,7 @@ const App = () => {
           }}
           dispatch={dispatchLife}
         />
+        <InfoPage visible={showInfoPage} />
       </StyledApp>
     </ThemeProvider>
   );
