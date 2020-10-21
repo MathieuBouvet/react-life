@@ -2,8 +2,6 @@
 
 react-life est une implémentation du [jeu de la vie](https://fr.wikipedia.org/wiki/Jeu_de_la_vie), réalisée avec le framework [react.js](https://reactjs.org/) et écrit en [typescript](https://www.typescriptlang.org/)
 
-*Le projet est en cours de finalisation*
-
 Démo fonctionelle disponible : [https://react-life.netlify.app/](https://react-life.netlify.app/)
 
 ## Features
@@ -11,10 +9,4 @@ Démo fonctionelle disponible : [https://react-life.netlify.app/](https://react-
 - bonnes performances, même sur un *viel* i5 de 3<sup>ème</sup> génération
 - zoom et dé-zoom sur la grille
 - déplacement de la vue
-
-## ToDo
-- centrage de la vue lors du zoom ou dé-zoom
-- ajout d'une page d'explication des contrôlles
-- Un peu de style
-
 
