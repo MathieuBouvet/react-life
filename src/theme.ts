@@ -10,7 +10,7 @@ const theme = {
     light: "#fff",
     dark: "#2A2B2A",
     highlight: "#eec643",
-    grayedOut: "gray",
+    grayedOut: "darkgray",
   },
 } as const;
 
