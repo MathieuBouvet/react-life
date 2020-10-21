@@ -115,7 +115,7 @@ const App = () => {
       <StyledApp>
         <GlobalStyle />
         <Header>
-          React Life{" "}
+          React Life
           <ShowInfoButton
             active={showInfoPage}
             clickHandler={() => setShowInfoPage(!showInfoPage)}
