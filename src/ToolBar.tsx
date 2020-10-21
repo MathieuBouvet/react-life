@@ -23,6 +23,15 @@ const StyledToolBar = styled.aside`
   padding-bottom: 25px;
   background-color: ${props => props.theme.colors.primaryDark};
   color: ${props => props.theme.colors.light};
+  & > * {
+    margin-top: 18px;
+  }
+  & > *:first-child {
+    margin-top: 0;
+  }
+  & > *:last-child {
+    margin-top: auto;
+  }
 `;
 
 const ButtonGroup = styled.div`

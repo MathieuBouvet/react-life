@@ -10,7 +10,6 @@ type DirectionPadProps = {
 const StyledDirectionPad = styled.div<DirectionPadProps>`
   display: grid;
   width: 75%;
-  margin-top: auto;
   grid-template-areas:
     "UP UP"
     "LEFT RIGHT"
