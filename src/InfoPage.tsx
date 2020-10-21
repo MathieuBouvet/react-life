@@ -72,11 +72,19 @@ const InfoPage = (props: InfoPageProps) => (
       </p>
       <p>
         Pour plus d'informations sur le jeu de la vie, voici la page wikipedia :{" "}
-        <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie">
+        <a
+          target="_blank"
+          rel="noreferrer noopener"
+          href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie"
+        >
           le jeu de la vie sur wikipedia
         </a>{" "}
         et une excellente vidéo youtube :{" "}
-        <a href="https://www.youtube.com/watch?v=S-W0NX97DB0">
+        <a
+          href="https://www.youtube.com/watch?v=S-W0NX97DB0"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
           le jeu de la vie expliqué par science etonnante
         </a>
       </p>
