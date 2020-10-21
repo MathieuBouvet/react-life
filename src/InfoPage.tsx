@@ -131,12 +131,14 @@ const InfoPage = (props: InfoPageProps) => (
         <ButtonDisplay>
           <RedoButton dispatch={() => {}} />
         </ButtonDisplay>
-        Permetent d'annuler ou de rétablir la dernière action sur les cellules
-        de la grille. Permet aussi de se déplacer entre les générations, mais
-        seulement celles générées par le bouton
-        <ButtonDisplay>
-          <NextGenButton dispatch={() => {}} />
-        </ButtonDisplay>
+        <div>
+          Permetent d'annuler ou de rétablir la dernière action sur les cellules
+          de la grille. Permet aussi de se déplacer entre les générations, mais
+          seulement celles générées par le bouton{" "}
+          <b>
+            <i>Suivant</i>
+          </b>
+        </div>
       </ButtonInfo>
       <ButtonInfo>
         <ButtonDisplay>
